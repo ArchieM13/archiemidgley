@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archie Midgley — Design Engineer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav__logo" id="menuToggle" aria-label="Toggle menu">
+            <svg class="nav__icon" id="navIcon" viewBox="0 0 40 40" width="40" height="40">
+                <rect class="bar bar--top" x="8" y="12" width="24" height="2" rx="1"/>
+                <rect class="bar bar--mid" x="8" y="19" width="24" height="2" rx="1"/>
+                <rect class="bar bar--bot" x="8" y="26" width="24" height="2" rx="1"/>
+            </svg>
+        </div>
+        <div class="nav__indicator">
+            <span class="nav__section-label" id="sectionLabel">About</span>
+        </div>
+    </nav>
+
+    <!-- Full-screen Menu Overlay -->
+    <div class="menu" id="menu">
+        <div class="menu__inner">
+            <div class="menu__links">
+                <a href="#about" class="menu__link" data-index="0">
+                    <span class="menu__number">01</span>
+                    <span class="menu__text">About</span>
+                </a>
+                <a href="#experience" class="menu__link" data-index="1">
+                    <span class="menu__number">02</span>
+                    <span class="menu__text">Experience</span>
+                </a>
+                <a href="#projects" class="menu__link" data-index="2">
+                    <span class="menu__number">03</span>
+                    <span class="menu__text">Projects</span>
+                </a>
+                <a href="#contact" class="menu__link" data-index="3">
+                    <span class="menu__number">04</span>
+                    <span class="menu__text">Contact</span>
+                </a>
+            </div>
+            <div class="menu__footer">
+                <p class="menu__footer-text">Design Engineer Portfolio</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Sections -->
+    <main class="main" id="main">
+
+        <!-- ABOUT -->
+        <section class="section section--about active" id="about" data-section="0">
+            <div class="section__container">
+                <div class="section__header">
+                    <span class="section__number">01</span>
+                    <h1 class="section__title">About</h1>
+                </div>
+                <div class="about__grid">
+                    <div class="about__portrait">
+                        <div class="about__image-wrapper">
+                            <!-- Replace src with your portrait photo -->
+                            <img src="images/portrait.jpg" alt="Archie Midgley" class="about__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="about__image-placeholder">
+                                <span>Your Photo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about__content">
+                        <h2 class="about__headline">Design Engineer<br>crafting at the intersection of<br>form &amp; function.</h2>
+                        <div class="about__bio">
+                            <p>I'm Archie Midgley — a design engineer passionate about creating thoughtful, functional solutions that bridge the gap between aesthetics and engineering precision.</p>
+                            <p>With a keen eye for detail and a deep understanding of materials, manufacturing processes, and human-centred design, I bring ideas from concept to reality.</p>
+                            <p>My work spans product design, industrial design, and engineering — always with a focus on simplicity, purpose, and craft.</p>
+                        </div>
+                        <div class="about__details">
+                            <div class="about__detail">
+                                <span class="about__label">Location</span>
+                                <span class="about__value">United Kingdom</span>
+                            </div>
+                            <div class="about__detail">
+                                <span class="about__label">Discipline</span>
+                                <span class="about__value">Design Engineering</span>
+                            </div>
+                            <div class="about__detail">
+                                <span class="about__label">Focus</span>
+                                <span class="about__value">Product &amp; Industrial Design</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section class="section section--experience" id="experience" data-section="1">
+            <div class="section__container">
+                <div class="section__header">
+                    <span class="section__number">02</span>
+                    <h1 class="section__title">Experience</h1>
+                </div>
+                <div class="experience__list">
+
+                    <article class="experience__item">
+                        <div class="experience__image-col">
+                            <div class="experience__image-wrapper">
+                                <img src="images/experience-01.jpg" alt="Experience 1" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <div class="experience__image-placeholder"><span>Image</span></div>
+                            </div>
+                        </div>
+                        <div class="experience__content-col">
+                            <div class="experience__meta">
+                                <span class="experience__date">2024 — Present</span>
+                                <span class="experience__role">Senior Design Engineer</span>
+                            </div>
+                            <h3 class="experience__company">Company Name</h3>
+                            <p class="experience__description">Describe your role, responsibilities, and key achievements. What impact did you make? What skills did you develop?</p>
+                            <div class="experience__tags">
+                                <span class="tag">CAD</span>
+                                <span class="tag">Prototyping</span>
+                                <span class="tag">Product Design</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="experience__item">
+                        <div class="experience__image-col">
+                            <div class="experience__image-wrapper">
+                                <img src="images/experience-02.jpg" alt="Experience 2" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <div class="experience__image-placeholder"><span>Image</span></div>
+                            </div>
+                        </div>
+                        <div class="experience__content-col">
+                            <div class="experience__meta">
+                                <span class="experience__date">2022 — 2024</span>
+                                <span class="experience__role">Design Engineer</span>
+                            </div>
+                            <h3 class="experience__company">Company Name</h3>
+                            <p class="experience__description">Describe your role, responsibilities, and key achievements. What impact did you make? What skills did you develop?</p>
+                            <div class="experience__tags">
+                                <span class="tag">SolidWorks</span>
+                                <span class="tag">Manufacturing</span>
+                                <span class="tag">DFM</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="experience__item">
+                        <div class="experience__image-col">
+                            <div class="experience__image-wrapper">
+                                <img src="images/experience-03.jpg" alt="Experience 3" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <div class="experience__image-placeholder"><span>Image</span></div>
+                            </div>
+                        </div>
+                        <div class="experience__content-col">
+                            <div class="experience__meta">
+                                <span class="experience__date">2020 — 2022</span>
+                                <span class="experience__role">Junior Design Engineer</span>
+                            </div>
+                            <h3 class="experience__company">Company Name</h3>
+                            <p class="experience__description">Describe your role, responsibilities, and key achievements. What impact did you make? What skills did you develop?</p>
+                            <div class="experience__tags">
+                                <span class="tag">3D Printing</span>
+                                <span class="tag">Sketching</span>
+                                <span class="tag">Research</span>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section class="section section--projects" id="projects" data-section="2">
+            <div class="section__container">
+                <div class="section__header">
+                    <span class="section__number">03</span>
+                    <h1 class="section__title">Projects</h1>
+                </div>
+                <div class="projects__grid">
+
+                    <article class="project__card" data-project="1">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-01.jpg" alt="Project 1" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Product Design</span>
+                            <h3 class="project__title">Project Title One</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </article>
+
+                    <article class="project__card" data-project="2">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-02.jpg" alt="Project 2" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Industrial Design</span>
+                            <h3 class="project__title">Project Title Two</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </article>
+
+                    <article class="project__card" data-project="3">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-03.jpg" alt="Project 3" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Engineering</span>
+                            <h3 class="project__title">Project Title Three</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </article>
+
+                    <article class="project__card" data-project="4">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-04.jpg" alt="Project 4" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Concept</span>
+                            <h3 class="project__title">Project Title Four</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </article>
+
+                    <article class="project__card" data-project="5">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-05.jpg" alt="Project 5" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Furniture</span>
+                            <h3 class="project__title">Project Title Five</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </article>
+
+                    <article class="project__card" data-project="6">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-06.jpg" alt="Project 6" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Prototype</span>
+                            <h3 class="project__title">Project Title Six</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="section section--contact" id="contact" data-section="3">
+            <div class="section__container">
+                <div class="section__header">
+                    <span class="section__number">04</span>
+                    <h1 class="section__title">Contact</h1>
+                </div>
+                <div class="contact__grid">
+                    <div class="contact__intro">
+                        <h2 class="contact__headline">Let's work<br>together.</h2>
+                        <p class="contact__text">Have a project in mind, a question, or just want to connect? I'd love to hear from you.</p>
+                        <div class="contact__links">
+                            <a href="mailto:your@email.com" class="contact__link">
+                                <span class="contact__link-label">Email</span>
+                                <span class="contact__link-value">your@email.com</span>
+                            </a>
+                            <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="contact__link">
+                                <span class="contact__link-label">LinkedIn</span>
+                                <span class="contact__link-value">linkedin.com/in/yourprofile</span>
+                            </a>
+                            <a href="https://github.com/ArchieM13" target="_blank" rel="noopener" class="contact__link">
+                                <span class="contact__link-label">GitHub</span>
+                                <span class="contact__link-value">github.com/ArchieM13</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact__form-wrapper">
+                        <form class="contact__form" id="contactForm">
+                            <div class="form__group">
+                                <label class="form__label" for="name">Name</label>
+                                <input class="form__input" type="text" id="name" name="name" required autocomplete="name">
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label" for="email">Email</label>
+                                <input class="form__input" type="email" id="email" name="email" required autocomplete="email">
+                            </div>
+                            <div class="form__group">
+                                <label class="form__label" for="message">Message</label>
+                                <textarea class="form__textarea" id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button class="form__button" type="submit">
+                                <span>Send Message</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Page Progress -->
+    <div class="progress" id="progress">
+        <div class="progress__track">
+            <div class="progress__fill" id="progressFill"></div>
+        </div>
+        <div class="progress__dots">
+            <button class="progress__dot active" data-section="0" aria-label="Go to About"></button>
+            <button class="progress__dot" data-section="1" aria-label="Go to Experience"></button>
+            <button class="progress__dot" data-section="2" aria-label="Go to Projects"></button>
+            <button class="progress__dot" data-section="3" aria-label="Go to Contact"></button>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
