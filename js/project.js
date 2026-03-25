@@ -219,4 +219,18 @@
         observer.observe(el);
     });
 
+    // --- Dark Mode ---
+    var darkToggle = document.getElementById('darkToggle');
+    if (darkToggle) {
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark');
+            darkToggle.classList.add('active');
+        }
+        darkToggle.addEventListener('click', function () {
+            document.body.classList.toggle('dark');
+            darkToggle.classList.toggle('active');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark'));
+        });
+    }
+
 })();

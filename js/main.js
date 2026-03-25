@@ -50,17 +50,43 @@
     // --- Animate icon between hamburger ↔ "A" ---
     function animateIcon(opening) {
         var target = opening ? letterA : hamburger;
+        var duration = 500;
+        var easing = function (t) {
+            // cubic-bezier(0.16, 1, 0.3, 1) approximation — spring-like
+            return 1 - Math.pow(1 - t, 4);
+        };
 
-        animateLine(barLeft,  target.left);
-        animateLine(barRight, target.right);
-        animateLine(barCross, target.cross);
+        animateLine(barLeft,  target.left, duration, easing);
+        animateLine(barRight, target.right, duration, easing);
+        animateLine(barCross, target.cross, duration, easing);
     }
 
-    function animateLine(el, coords) {
-        el.setAttribute('x1', coords.x1);
-        el.setAttribute('y1', coords.y1);
-        el.setAttribute('x2', coords.x2);
-        el.setAttribute('y2', coords.y2);
+    function animateLine(el, targetCoords, duration, easing) {
+        var startCoords = {
+            x1: parseFloat(el.getAttribute('x1')),
+            y1: parseFloat(el.getAttribute('y1')),
+            x2: parseFloat(el.getAttribute('x2')),
+            y2: parseFloat(el.getAttribute('y2'))
+        };
+        var startTime = null;
+
+        function tick(timestamp) {
+            if (!startTime) startTime = timestamp;
+            var elapsed = timestamp - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            var easedProgress = easing(progress);
+
+            el.setAttribute('x1', startCoords.x1 + (targetCoords.x1 - startCoords.x1) * easedProgress);
+            el.setAttribute('y1', startCoords.y1 + (targetCoords.y1 - startCoords.y1) * easedProgress);
+            el.setAttribute('x2', startCoords.x2 + (targetCoords.x2 - startCoords.x2) * easedProgress);
+            el.setAttribute('y2', startCoords.y2 + (targetCoords.y2 - startCoords.y2) * easedProgress);
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            }
+        }
+
+        requestAnimationFrame(tick);
     }
 
     // --- Event Binding ---
@@ -298,6 +324,34 @@
 
     // --- Section Label Transition Style ---
     sectionLabel.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+
+    // --- Dark Mode ---
+    var darkToggle = document.getElementById('darkToggle');
+    var darkHint = document.getElementById('darkHint');
+
+    if (darkToggle) {
+        // Check saved preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark');
+            darkToggle.classList.add('active');
+        }
+
+        darkToggle.addEventListener('click', function () {
+            document.body.classList.toggle('dark');
+            darkToggle.classList.toggle('active');
+            var isDark = document.body.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+        });
+
+        // Hide hint after first click or after 5 seconds
+        if (darkHint) {
+            var hideHint = function () {
+                darkHint.classList.add('hidden');
+            };
+            darkToggle.addEventListener('click', hideHint, { once: true });
+            setTimeout(hideHint, 5000);
+        }
+    }
 
     // --- Start ---
     init();
