@@ -14,9 +14,10 @@
     <nav class="nav" id="nav">
         <div class="nav__logo" id="menuToggle" aria-label="Toggle menu">
             <svg class="nav__icon" id="navIcon" viewBox="0 0 40 40" width="40" height="40">
-                <rect class="bar bar--top" x="8" y="12" width="24" height="2" rx="1"/>
-                <rect class="bar bar--mid" x="8" y="19" width="24" height="2" rx="1"/>
-                <rect class="bar bar--bot" x="8" y="26" width="24" height="2" rx="1"/>
+                <!-- Three lines that morph into an "A" -->
+                <line class="bar bar--left"  x1="8"  y1="28" x2="32" y2="28" stroke-width="2" stroke-linecap="round"/>
+                <line class="bar bar--right" x1="8"  y1="20" x2="32" y2="20" stroke-width="2" stroke-linecap="round"/>
+                <line class="bar bar--cross" x1="8"  y1="12" x2="32" y2="12" stroke-width="2" stroke-linecap="round"/>
             </svg>
         </div>
         <div class="nav__indicator">
@@ -64,7 +65,6 @@
                 <div class="about__grid">
                     <div class="about__portrait">
                         <div class="about__image-wrapper">
-                            <!-- Replace src with your portrait photo -->
                             <img src="images/portrait.jpg" alt="Archie Midgley" class="about__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="about__image-placeholder">
                                 <span>Your Photo</span>
@@ -94,6 +94,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="section__footer-spacer"></div>
             </div>
         </section>
 
@@ -172,7 +173,52 @@
                         </div>
                     </article>
 
+                    <article class="experience__item">
+                        <div class="experience__image-col">
+                            <div class="experience__image-wrapper">
+                                <img src="images/experience-04.jpg" alt="Experience 4" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <div class="experience__image-placeholder"><span>Image</span></div>
+                            </div>
+                        </div>
+                        <div class="experience__content-col">
+                            <div class="experience__meta">
+                                <span class="experience__date">2019 — 2020</span>
+                                <span class="experience__role">Design Intern</span>
+                            </div>
+                            <h3 class="experience__company">Company Name</h3>
+                            <p class="experience__description">Describe your role, responsibilities, and key achievements. What impact did you make? What skills did you develop?</p>
+                            <div class="experience__tags">
+                                <span class="tag">Sketching</span>
+                                <span class="tag">User Research</span>
+                                <span class="tag">Model Making</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="experience__item">
+                        <div class="experience__image-col">
+                            <div class="experience__image-wrapper">
+                                <img src="images/experience-05.jpg" alt="Experience 5" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <div class="experience__image-placeholder"><span>Image</span></div>
+                            </div>
+                        </div>
+                        <div class="experience__content-col">
+                            <div class="experience__meta">
+                                <span class="experience__date">2017 — 2019</span>
+                                <span class="experience__role">Workshop Technician</span>
+                            </div>
+                            <h3 class="experience__company">Company Name</h3>
+                            <p class="experience__description">Describe your role, responsibilities, and key achievements. What impact did you make? What skills did you develop?</p>
+                            <div class="experience__tags">
+                                <span class="tag">CNC</span>
+                                <span class="tag">Welding</span>
+                                <span class="tag">Materials</span>
+                            </div>
+                        </div>
+                    </article>
+
                 </div>
+                <div class="section__footer-spacer"></div>
             </div>
         </section>
 
@@ -185,7 +231,7 @@
                 </div>
                 <div class="projects__grid">
 
-                    <article class="project__card" data-project="1">
+                    <a href="project.html?id=1" class="project__card" data-project="1">
                         <div class="project__image-wrapper">
                             <img src="images/project-01.jpg" alt="Project 1" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -195,9 +241,9 @@
                             <h3 class="project__title">Project Title One</h3>
                             <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
                         </div>
-                    </article>
+                    </a>
 
-                    <article class="project__card" data-project="2">
+                    <a href="project.html?id=2" class="project__card" data-project="2">
                         <div class="project__image-wrapper">
                             <img src="images/project-02.jpg" alt="Project 2" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -207,9 +253,9 @@
                             <h3 class="project__title">Project Title Two</h3>
                             <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
                         </div>
-                    </article>
+                    </a>
 
-                    <article class="project__card" data-project="3">
+                    <a href="project.html?id=3" class="project__card" data-project="3">
                         <div class="project__image-wrapper">
                             <img src="images/project-03.jpg" alt="Project 3" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -219,9 +265,9 @@
                             <h3 class="project__title">Project Title Three</h3>
                             <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
                         </div>
-                    </article>
+                    </a>
 
-                    <article class="project__card" data-project="4">
+                    <a href="project.html?id=4" class="project__card" data-project="4">
                         <div class="project__image-wrapper">
                             <img src="images/project-04.jpg" alt="Project 4" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -231,9 +277,9 @@
                             <h3 class="project__title">Project Title Four</h3>
                             <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
                         </div>
-                    </article>
+                    </a>
 
-                    <article class="project__card" data-project="5">
+                    <a href="project.html?id=5" class="project__card" data-project="5">
                         <div class="project__image-wrapper">
                             <img src="images/project-05.jpg" alt="Project 5" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -243,9 +289,9 @@
                             <h3 class="project__title">Project Title Five</h3>
                             <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
                         </div>
-                    </article>
+                    </a>
 
-                    <article class="project__card" data-project="6">
+                    <a href="project.html?id=6" class="project__card" data-project="6">
                         <div class="project__image-wrapper">
                             <img src="images/project-06.jpg" alt="Project 6" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -255,9 +301,34 @@
                             <h3 class="project__title">Project Title Six</h3>
                             <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
                         </div>
-                    </article>
+                    </a>
+
+                    <a href="project.html?id=7" class="project__card" data-project="7">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-07.jpg" alt="Project 7" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Packaging</span>
+                            <h3 class="project__title">Project Title Seven</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </a>
+
+                    <a href="project.html?id=8" class="project__card" data-project="8">
+                        <div class="project__image-wrapper">
+                            <img src="images/project-08.jpg" alt="Project 8" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <div class="project__image-placeholder"><span>Project Image</span></div>
+                        </div>
+                        <div class="project__info">
+                            <span class="project__category">Sustainable Design</span>
+                            <h3 class="project__title">Project Title Eight</h3>
+                            <p class="project__summary">Brief description of the project — the challenge, your approach, and the outcome.</p>
+                        </div>
+                    </a>
 
                 </div>
+                <div class="section__footer-spacer"></div>
             </div>
         </section>
 
@@ -268,48 +339,25 @@
                     <span class="section__number">04</span>
                     <h1 class="section__title">Contact</h1>
                 </div>
-                <div class="contact__grid">
-                    <div class="contact__intro">
-                        <h2 class="contact__headline">Let's work<br>together.</h2>
-                        <p class="contact__text">Have a project in mind, a question, or just want to connect? I'd love to hear from you.</p>
-                        <div class="contact__links">
-                            <a href="mailto:your@email.com" class="contact__link">
-                                <span class="contact__link-label">Email</span>
-                                <span class="contact__link-value">your@email.com</span>
-                            </a>
-                            <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="contact__link">
-                                <span class="contact__link-label">LinkedIn</span>
-                                <span class="contact__link-value">linkedin.com/in/yourprofile</span>
-                            </a>
-                            <a href="https://github.com/ArchieM13" target="_blank" rel="noopener" class="contact__link">
-                                <span class="contact__link-label">GitHub</span>
-                                <span class="contact__link-value">github.com/ArchieM13</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact__form-wrapper">
-                        <form class="contact__form" id="contactForm">
-                            <div class="form__group">
-                                <label class="form__label" for="name">Name</label>
-                                <input class="form__input" type="text" id="name" name="name" required autocomplete="name">
-                            </div>
-                            <div class="form__group">
-                                <label class="form__label" for="email">Email</label>
-                                <input class="form__input" type="email" id="email" name="email" required autocomplete="email">
-                            </div>
-                            <div class="form__group">
-                                <label class="form__label" for="message">Message</label>
-                                <textarea class="form__textarea" id="message" name="message" rows="5" required></textarea>
-                            </div>
-                            <button class="form__button" type="submit">
-                                <span>Send Message</span>
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </button>
-                        </form>
+                <div class="contact__centered">
+                    <h2 class="contact__headline">Let's work<br>together.</h2>
+                    <p class="contact__text">Have a project in mind, a question, or just want to connect? I'd love to hear from you.</p>
+                    <div class="contact__links">
+                        <a href="mailto:your@email.com" class="contact__link">
+                            <span class="contact__link-label">Email</span>
+                            <span class="contact__link-value">your@email.com</span>
+                        </a>
+                        <a href="tel:+44XXXXXXXXXX" class="contact__link">
+                            <span class="contact__link-label">Phone</span>
+                            <span class="contact__link-value">+44 XXXX XXXXXX</span>
+                        </a>
+                        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="contact__link">
+                            <span class="contact__link-label">LinkedIn</span>
+                            <span class="contact__link-value">linkedin.com/in/yourprofile</span>
+                        </a>
                     </div>
                 </div>
+                <div class="section__footer-spacer"></div>
             </div>
         </section>
 

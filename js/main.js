@@ -7,20 +7,39 @@
     'use strict';
 
     // --- DOM Elements ---
-    const menuToggle = document.getElementById('menuToggle');
-    const menu = document.getElementById('menu');
-    const menuLinks = document.querySelectorAll('.menu__link');
-    const sections = document.querySelectorAll('.section');
-    const sectionLabel = document.getElementById('sectionLabel');
-    const progressDots = document.querySelectorAll('.progress__dot');
-    const progressFill = document.getElementById('progressFill');
+    var menuToggle = document.getElementById('menuToggle');
+    var menu = document.getElementById('menu');
+    var menuLinks = document.querySelectorAll('.menu__link');
+    var sections = document.querySelectorAll('.section');
+    var sectionLabel = document.getElementById('sectionLabel');
+    var progressDots = document.querySelectorAll('.progress__dot');
+    var progressFill = document.getElementById('progressFill');
 
-    const sectionNames = ['About', 'Experience', 'Projects', 'Contact'];
-    let currentSection = 0;
-    let isMenuOpen = false;
-    let isTransitioning = false;
-    let touchStartY = 0;
-    let touchEndY = 0;
+    // SVG icon bars
+    var barLeft  = document.querySelector('.bar--left');
+    var barRight = document.querySelector('.bar--right');
+    var barCross = document.querySelector('.bar--cross');
+
+    var sectionNames = ['About', 'Experience', 'Projects', 'Contact'];
+    var currentSection = 0;
+    var isMenuOpen = false;
+    var isTransitioning = false;
+    var touchStartY = 0;
+    var touchEndY = 0;
+
+    // --- Hamburger ↔ "A" icon coordinates ---
+    // Hamburger (three horizontal lines)
+    var hamburger = {
+        left:  { x1: 8,  y1: 28, x2: 32, y2: 28 },
+        right: { x1: 8,  y1: 20, x2: 32, y2: 20 },
+        cross: { x1: 8,  y1: 12, x2: 32, y2: 12 }
+    };
+    // "A" shape: two angled legs + one crossbar
+    var letterA = {
+        left:  { x1: 10, y1: 30, x2: 20, y2: 8 },   // left leg
+        right: { x1: 30, y1: 30, x2: 20, y2: 8 },   // right leg
+        cross: { x1: 13, y1: 22, x2: 27, y2: 22 }   // crossbar
+    };
 
     // --- Initialize ---
     function init() {
@@ -28,12 +47,26 @@
         bindEvents();
     }
 
+    // --- Animate icon between hamburger ↔ "A" ---
+    function animateIcon(opening) {
+        var target = opening ? letterA : hamburger;
+
+        animateLine(barLeft,  target.left);
+        animateLine(barRight, target.right);
+        animateLine(barCross, target.cross);
+    }
+
+    function animateLine(el, coords) {
+        el.setAttribute('x1', coords.x1);
+        el.setAttribute('y1', coords.y1);
+        el.setAttribute('x2', coords.x2);
+        el.setAttribute('y2', coords.y2);
+    }
+
     // --- Event Binding ---
     function bindEvents() {
-        // Menu toggle
         menuToggle.addEventListener('click', toggleMenu);
 
-        // Menu links
         menuLinks.forEach(function (link) {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -42,7 +75,6 @@
             });
         });
 
-        // Progress dots
         progressDots.forEach(function (dot) {
             dot.addEventListener('click', function () {
                 var index = parseInt(this.getAttribute('data-section'), 10);
@@ -50,13 +82,9 @@
             });
         });
 
-        // Keyboard navigation
         document.addEventListener('keydown', handleKeyboard);
-
-        // Mouse wheel navigation
         document.addEventListener('wheel', handleWheel, { passive: false });
 
-        // Touch navigation
         document.addEventListener('touchstart', function (e) {
             touchStartY = e.changedTouches[0].screenY;
         }, { passive: true });
@@ -65,12 +93,6 @@
             touchEndY = e.changedTouches[0].screenY;
             handleSwipe();
         }, { passive: true });
-
-        // Contact form
-        var form = document.getElementById('contactForm');
-        if (form) {
-            form.addEventListener('submit', handleFormSubmit);
-        }
     }
 
     // --- Menu ---
@@ -78,6 +100,7 @@
         isMenuOpen = !isMenuOpen;
         menuToggle.classList.toggle('active', isMenuOpen);
         menu.classList.toggle('active', isMenuOpen);
+        animateIcon(isMenuOpen);
 
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
@@ -91,6 +114,7 @@
             isMenuOpen = false;
             menuToggle.classList.remove('active');
             menu.classList.remove('active');
+            animateIcon(false);
             document.body.style.overflow = '';
         }
     }
@@ -104,7 +128,6 @@
 
         closeMenu();
 
-        // Small delay to let menu close animation start
         setTimeout(function () {
             setActiveSection(index, true);
         }, isMenuOpen ? 300 : 50);
@@ -115,36 +138,21 @@
 
         isTransitioning = true;
 
-        // Deactivate current section
         sections[currentSection].classList.remove('active');
 
-        // Reset animations on the target section's children
-        resetSectionAnimations(sections[index]);
-
-        // Activate new section
         currentSection = index;
         sections[currentSection].classList.add('active');
-
-        // Scroll section to top
         sections[currentSection].scrollTop = 0;
 
-        // Update UI
         updateSectionLabel(index);
         updateProgress(index);
 
-        // Allow next transition
         setTimeout(function () {
             isTransitioning = false;
         }, animate ? 600 : 0);
     }
 
-    function resetSectionAnimations(section) {
-        // Force re-trigger CSS animations by removing and re-adding .active
-        // The animations are handled via CSS .section.active selectors
-    }
-
     function updateSectionLabel(index) {
-        // Fade out, change, fade in
         sectionLabel.style.opacity = '0';
         sectionLabel.style.transform = 'translateY(-5px)';
         setTimeout(function () {
@@ -155,12 +163,10 @@
     }
 
     function updateProgress(index) {
-        // Update dots
         progressDots.forEach(function (dot, i) {
             dot.classList.toggle('active', i === index);
         });
 
-        // Update fill bar position
         var percent = (index / (sections.length - 1)) * 100;
         progressFill.style.top = percent + '%';
     }
@@ -197,12 +203,21 @@
     }
 
     // --- Scroll / Wheel ---
+    // Much higher threshold — requires deliberate, sustained scrolling
     var wheelAccumulator = 0;
     var wheelTimeout = null;
-    var WHEEL_THRESHOLD = 80;
+    var WHEEL_THRESHOLD = 400;
+    var COOLDOWN_MS = 800;
+    var lastSectionChange = 0;
 
     function handleWheel(e) {
         if (isMenuOpen) return;
+
+        // Enforce cooldown after a section change
+        if (Date.now() - lastSectionChange < COOLDOWN_MS) {
+            e.preventDefault();
+            return;
+        }
 
         // Check if the active section is scrollable and not at boundary
         var activeSection = sections[currentSection];
@@ -227,7 +242,7 @@
         clearTimeout(wheelTimeout);
         wheelTimeout = setTimeout(function () {
             wheelAccumulator = 0;
-        }, 200);
+        }, 300);
 
         if (Math.abs(wheelAccumulator) >= WHEEL_THRESHOLD) {
             if (wheelAccumulator > 0) {
@@ -236,6 +251,7 @@
                 goPrev();
             }
             wheelAccumulator = 0;
+            lastSectionChange = Date.now();
         }
     }
 
@@ -244,11 +260,10 @@
         if (isMenuOpen) return;
 
         var diff = touchStartY - touchEndY;
-        var SWIPE_THRESHOLD = 60;
+        var SWIPE_THRESHOLD = 120;
 
         if (Math.abs(diff) < SWIPE_THRESHOLD) return;
 
-        // Check if section is scrollable
         var activeSection = sections[currentSection];
         var scrollTop = activeSection.scrollTop;
         var scrollHeight = activeSection.scrollHeight;
@@ -279,21 +294,6 @@
         if (currentSection > 0) {
             setActiveSection(currentSection - 1, true);
         }
-    }
-
-    // --- Form ---
-    function handleFormSubmit(e) {
-        e.preventDefault();
-
-        var btn = e.target.querySelector('.form__button span');
-        var originalText = btn.textContent;
-
-        btn.textContent = 'Message Sent!';
-        e.target.reset();
-
-        setTimeout(function () {
-            btn.textContent = originalText;
-        }, 3000);
     }
 
     // --- Section Label Transition Style ---

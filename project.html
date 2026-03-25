@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project — Archie Midgley</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="body--project">
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <a href="index.html" class="nav__back" aria-label="Back to portfolio">
+            <svg width="40" height="40" viewBox="0 0 40 40">
+                <path d="M24 12L16 20L24 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+        </a>
+        <div class="nav__indicator">
+            <span class="nav__section-label" id="projectLabel">Project</span>
+        </div>
+    </nav>
+
+    <main class="project-detail">
+        <!-- Hero -->
+        <section class="project-detail__hero">
+            <div class="project-detail__hero-inner">
+                <span class="project-detail__category" id="detailCategory">Product Design</span>
+                <h1 class="project-detail__title" id="detailTitle">Project Title</h1>
+                <div class="project-detail__meta">
+                    <div class="project-detail__meta-item">
+                        <span class="project-detail__meta-label">Year</span>
+                        <span class="project-detail__meta-value" id="detailYear">2024</span>
+                    </div>
+                    <div class="project-detail__meta-item">
+                        <span class="project-detail__meta-label">Role</span>
+                        <span class="project-detail__meta-value" id="detailRole">Lead Designer</span>
+                    </div>
+                    <div class="project-detail__meta-item">
+                        <span class="project-detail__meta-label">Duration</span>
+                        <span class="project-detail__meta-value" id="detailDuration">6 Months</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Image -->
+        <section class="project-detail__hero-image">
+            <div class="project-detail__image-full">
+                <img src="" alt="" class="project-detail__img" id="detailHeroImg" onerror="this.parentElement.classList.add('placeholder')">
+                <div class="project__image-placeholder"><span>Hero Image</span></div>
+            </div>
+        </section>
+
+        <!-- Overview -->
+        <section class="project-detail__section">
+            <div class="project-detail__container">
+                <div class="project-detail__two-col">
+                    <div class="project-detail__col-label">
+                        <h2 class="project-detail__heading">Overview</h2>
+                    </div>
+                    <div class="project-detail__col-content">
+                        <p class="project-detail__text" id="detailOverview">Provide a detailed overview of this project. Describe the brief, the client or context, and what you set out to achieve. What was the problem you were solving? What constraints did you work within?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Gallery Row 1 -->
+        <section class="project-detail__gallery">
+            <div class="project-detail__container">
+                <div class="project-detail__gallery-grid project-detail__gallery-grid--two">
+                    <div class="project-detail__gallery-item">
+                        <img src="" alt="Process image 1" class="project-detail__img" id="detailImg1" onerror="this.parentElement.classList.add('placeholder')">
+                        <div class="project__image-placeholder"><span>Image 1</span></div>
+                    </div>
+                    <div class="project-detail__gallery-item">
+                        <img src="" alt="Process image 2" class="project-detail__img" id="detailImg2" onerror="this.parentElement.classList.add('placeholder')">
+                        <div class="project__image-placeholder"><span>Image 2</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="project-detail__section">
+            <div class="project-detail__container">
+                <div class="project-detail__two-col">
+                    <div class="project-detail__col-label">
+                        <h2 class="project-detail__heading">Process</h2>
+                    </div>
+                    <div class="project-detail__col-content">
+                        <p class="project-detail__text" id="detailProcess">Describe your design and engineering process. What research did you conduct? What methods did you use? How did you iterate on your designs? Include details about sketching, prototyping, testing, and refinement.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Full-width Image -->
+        <section class="project-detail__gallery">
+            <div class="project-detail__container">
+                <div class="project-detail__gallery-grid project-detail__gallery-grid--full">
+                    <div class="project-detail__gallery-item">
+                        <img src="" alt="Full width image" class="project-detail__img" id="detailImg3" onerror="this.parentElement.classList.add('placeholder')">
+                        <div class="project__image-placeholder"><span>Image 3</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Tools -->
+        <section class="project-detail__section">
+            <div class="project-detail__container">
+                <div class="project-detail__two-col">
+                    <div class="project-detail__col-label">
+                        <h2 class="project-detail__heading">Skills &amp; Tools</h2>
+                    </div>
+                    <div class="project-detail__col-content">
+                        <div class="project-detail__tags" id="detailTags">
+                            <span class="tag">SolidWorks</span>
+                            <span class="tag">Keyshot</span>
+                            <span class="tag">3D Printing</span>
+                            <span class="tag">Prototyping</span>
+                            <span class="tag">User Testing</span>
+                            <span class="tag">Adobe Suite</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Gallery Row 2 -->
+        <section class="project-detail__gallery">
+            <div class="project-detail__container">
+                <div class="project-detail__gallery-grid project-detail__gallery-grid--three">
+                    <div class="project-detail__gallery-item">
+                        <img src="" alt="Detail image 4" class="project-detail__img" id="detailImg4" onerror="this.parentElement.classList.add('placeholder')">
+                        <div class="project__image-placeholder"><span>Image 4</span></div>
+                    </div>
+                    <div class="project-detail__gallery-item">
+                        <img src="" alt="Detail image 5" class="project-detail__img" id="detailImg5" onerror="this.parentElement.classList.add('placeholder')">
+                        <div class="project__image-placeholder"><span>Image 5</span></div>
+                    </div>
+                    <div class="project-detail__gallery-item">
+                        <img src="" alt="Detail image 6" class="project-detail__img" id="detailImg6" onerror="this.parentElement.classList.add('placeholder')">
+                        <div class="project__image-placeholder"><span>Image 6</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Outcome -->
+        <section class="project-detail__section">
+            <div class="project-detail__container">
+                <div class="project-detail__two-col">
+                    <div class="project-detail__col-label">
+                        <h2 class="project-detail__heading">Outcome</h2>
+                    </div>
+                    <div class="project-detail__col-content">
+                        <p class="project-detail__text" id="detailOutcome">Describe the final result and its impact. What did you achieve? How was it received? Include any measurable outcomes, awards, or recognition. What did you learn from this project?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Link -->
+        <section class="project-detail__section">
+            <div class="project-detail__container">
+                <div class="project-detail__two-col">
+                    <div class="project-detail__col-label">
+                        <h2 class="project-detail__heading">Portfolio</h2>
+                    </div>
+                    <div class="project-detail__col-content">
+                        <a href="#" class="project-detail__portfolio-link" id="detailPortfolioLink">
+                            <span>View Full Portfolio PDF</span>
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <section class="project-detail__nav-section">
+            <div class="project-detail__container">
+                <div class="project-detail__nav-links">
+                    <a href="" class="project-detail__nav-link project-detail__nav-link--prev" id="prevProject">
+                        <span class="project-detail__nav-direction">Previous</span>
+                        <span class="project-detail__nav-title" id="prevTitle">Project Title</span>
+                    </a>
+                    <a href="" class="project-detail__nav-link project-detail__nav-link--next" id="nextProject">
+                        <span class="project-detail__nav-direction">Next</span>
+                        <span class="project-detail__nav-title" id="nextTitle">Project Title</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/project.js"></script>
+</body>
+</html>
