@@ -20,7 +20,7 @@
     var barRight = document.querySelector('.bar--right');
     var barCross = document.querySelector('.bar--cross');
 
-    var sectionNames = ['About', 'Experience', 'Projects', 'Contact'];
+    var sectionNames = ['A.Midgley', 'About', 'Experience', 'Projects', 'Contact'];
     var currentSection = 0;
     var isMenuOpen = false;
     var isTransitioning = false;
@@ -44,6 +44,7 @@
     // --- Initialize ---
     function init() {
         setActiveSection(0, false);
+        document.body.classList.add('hero-active');
         bindEvents();
     }
 
@@ -172,6 +173,13 @@
 
         updateSectionLabel(index);
         updateProgress(index);
+
+        // Show/hide nav and progress on hero section
+        if (index === 0) {
+            document.body.classList.add('hero-active');
+        } else {
+            document.body.classList.remove('hero-active');
+        }
 
         setTimeout(function () {
             isTransitioning = false;
