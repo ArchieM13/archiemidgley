@@ -29,19 +29,19 @@
     <div class="menu" id="menu">
         <div class="menu__inner">
             <div class="menu__links">
-                <a href="#about" class="menu__link" data-index="0">
+                <a href="#about" class="menu__link" data-index="1">
                     <span class="menu__number">01</span>
                     <span class="menu__text">About</span>
                 </a>
-                <a href="#experience" class="menu__link" data-index="1">
+                <a href="#experience" class="menu__link" data-index="2">
                     <span class="menu__number">02</span>
                     <span class="menu__text">Experience</span>
                 </a>
-                <a href="#projects" class="menu__link" data-index="2">
+                <a href="#projects" class="menu__link" data-index="3">
                     <span class="menu__number">03</span>
                     <span class="menu__text">Projects</span>
                 </a>
-                <a href="#contact" class="menu__link" data-index="3">
+                <a href="#contact" class="menu__link" data-index="4">
                     <span class="menu__number">04</span>
                     <span class="menu__text">Contact</span>
                 </a>
@@ -55,8 +55,22 @@
     <!-- Page Sections -->
     <main class="main" id="main">
 
+        <!-- HERO TITLE -->
+        <section class="section section--hero active" id="hero" data-section="0">
+            <div class="hero">
+                <canvas class="hero__canvas" id="heroCanvas"></canvas>
+                <h1 class="hero__title" id="heroTitle">A.Midgley</h1>
+                <div class="hero__scroll-hint">
+                    <span>Scroll</span>
+                    <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+                        <path d="M8 4v12M4 12l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
         <!-- ABOUT -->
-        <section class="section section--about active" id="about" data-section="0">
+        <section class="section section--about" id="about" data-section="1">
             <div class="section__container">
                 <div class="section__header">
                     <span class="section__number">01</span>
@@ -99,7 +113,7 @@
         </section>
 
         <!-- EXPERIENCE -->
-        <section class="section section--experience" id="experience" data-section="1">
+        <section class="section section--experience" id="experience" data-section="2">
             <div class="section__container">
                 <div class="section__header">
                     <span class="section__number">02</span>
@@ -107,7 +121,7 @@
                 </div>
                 <div class="experience__list">
 
-                    <article class="experience__item">
+                    <a href="experience.html?id=1" class="experience__item experience__item--link">
                         <div class="experience__image-col">
                             <div class="experience__image-wrapper">
                                 <img src="images/experience-01.jpg" alt="Experience 1" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
@@ -127,9 +141,9 @@
                                 <span class="tag">Product Design</span>
                             </div>
                         </div>
-                    </article>
+                    </a>
 
-                    <article class="experience__item">
+                    <a href="experience.html?id=2" class="experience__item experience__item--link">
                         <div class="experience__image-col">
                             <div class="experience__image-wrapper">
                                 <img src="images/experience-02.jpg" alt="Experience 2" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
@@ -149,7 +163,7 @@
                                 <span class="tag">DFM</span>
                             </div>
                         </div>
-                    </article>
+                    </a>
 
                     <article class="experience__item">
                         <div class="experience__image-col">
@@ -223,7 +237,7 @@
         </section>
 
         <!-- PROJECTS -->
-        <section class="section section--projects" id="projects" data-section="2">
+        <section class="section section--projects" id="projects" data-section="3">
             <div class="section__container">
                 <div class="section__header">
                     <span class="section__number">03</span>
@@ -333,7 +347,7 @@
         </section>
 
         <!-- CONTACT -->
-        <section class="section section--contact" id="contact" data-section="3">
+        <section class="section section--contact" id="contact" data-section="4">
             <div class="section__container">
                 <div class="section__header">
                     <span class="section__number">04</span>
@@ -380,13 +394,15 @@
             <div class="progress__fill" id="progressFill"></div>
         </div>
         <div class="progress__dots">
-            <button class="progress__dot active" data-section="0" aria-label="Go to About"></button>
-            <button class="progress__dot" data-section="1" aria-label="Go to Experience"></button>
-            <button class="progress__dot" data-section="2" aria-label="Go to Projects"></button>
-            <button class="progress__dot" data-section="3" aria-label="Go to Contact"></button>
+            <button class="progress__dot active" data-section="0" aria-label="Go to Home"></button>
+            <button class="progress__dot" data-section="1" aria-label="Go to About"></button>
+            <button class="progress__dot" data-section="2" aria-label="Go to Experience"></button>
+            <button class="progress__dot" data-section="3" aria-label="Go to Projects"></button>
+            <button class="progress__dot" data-section="4" aria-label="Go to Contact"></button>
         </div>
     </div>
 
     <script src="js/main.js"></script>
+    <script src="js/liquid.js"></script>
 </body>
 </html>
