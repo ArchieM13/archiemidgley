@@ -1,49 +1,136 @@
 /* ============================================
    TEXT WARP EFFECT
-   Smooth cursor-driven displacement on hero title.
-   Each character warps away from the cursor position.
+   Canvas-based mesh distortion on hero title.
+   Cursor warps the actual shapes of the letters.
    ============================================ */
 
 (function () {
     'use strict';
 
-    var TITLE_TEXT = 'A.Midgley';
-    var heroTitle = document.getElementById('heroTitle');
+    var canvas = document.getElementById('heroCanvas');
     var heroArea = document.getElementById('heroArea');
-    if (!heroTitle || !heroArea) return;
+    if (!canvas || !heroArea) return;
 
-    // --- Split text into individual character spans ---
-    var chars = [];
-    for (var i = 0; i < TITLE_TEXT.length; i++) {
-        var span = document.createElement('span');
-        span.className = 'hero__char';
-        span.textContent = TITLE_TEXT[i];
-        heroTitle.appendChild(span);
-        chars.push({
-            el: span,
-            currentX: 0,
-            currentY: 0,
-            targetX: 0,
-            targetY: 0
-        });
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var width, height;
+
+    var TITLE = 'A.Midgley';
+    var FONT_FAMILY = "'Space Grotesk', 'Inter', sans-serif";
+    var LETTER_SPACING = 0.10; // em — moderate spacing so it fits on screen
+    var STRETCH_Y = 1.35;      // Vertical stretch factor for taller characters
+
+    // Mesh grid for distortion
+    var COLS = 60;
+    var ROWS = 30;
+
+    // Warp parameters
+    var RADIUS = 160;
+    var STRENGTH = 40;
+
+    // Smooth mouse tracking
+    var mouseX = -9999, mouseY = -9999;
+    var smoothX = -9999, smoothY = -9999;
+    var isHovering = false;
+    var warpAmount = 0;  // 0 = no warp, 1 = full warp
+    var LERP = 0.12;
+    var WARP_LERP = 0.08;
+
+    // Source canvas — holds the undistorted text
+    var srcCanvas = document.createElement('canvas');
+    var srcCtx = srcCanvas.getContext('2d');
+
+    function getColors() {
+        var isDark = document.body.classList.contains('dark');
+        return {
+            text: isDark ? '#FAFAFA' : '#1A1A1A',
+            bg: isDark ? '#111111' : '#FAFAFA'
+        };
     }
 
-    // --- Warp settings ---
-    var RADIUS = 220;       // Influence radius in px
-    var STRENGTH = 45;      // Max displacement in px
-    var LERP = 0.12;        // Smoothing factor (lower = smoother, slower)
-    var RESTORE_LERP = 0.08; // How fast chars return to rest
+    function getFontSize() {
+        var vw = width / dpr;
+        // clamp(3.5rem, 10vw, 9rem) — fits on screen with spacing
+        var size = vw * 0.10;
+        var min = 56;   // 3.5rem
+        var max = 144;  // 9rem
+        return Math.min(Math.max(size, min), max) * dpr;
+    }
 
-    var mouseX = -9999;
-    var mouseY = -9999;
-    var isHovering = false;
-    var animId = null;
+    // Draw text with manual letter-spacing
+    function drawSpacedText(context, text, cx, cy, fontSize) {
+        var spacingPx = LETTER_SPACING * fontSize;
+        var totalW = 0;
+        var charWidths = [];
+        for (var i = 0; i < text.length; i++) {
+            var w = context.measureText(text[i]).width;
+            charWidths.push(w);
+            totalW += w;
+            if (i < text.length - 1) totalW += spacingPx;
+        }
+
+        var x = cx - totalW / 2;
+        for (var j = 0; j < text.length; j++) {
+            context.fillText(text[j], x + charWidths[j] / 2, cy);
+            context.strokeText(text[j], x + charWidths[j] / 2, cy);
+            x += charWidths[j] + spacingPx;
+        }
+    }
+
+    function renderSource() {
+        srcCanvas.width = width;
+        srcCanvas.height = height;
+
+        var fontSize = getFontSize();
+        var colors = getColors();
+
+        srcCtx.clearRect(0, 0, width, height);
+        srcCtx.save();
+
+        // Move to center, then apply vertical stretch
+        srcCtx.translate(width / 2, height / 2);
+        srcCtx.scale(1, STRETCH_Y);
+
+        srcCtx.font = '700 ' + fontSize + 'px ' + FONT_FAMILY;
+        srcCtx.textAlign = 'center';
+        srcCtx.textBaseline = 'middle';
+
+        // Fill
+        srcCtx.fillStyle = colors.text;
+        // Stroke — thicker outline
+        srcCtx.strokeStyle = colors.text;
+        srcCtx.lineWidth = 2.5 * dpr;
+        srcCtx.lineJoin = 'round';
+
+        drawSpacedText(srcCtx, TITLE, 0, 0, fontSize);
+
+        srcCtx.restore();
+    }
+
+    function resize() {
+        width = canvas.offsetWidth * dpr;
+        height = canvas.offsetHeight * dpr;
+        canvas.width = width;
+        canvas.height = height;
+        renderSource();
+    }
+
+    resize();
+    window.addEventListener('resize', function () {
+        resize();
+    });
+
+    // Watch for dark mode changes to re-render source
+    var observer = new MutationObserver(function () {
+        renderSource();
+    });
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
     // --- Mouse tracking ---
     function onMouseMove(e) {
         var rect = heroArea.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
+        mouseX = (e.clientX - rect.left) * dpr;
+        mouseY = (e.clientY - rect.top) * dpr;
         isHovering = true;
     }
 
@@ -54,12 +141,11 @@
     heroArea.addEventListener('mousemove', onMouseMove);
     heroArea.addEventListener('mouseleave', onMouseLeave);
 
-    // Touch support
     heroArea.addEventListener('touchmove', function (e) {
         var touch = e.touches[0];
         var rect = heroArea.getBoundingClientRect();
-        mouseX = touch.clientX - rect.left;
-        mouseY = touch.clientY - rect.top;
+        mouseX = (touch.clientX - rect.left) * dpr;
+        mouseY = (touch.clientY - rect.top) * dpr;
         isHovering = true;
     }, { passive: true });
 
@@ -67,87 +153,88 @@
         isHovering = false;
     });
 
-    // --- Animation loop ---
-    function animate() {
-        var allSettled = true;
+    // --- Mesh distortion rendering ---
+    function drawDistorted() {
+        var cellW = width / COLS;
+        var cellH = height / ROWS;
+        var radius = RADIUS * dpr;
+        var strength = STRENGTH * dpr * warpAmount;
 
-        for (var i = 0; i < chars.length; i++) {
-            var c = chars[i];
-            var el = c.el;
-            var rect = el.getBoundingClientRect();
-            var heroRect = heroArea.getBoundingClientRect();
+        for (var row = 0; row < ROWS; row++) {
+            for (var col = 0; col < COLS; col++) {
+                var destX = col * cellW;
+                var destY = row * cellH;
 
-            // Character center relative to hero
-            var cx = rect.left - heroRect.left + rect.width / 2;
-            var cy = rect.top - heroRect.top + rect.height / 2;
+                // Center of this cell
+                var cx = destX + cellW / 2;
+                var cy = destY + cellH / 2;
 
-            if (isHovering) {
-                var dx = cx - mouseX;
-                var dy = cy - mouseY;
+                // Distance from smoothed cursor
+                var dx = cx - smoothX;
+                var dy = cy - smoothY;
                 var dist = Math.sqrt(dx * dx + dy * dy);
 
-                if (dist < RADIUS && dist > 0) {
-                    // Displacement falls off smoothly
-                    var factor = 1 - (dist / RADIUS);
-                    factor = factor * factor; // Quadratic falloff for smoother feel
+                // Calculate inverse displacement (where to sample from)
+                var offsetX = 0, offsetY = 0;
+                if (dist < radius && dist > 0) {
+                    var factor = 1 - (dist / radius);
+                    factor = factor * factor * factor; // Cubic falloff — very smooth
                     var angle = Math.atan2(dy, dx);
-                    c.targetX = Math.cos(angle) * STRENGTH * factor;
-                    c.targetY = Math.sin(angle) * STRENGTH * factor;
-                } else {
-                    c.targetX = 0;
-                    c.targetY = 0;
+                    // Inverse: sample from closer to cursor to make text appear pushed away
+                    offsetX = -Math.cos(angle) * strength * factor;
+                    offsetY = -Math.sin(angle) * strength * factor;
                 }
 
-                c.currentX += (c.targetX - c.currentX) * LERP;
-                c.currentY += (c.targetY - c.currentY) * LERP;
-            } else {
-                // Smoothly restore to zero
-                c.targetX = 0;
-                c.targetY = 0;
-                c.currentX += (0 - c.currentX) * RESTORE_LERP;
-                c.currentY += (0 - c.currentY) * RESTORE_LERP;
-            }
+                var srcX = destX + offsetX;
+                var srcY = destY + offsetY;
 
-            // Check if still moving
-            if (Math.abs(c.currentX) > 0.05 || Math.abs(c.currentY) > 0.05 ||
-                Math.abs(c.targetX) > 0.05 || Math.abs(c.targetY) > 0.05) {
-                allSettled = false;
-            }
+                // Clamp source coordinates
+                srcX = Math.max(0, Math.min(width - cellW, srcX));
+                srcY = Math.max(0, Math.min(height - cellH, srcY));
 
-            el.style.transform = 'translate(' + c.currentX.toFixed(2) + 'px, ' + c.currentY.toFixed(2) + 'px)';
+                // Skip if source cell is empty (optimization)
+                ctx.drawImage(
+                    srcCanvas,
+                    srcX, srcY, cellW + 1, cellH + 1,
+                    destX, destY, cellW + 1, cellH + 1
+                );
+            }
+        }
+    }
+
+    // --- Animation loop ---
+    var animId = null;
+    var needsRender = true;
+
+    function animate() {
+        // Smooth mouse position
+        if (isHovering) {
+            smoothX += (mouseX - smoothX) * LERP;
+            smoothY += (mouseY - smoothY) * LERP;
+            warpAmount += (1 - warpAmount) * WARP_LERP;
+        } else {
+            warpAmount += (0 - warpAmount) * WARP_LERP;
         }
 
-        if (allSettled && !isHovering) {
-            // Everything is at rest — stop the loop
-            for (var j = 0; j < chars.length; j++) {
-                chars[j].currentX = 0;
-                chars[j].currentY = 0;
-                chars[j].el.style.transform = '';
+        ctx.clearRect(0, 0, width, height);
+
+        if (warpAmount < 0.005) {
+            // No distortion — draw source directly
+            ctx.drawImage(srcCanvas, 0, 0);
+
+            if (!isHovering && warpAmount < 0.001) {
+                warpAmount = 0;
+                animId = requestAnimationFrame(animate);
+                return;
             }
-            animId = null;
-            return;
+        } else {
+            drawDistorted();
         }
 
         animId = requestAnimationFrame(animate);
     }
 
-    // Start animation when mouse enters, keep running until settled
-    heroArea.addEventListener('mouseenter', function () {
-        if (!animId) {
-            animId = requestAnimationFrame(animate);
-        }
-    });
-
-    heroArea.addEventListener('mousemove', function () {
-        if (!animId) {
-            animId = requestAnimationFrame(animate);
-        }
-    });
-
-    heroArea.addEventListener('touchstart', function () {
-        if (!animId) {
-            animId = requestAnimationFrame(animate);
-        }
-    }, { passive: true });
+    // Start the loop
+    animate();
 
 })();
