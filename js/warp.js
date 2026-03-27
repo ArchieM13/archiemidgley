@@ -18,7 +18,7 @@
     var TITLE = 'A.Midgley';
     var FONT_FAMILY = "'Bebas Neue', 'Space Grotesk', sans-serif";
     var LETTER_SPACING = 0.04; // em — tight spacing
-    var STRETCH_Y = 1.8;      // Tall condensed characters
+    var STRETCH_Y = 2.0;      // Tall condensed characters
 
     // Mesh grid for distortion
     var COLS = 60;
@@ -53,10 +53,10 @@
 
     function getFontSize() {
         var vw = width / dpr;
-        // clamp(4rem, 12vw, 10rem) — large but fits on screen
-        var size = vw * 0.12;
-        var min = 64;   // 4rem
-        var max = 160;  // 10rem
+        // clamp(5rem, 15vw, 13rem) — large and bold
+        var size = vw * 0.15;
+        var min = 80;   // 5rem
+        var max = 208;  // 13rem
         return Math.min(Math.max(size, min), max) * dpr;
     }
 
@@ -75,6 +75,9 @@
         var x = cx - totalW / 2;
         for (var j = 0; j < text.length; j++) {
             context.fillText(text[j], x + charWidths[j] / 2, cy);
+            if (context.lineWidth > 0 && context.strokeStyle) {
+                context.strokeText(text[j], x + charWidths[j] / 2, cy);
+            }
             x += charWidths[j] + spacingPx;
         }
     }
@@ -97,8 +100,11 @@
         srcCtx.textAlign = 'center';
         srcCtx.textBaseline = 'middle';
 
-        // Filled text
+        // Filled text with thick stroke for bold weight
         srcCtx.fillStyle = colors.text;
+        srcCtx.strokeStyle = colors.text;
+        srcCtx.lineWidth = 3 * dpr;
+        srcCtx.lineJoin = 'round';
         drawSpacedText(srcCtx, TITLE, 0, 0, fontSize);
 
         srcCtx.restore();
