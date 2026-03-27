@@ -16,9 +16,9 @@
     var width, height;
 
     var TITLE = 'A.Midgley';
-    var FONT_FAMILY = "'Space Grotesk', 'Inter', sans-serif";
-    var LETTER_SPACING = 0.10; // em — moderate spacing so it fits on screen
-    var STRETCH_Y = 1.35;      // Vertical stretch factor for taller characters
+    var FONT_FAMILY = "'Bebas Neue', 'Space Grotesk', sans-serif";
+    var LETTER_SPACING = 0.04; // em — tight spacing
+    var STRETCH_Y = 1.8;      // Tall condensed characters
 
     // Mesh grid for distortion
     var COLS = 60;
@@ -32,7 +32,7 @@
     var mouseX = -9999, mouseY = -9999;
     var smoothX = -9999, smoothY = -9999;
     var isHovering = false;
-    var warpAmount = 0;  // 0 = no warp, 1 = full warp
+    var warpAmount = 0;
     var LERP = 0.12;
     var WARP_LERP = 0.08;
 
@@ -42,18 +42,21 @@
 
     function getColors() {
         var isDark = document.body.classList.contains('dark');
-        return {
-            text: isDark ? '#FAFAFA' : '#1A1A1A',
-            bg: isDark ? '#111111' : '#FAFAFA'
-        };
+        var isOrange = document.body.classList.contains('orange');
+        if (isDark) {
+            return { text: '#F0F0F0', bg: '#111111' };
+        } else if (isOrange) {
+            return { text: '#1A1A1A', bg: '#FF6B00' };
+        }
+        return { text: '#1A1A1A', bg: '#FAFAFA' };
     }
 
     function getFontSize() {
         var vw = width / dpr;
-        // clamp(3.5rem, 10vw, 9rem) — fits on screen with spacing
-        var size = vw * 0.10;
-        var min = 56;   // 3.5rem
-        var max = 144;  // 9rem
+        // clamp(4rem, 12vw, 10rem) — large but fits on screen
+        var size = vw * 0.12;
+        var min = 64;   // 4rem
+        var max = 160;  // 10rem
         return Math.min(Math.max(size, min), max) * dpr;
     }
 
@@ -72,7 +75,6 @@
         var x = cx - totalW / 2;
         for (var j = 0; j < text.length; j++) {
             context.fillText(text[j], x + charWidths[j] / 2, cy);
-            context.strokeText(text[j], x + charWidths[j] / 2, cy);
             x += charWidths[j] + spacingPx;
         }
     }
@@ -87,21 +89,16 @@
         srcCtx.clearRect(0, 0, width, height);
         srcCtx.save();
 
-        // Move to center, then apply vertical stretch
+        // Move to center, then apply vertical stretch for tall condensed look
         srcCtx.translate(width / 2, height / 2);
         srcCtx.scale(1, STRETCH_Y);
 
-        srcCtx.font = '700 ' + fontSize + 'px ' + FONT_FAMILY;
+        srcCtx.font = '400 ' + fontSize + 'px ' + FONT_FAMILY;
         srcCtx.textAlign = 'center';
         srcCtx.textBaseline = 'middle';
 
-        // Fill
+        // Filled text
         srcCtx.fillStyle = colors.text;
-        // Stroke — thicker outline
-        srcCtx.strokeStyle = colors.text;
-        srcCtx.lineWidth = 2.5 * dpr;
-        srcCtx.lineJoin = 'round';
-
         drawSpacedText(srcCtx, TITLE, 0, 0, fontSize);
 
         srcCtx.restore();
@@ -116,11 +113,9 @@
     }
 
     resize();
-    window.addEventListener('resize', function () {
-        resize();
-    });
+    window.addEventListener('resize', resize);
 
-    // Watch for dark mode changes to re-render source
+    // Watch for theme changes to re-render source
     var observer = new MutationObserver(function () {
         renderSource();
     });
@@ -178,9 +173,8 @@
                 var offsetX = 0, offsetY = 0;
                 if (dist < radius && dist > 0) {
                     var factor = 1 - (dist / radius);
-                    factor = factor * factor * factor; // Cubic falloff — very smooth
+                    factor = factor * factor * factor; // Cubic falloff
                     var angle = Math.atan2(dy, dx);
-                    // Inverse: sample from closer to cursor to make text appear pushed away
                     offsetX = -Math.cos(angle) * strength * factor;
                     offsetY = -Math.sin(angle) * strength * factor;
                 }
@@ -192,7 +186,6 @@
                 srcX = Math.max(0, Math.min(width - cellW, srcX));
                 srcY = Math.max(0, Math.min(height - cellH, srcY));
 
-                // Skip if source cell is empty (optimization)
                 ctx.drawImage(
                     srcCanvas,
                     srcX, srcY, cellW + 1, cellH + 1,
@@ -203,9 +196,6 @@
     }
 
     // --- Animation loop ---
-    var animId = null;
-    var needsRender = true;
-
     function animate() {
         // Smooth mouse position
         if (isHovering) {
@@ -219,22 +209,17 @@
         ctx.clearRect(0, 0, width, height);
 
         if (warpAmount < 0.005) {
-            // No distortion — draw source directly
             ctx.drawImage(srcCanvas, 0, 0);
-
             if (!isHovering && warpAmount < 0.001) {
                 warpAmount = 0;
-                animId = requestAnimationFrame(animate);
-                return;
             }
         } else {
             drawDistorted();
         }
 
-        animId = requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
     }
 
-    // Start the loop
     animate();
 
 })();

@@ -333,33 +333,34 @@
     // --- Section Label Transition Style ---
     sectionLabel.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
 
-    // --- Dark Mode ---
-    var darkToggle = document.getElementById('darkToggle');
-    var darkHint = document.getElementById('darkHint');
+    // --- Theme Switcher (light / dark / orange) ---
+    var themeSwitcher = document.getElementById('themeSwitcher');
+    var themeButtons = themeSwitcher ? themeSwitcher.querySelectorAll('.theme-switcher__btn') : [];
+    var THEMES = ['light', 'dark', 'orange'];
 
-    if (darkToggle) {
-        // Check saved preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark');
-            darkToggle.classList.add('active');
-        }
-
-        darkToggle.addEventListener('click', function () {
-            document.body.classList.toggle('dark');
-            darkToggle.classList.toggle('active');
-            var isDark = document.body.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark);
+    function setTheme(theme) {
+        document.body.classList.remove('dark', 'orange');
+        if (theme === 'dark') document.body.classList.add('dark');
+        if (theme === 'orange') document.body.classList.add('orange');
+        themeButtons.forEach(function (btn) {
+            btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
         });
-
-        // Hide hint after first click or after 5 seconds
-        if (darkHint) {
-            var hideHint = function () {
-                darkHint.classList.add('hidden');
-            };
-            darkToggle.addEventListener('click', hideHint, { once: true });
-            setTimeout(hideHint, 5000);
-        }
+        localStorage.setItem('theme', theme);
     }
+
+    // Restore saved theme
+    var savedTheme = localStorage.getItem('theme') || 'light';
+    // Migrate old darkMode preference
+    if (!localStorage.getItem('theme') && localStorage.getItem('darkMode') === 'true') {
+        savedTheme = 'dark';
+    }
+    setTheme(savedTheme);
+
+    themeButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            setTheme(this.getAttribute('data-theme'));
+        });
+    });
 
     // --- Start ---
     init();

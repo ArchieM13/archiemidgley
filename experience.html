@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="body--project">
     <!-- Navigation -->
@@ -175,10 +175,11 @@
 
     </main>
 
-    <!-- Dark Mode Toggle -->
-    <div class="dark-toggle">
-        <div class="dark-toggle__hint" id="darkHint" style="display:none"></div>
-        <button class="dark-toggle__btn" id="darkToggle" aria-label="Toggle night mode"></button>
+    <!-- Theme Switcher -->
+    <div class="theme-switcher" id="themeSwitcher">
+        <button class="theme-switcher__btn theme-switcher__btn--light active" data-theme="light" aria-label="Light theme"></button>
+        <button class="theme-switcher__btn theme-switcher__btn--dark" data-theme="dark" aria-label="Dark theme"></button>
+        <button class="theme-switcher__btn theme-switcher__btn--orange" data-theme="orange" aria-label="Orange theme"></button>
     </div>
 
     <script src="js/experience.js"></script>

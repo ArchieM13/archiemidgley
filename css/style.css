@@ -322,7 +322,7 @@ p {
     width: 100%;
     height: 100vh;
     overflow-y: auto;
-    padding: calc(var(--nav-height) + var(--space-xl)) var(--space-lg) var(--space-2xl);
+    padding: calc(var(--nav-height) + var(--space-md)) var(--space-lg) var(--space-lg);
     opacity: 0;
     visibility: hidden;
     transform: translateY(40px);
@@ -383,7 +383,7 @@ p {
 
 /* Extra space at the bottom of each section so you have to scroll more before flipping */
 .section__footer-spacer {
-    height: 30vh;
+    height: 15vh;
 }
 
 @keyframes fadeInUp {
@@ -467,7 +467,7 @@ body.hero-active .progress {
     transition: opacity var(--transition-medium);
 }
 
-body.hero-active .dark-toggle {
+body.hero-active .theme-switcher {
     z-index: 1001;
 }
 
@@ -1249,12 +1249,8 @@ body:not(.hero-active) .progress {
         right: var(--space-sm);
     }
 
-    .dark-toggle {
+    .theme-switcher {
         right: var(--space-md);
-    }
-
-    .dark-toggle__hint-text {
-        font-size: 0.6rem;
     }
 
     .section__header {
@@ -1328,87 +1324,53 @@ body:not(.hero-active) .progress {
         height: 15vh;
     }
 
-    .dark-toggle {
+    .theme-switcher {
         right: var(--space-sm);
-    }
-
-    .dark-toggle__hint {
-        display: none;
     }
 }
 
-/* --- Dark Mode Toggle --- */
-.dark-toggle {
+/* --- Theme Switcher --- */
+/* --- Theme Switcher --- */
+.theme-switcher {
     position: fixed;
     top: calc(var(--nav-height) + var(--space-sm));
     right: var(--space-lg);
     z-index: 1000;
     display: flex;
-    align-items: center;
-    gap: var(--space-sm);
+    flex-direction: column;
+    gap: 8px;
 }
 
-.dark-toggle__hint {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    opacity: 1;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    pointer-events: none;
-}
-
-.dark-toggle__hint.hidden {
-    opacity: 0;
-    transform: translateX(8px);
-}
-
-.dark-toggle__hint-text {
-    font-family: var(--font-primary);
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-text-tertiary);
-    white-space: nowrap;
-}
-
-.dark-toggle__hint-arrow {
-    color: var(--color-text-tertiary);
-    flex-shrink: 0;
-}
-
-.dark-toggle__btn {
-    width: 44px;
-    height: 24px;
-    border-radius: 12px;
-    background: var(--color-border);
-    position: relative;
-    cursor: pointer;
-    border: none;
-    padding: 0;
-    transition: background 0.3s ease;
-    flex-shrink: 0;
-}
-
-.dark-toggle__btn::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 18px;
-    height: 18px;
+.theme-switcher__btn {
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: var(--color-surface);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    border: 2px solid var(--color-border);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
-.dark-toggle__btn.active {
-    background: var(--color-text);
+.theme-switcher__btn:hover {
+    transform: scale(1.15);
 }
 
-.dark-toggle__btn.active::after {
-    transform: translateX(20px);
+.theme-switcher__btn.active {
+    border-color: var(--color-text);
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-text);
+}
+
+.theme-switcher__btn--light {
+    background: #FAFAFA;
+}
+
+.theme-switcher__btn--dark {
+    background: #111111;
+}
+
+.theme-switcher__btn--orange {
+    background: #FF6B00;
 }
 
 /* --- Dark Theme --- */
@@ -1441,16 +1403,52 @@ body.dark .project-detail__gallery-item img {
     filter: none;
 }
 
-body.dark .dark-toggle__btn {
-    background: #555555;
+body.dark .theme-switcher__btn {
+    border-color: #444444;
 }
 
-body.dark .dark-toggle__btn.active {
-    background: #F0F0F0;
+body.dark .theme-switcher__btn.active {
+    border-color: #F0F0F0;
+    box-shadow: 0 0 0 2px #111111, 0 0 0 4px #F0F0F0;
 }
 
-body.dark .dark-toggle__btn.active::after {
-    background: #111111;
+/* --- Orange Theme --- */
+body.orange {
+    --color-bg: #FF6B00;
+    --color-surface: #FF7A1A;
+    --color-text: #1A1A1A;
+    --color-text-secondary: #3D2200;
+    --color-text-tertiary: #5A3300;
+    --color-accent: #1A1A1A;
+    --color-border: rgba(26,26,26,0.2);
+    --color-border-light: rgba(26,26,26,0.1);
+    --color-hover: #FF7A1A;
+    --color-tag-bg: rgba(26,26,26,0.1);
+}
+
+body.orange .menu {
+    background: var(--color-bg);
+}
+
+body.orange .nav__icon .bar {
+    stroke: var(--color-text);
+}
+
+body.orange .about__image,
+body.orange .experience__image,
+body.orange .project__image,
+body.orange .project-detail__img,
+body.orange .project-detail__gallery-item img {
+    filter: none;
+}
+
+body.orange .theme-switcher__btn {
+    border-color: rgba(26,26,26,0.3);
+}
+
+body.orange .theme-switcher__btn.active {
+    border-color: #1A1A1A;
+    box-shadow: 0 0 0 2px #FF6B00, 0 0 0 4px #1A1A1A;
 }
 
 /* --- Utility --- */
