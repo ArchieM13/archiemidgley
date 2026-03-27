@@ -65,7 +65,6 @@ html {
                 background-color 0.25s ease,
                 border-color 0.25s ease,
                 opacity 0.25s ease;
-    mix-blend-mode: exclusion;
     background: transparent;
     will-change: transform;
 }
@@ -75,7 +74,6 @@ html {
     height: 50px;
     background: rgba(255, 107, 0, 0.35);
     border-color: #FF6B00;
-    mix-blend-mode: normal;
 }
 
 .cursor--hidden {
