@@ -1119,6 +1119,10 @@ body:not(.hero-active) .progress {
     max-width: 100%;
 }
 
+.project-detail__col-content p + p {
+    margin-top: 1rem;
+}
+
 .project-detail__tags {
     display: flex;
     flex-wrap: wrap;
