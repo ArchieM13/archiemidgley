@@ -60,8 +60,8 @@
     el('expPeriod').textContent = exp.period;
     el('expRole').textContent = exp.role;
     el('expLocation').textContent = exp.location;
-    el('expOverview').textContent = exp.overview;
-    el('expResponsibilities').textContent = exp.responsibilities;
+    el('expOverview').innerHTML = exp.overview.split('\n\n').map(function(p){ return '<p class="project-detail__text">' + p + '</p>'; }).join('');
+    el('expResponsibilities').innerHTML = exp.responsibilities.split('\n\n').map(function(p){ return '<p class="project-detail__text">' + p + '</p>'; }).join('');
 
     el('expHeroImg').src = exp.heroImage;
     el('expHeroImg').alt = exp.company;
