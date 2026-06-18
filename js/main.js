@@ -6,7 +6,6 @@
 (function () {
     'use strict';
 
-    // --- DOM Elements ---
     var menuToggle = document.getElementById('menuToggle');
     var menu = document.getElementById('menu');
     var menuLinks = document.querySelectorAll('.menu__link');
@@ -15,49 +14,59 @@
     var progressDots = document.querySelectorAll('.progress__dot');
     var progressFill = document.getElementById('progressFill');
 
-    // SVG icon bars
     var barLeft  = document.querySelector('.bar--left');
     var barRight = document.querySelector('.bar--right');
     var barCross = document.querySelector('.bar--cross');
 
-    var sectionNames = ['A.Midgley', 'About', 'Experience', 'Projects', 'Contact'];
+    var sectionNames = ['A.Midgley', 'About', 'Experience', 'Projects', 'Extras', 'Contact'];
+
+    // Map URL hashes to section indices (for back-navigation from detail pages)
+    var hashMap = {
+        '#about':      1,
+        '#experience': 2,
+        '#projects':   3,
+        '#extras':     4,
+        '#contact':    5
+    };
+
     var currentSection = 0;
     var isMenuOpen = false;
     var isTransitioning = false;
     var touchStartY = 0;
     var touchEndY = 0;
 
-    // --- Hamburger ↔ "A" icon coordinates ---
-    // Hamburger (three horizontal lines)
     var hamburger = {
         left:  { x1: 8,  y1: 28, x2: 32, y2: 28 },
         right: { x1: 8,  y1: 20, x2: 32, y2: 20 },
         cross: { x1: 8,  y1: 12, x2: 32, y2: 12 }
     };
-    // "A" shape: two angled legs + one crossbar
     var letterA = {
-        left:  { x1: 10, y1: 30, x2: 20, y2: 8 },   // left leg
-        right: { x1: 30, y1: 30, x2: 20, y2: 8 },   // right leg
-        cross: { x1: 13, y1: 22, x2: 27, y2: 22 }   // crossbar
+        left:  { x1: 10, y1: 30, x2: 20, y2: 8 },
+        right: { x1: 30, y1: 30, x2: 20, y2: 8 },
+        cross: { x1: 13, y1: 22, x2: 27, y2: 22 }
     };
 
-    // --- Initialize ---
     function init() {
-        setActiveSection(0, false);
-        document.body.classList.add('hero-active');
+        // Check for hash deep-link (e.g. index.html#experience from back button)
+        var startIndex = 0;
+        var hash = window.location.hash;
+        if (hash && hashMap[hash] !== undefined) {
+            startIndex = hashMap[hash];
+            history.replaceState(null, '', window.location.pathname);
+        }
+
+        setActiveSection(startIndex, false);
+        if (startIndex === 0) {
+            document.body.classList.add('hero-active');
+        }
         bindEvents();
     }
 
-    // --- Animate icon between hamburger ↔ "A" ---
     function animateIcon(opening) {
         var target = opening ? letterA : hamburger;
         var duration = 500;
-        var easing = function (t) {
-            // cubic-bezier(0.16, 1, 0.3, 1) approximation — spring-like
-            return 1 - Math.pow(1 - t, 4);
-        };
-
-        animateLine(barLeft,  target.left, duration, easing);
+        var easing = function (t) { return 1 - Math.pow(1 - t, 4); };
+        animateLine(barLeft,  target.left,  duration, easing);
         animateLine(barRight, target.right, duration, easing);
         animateLine(barCross, target.cross, duration, easing);
     }
@@ -70,27 +79,20 @@
             y2: parseFloat(el.getAttribute('y2'))
         };
         var startTime = null;
-
         function tick(timestamp) {
             if (!startTime) startTime = timestamp;
             var elapsed = timestamp - startTime;
             var progress = Math.min(elapsed / duration, 1);
-            var easedProgress = easing(progress);
-
-            el.setAttribute('x1', startCoords.x1 + (targetCoords.x1 - startCoords.x1) * easedProgress);
-            el.setAttribute('y1', startCoords.y1 + (targetCoords.y1 - startCoords.y1) * easedProgress);
-            el.setAttribute('x2', startCoords.x2 + (targetCoords.x2 - startCoords.x2) * easedProgress);
-            el.setAttribute('y2', startCoords.y2 + (targetCoords.y2 - startCoords.y2) * easedProgress);
-
-            if (progress < 1) {
-                requestAnimationFrame(tick);
-            }
+            var ep = easing(progress);
+            el.setAttribute('x1', startCoords.x1 + (targetCoords.x1 - startCoords.x1) * ep);
+            el.setAttribute('y1', startCoords.y1 + (targetCoords.y1 - startCoords.y1) * ep);
+            el.setAttribute('x2', startCoords.x2 + (targetCoords.x2 - startCoords.x2) * ep);
+            el.setAttribute('y2', startCoords.y2 + (targetCoords.y2 - startCoords.y2) * ep);
+            if (progress < 1) requestAnimationFrame(tick);
         }
-
         requestAnimationFrame(tick);
     }
 
-    // --- Event Binding ---
     function bindEvents() {
         menuToggle.addEventListener('click', toggleMenu);
 
@@ -122,18 +124,12 @@
         }, { passive: true });
     }
 
-    // --- Menu ---
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
         menuToggle.classList.toggle('active', isMenuOpen);
         menu.classList.toggle('active', isMenuOpen);
         animateIcon(isMenuOpen);
-
-        if (isMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
+        document.body.style.overflow = isMenuOpen ? 'hidden' : '';
     }
 
     function closeMenu() {
@@ -146,15 +142,12 @@
         }
     }
 
-    // --- Navigation ---
     function navigateTo(index) {
         if (isTransitioning || index === currentSection) {
             closeMenu();
             return;
         }
-
         closeMenu();
-
         setTimeout(function () {
             setActiveSection(index, true);
         }, isMenuOpen ? 300 : 50);
@@ -162,25 +155,18 @@
 
     function setActiveSection(index, animate) {
         if (index < 0 || index >= sections.length) return;
-
         isTransitioning = true;
-
         sections[currentSection].classList.remove('active');
-
         currentSection = index;
         sections[currentSection].classList.add('active');
         sections[currentSection].scrollTop = 0;
-
         updateSectionLabel(index);
         updateProgress(index);
-
-        // Show/hide nav and progress on hero section
         if (index === 0) {
             document.body.classList.add('hero-active');
         } else {
             document.body.classList.remove('hero-active');
         }
-
         setTimeout(function () {
             isTransitioning = false;
         }, animate ? 600 : 0);
@@ -200,44 +186,23 @@
         progressDots.forEach(function (dot, i) {
             dot.classList.toggle('active', i === index);
         });
-
         var percent = (index / (sections.length - 1)) * 100;
         progressFill.style.top = percent + '%';
     }
 
-    // --- Keyboard ---
     function handleKeyboard(e) {
         if (isMenuOpen) {
-            if (e.key === 'Escape') {
-                closeMenu();
-            }
+            if (e.key === 'Escape') closeMenu();
             return;
         }
-
         switch (e.key) {
-            case 'ArrowDown':
-            case 'PageDown':
-                e.preventDefault();
-                goNext();
-                break;
-            case 'ArrowUp':
-            case 'PageUp':
-                e.preventDefault();
-                goPrev();
-                break;
-            case 'Home':
-                e.preventDefault();
-                navigateTo(0);
-                break;
-            case 'End':
-                e.preventDefault();
-                navigateTo(sections.length - 1);
-                break;
+            case 'ArrowDown': case 'PageDown': e.preventDefault(); goNext(); break;
+            case 'ArrowUp':   case 'PageUp':   e.preventDefault(); goPrev(); break;
+            case 'Home': e.preventDefault(); navigateTo(0); break;
+            case 'End':  e.preventDefault(); navigateTo(sections.length - 1); break;
         }
     }
 
-    // --- Scroll / Wheel ---
-    // Much higher threshold — requires deliberate, sustained scrolling
     var wheelAccumulator = 0;
     var wheelTimeout = null;
     var WHEEL_THRESHOLD = 400;
@@ -246,14 +211,11 @@
 
     function handleWheel(e) {
         if (isMenuOpen) return;
-
-        // Enforce cooldown after a section change
         if (Date.now() - lastSectionChange < COOLDOWN_MS) {
             e.preventDefault();
             return;
         }
 
-        // Check if the active section is scrollable and not at boundary
         var activeSection = sections[currentSection];
         var scrollTop = activeSection.scrollTop;
         var scrollHeight = activeSection.scrollHeight;
@@ -263,40 +225,26 @@
         if (isScrollable) {
             var atTop = scrollTop <= 1;
             var atBottom = scrollTop + clientHeight >= scrollHeight - 1;
-
-            // Allow natural scroll within section
             if (e.deltaY > 0 && !atBottom) return;
             if (e.deltaY < 0 && !atTop) return;
         }
 
         e.preventDefault();
-
         wheelAccumulator += e.deltaY;
-
         clearTimeout(wheelTimeout);
-        wheelTimeout = setTimeout(function () {
-            wheelAccumulator = 0;
-        }, 300);
+        wheelTimeout = setTimeout(function () { wheelAccumulator = 0; }, 300);
 
         if (Math.abs(wheelAccumulator) >= WHEEL_THRESHOLD) {
-            if (wheelAccumulator > 0) {
-                goNext();
-            } else {
-                goPrev();
-            }
+            if (wheelAccumulator > 0) goNext(); else goPrev();
             wheelAccumulator = 0;
             lastSectionChange = Date.now();
         }
     }
 
-    // --- Touch / Swipe ---
     function handleSwipe() {
         if (isMenuOpen) return;
-
         var diff = touchStartY - touchEndY;
-        var SWIPE_THRESHOLD = 120;
-
-        if (Math.abs(diff) < SWIPE_THRESHOLD) return;
+        if (Math.abs(diff) < 120) return;
 
         var activeSection = sections[currentSection];
         var scrollTop = activeSection.scrollTop;
@@ -311,49 +259,34 @@
             if (diff < 0 && !atTop) return;
         }
 
-        if (diff > 0) {
-            goNext();
-        } else {
-            goPrev();
-        }
+        if (diff > 0) goNext(); else goPrev();
     }
 
     function goNext() {
-        if (currentSection < sections.length - 1) {
-            setActiveSection(currentSection + 1, true);
-        }
+        if (currentSection < sections.length - 1) setActiveSection(currentSection + 1, true);
     }
 
     function goPrev() {
-        if (currentSection > 0) {
-            setActiveSection(currentSection - 1, true);
-        }
+        if (currentSection > 0) setActiveSection(currentSection - 1, true);
     }
 
-    // --- Section Label Transition Style ---
     sectionLabel.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
 
-    // --- Theme Switcher (light / dark / orange) ---
+    // --- Theme Switcher (light / dark only) ---
     var themeSwitcher = document.getElementById('themeSwitcher');
     var themeButtons = themeSwitcher ? themeSwitcher.querySelectorAll('.theme-switcher__btn') : [];
-    var THEMES = ['light', 'dark', 'orange'];
 
     function setTheme(theme) {
-        document.body.classList.remove('dark', 'orange');
+        document.body.classList.remove('dark');
         if (theme === 'dark') document.body.classList.add('dark');
-        if (theme === 'orange') document.body.classList.add('orange');
         themeButtons.forEach(function (btn) {
             btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
         });
         localStorage.setItem('theme', theme);
     }
 
-    // Restore saved theme
     var savedTheme = localStorage.getItem('theme') || 'light';
-    // Migrate old darkMode preference
-    if (!localStorage.getItem('theme') && localStorage.getItem('darkMode') === 'true') {
-        savedTheme = 'dark';
-    }
+    if (savedTheme === 'orange') savedTheme = 'light';
     setTheme(savedTheme);
 
     themeButtons.forEach(function (btn) {
@@ -362,7 +295,6 @@
         });
     });
 
-    // --- Start ---
     init();
 
 })();
