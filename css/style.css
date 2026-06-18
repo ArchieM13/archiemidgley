@@ -72,8 +72,8 @@ html {
 .cursor--hover {
     width: 50px;
     height: 50px;
-    background: rgba(255, 107, 0, 0.35);
-    border-color: #FF6B00;
+    background: rgba(26, 26, 26, 0.08);
+    border-color: #1A1A1A;
 }
 
 .cursor--hidden {
@@ -84,8 +84,9 @@ body.dark .cursor {
     border-color: #F0F0F0;
 }
 
-body.orange .cursor {
-    border-color: #1A1A1A;
+body.dark .cursor--hover {
+    background: rgba(240, 240, 240, 0.1);
+    border-color: #F0F0F0;
 }
 
 /* Hide default cursor on all interactive elements */
@@ -215,33 +216,6 @@ p {
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/*
-   "A" shape from three lines:
-   - bar--left:  left leg of the A  (bottom-left to top-center)
-   - bar--right: right leg of the A (bottom-right to top-center)
-   - bar--cross: crossbar of the A  (horizontal across the middle)
-*/
-.nav__logo.active .bar--left {
-    x1: 10;
-    y1: 30;
-    x2: 20;
-    y2: 8;
-}
-
-.nav__logo.active .bar--right {
-    x1: 30;
-    y1: 30;
-    x2: 20;
-    y2: 8;
-}
-
-.nav__logo.active .bar--cross {
-    x1: 13;
-    y1: 22;
-    x2: 27;
-    y2: 22;
-}
-
 .nav__indicator {
     opacity: 1;
     transition: opacity var(--transition-fast);
@@ -311,6 +285,7 @@ p {
 .menu.active .menu__link:nth-child(2) { transition-delay: 0.15s; }
 .menu.active .menu__link:nth-child(3) { transition-delay: 0.2s; }
 .menu.active .menu__link:nth-child(4) { transition-delay: 0.25s; }
+.menu.active .menu__link:nth-child(5) { transition-delay: 0.3s; }
 
 .menu__link:hover {
     color: var(--color-text-tertiary);
@@ -431,7 +406,6 @@ p {
     animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 }
 
-/* Extra space at the bottom of each section so you have to scroll more before flipping */
 .section__footer-spacer {
     height: 15vh;
 }
@@ -857,6 +831,53 @@ body:not(.hero-active) .progress {
     line-height: 1.6;
 }
 
+/* --- Extracurricular Section --- */
+.extra__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+}
+
+.extra__item {
+    padding: var(--space-lg);
+    border: 1px solid var(--color-border-light);
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.section.active .extra__item {
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.section.active .extra__item:nth-child(1) { animation-delay: 0.2s; }
+.section.active .extra__item:nth-child(2) { animation-delay: 0.3s; }
+.section.active .extra__item:nth-child(3) { animation-delay: 0.4s; }
+.section.active .extra__item:nth-child(4) { animation-delay: 0.5s; }
+.section.active .extra__item:nth-child(5) { animation-delay: 0.6s; }
+.section.active .extra__item:nth-child(6) { animation-delay: 0.7s; }
+
+.extra__icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-sm);
+    display: block;
+}
+
+.extra__title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+    letter-spacing: -0.01em;
+}
+
+.extra__desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--color-text-tertiary);
+    max-width: none;
+}
+
 /* --- Contact Section (centered, no form) --- */
 .contact__centered {
     max-width: 640px;
@@ -956,7 +977,7 @@ body:not(.hero-active) .progress {
     top: 0;
     left: 0;
     width: 100%;
-    height: 25%;
+    height: 20%;
     background: var(--color-text);
     transition: top var(--transition-spring), height var(--transition-spring);
 }
@@ -1229,6 +1250,76 @@ body:not(.hero-active) .progress {
     transform: translateY(0);
 }
 
+/* --- Theme Switcher --- */
+.theme-switcher {
+    position: fixed;
+    top: calc(var(--nav-height) + var(--space-sm));
+    right: var(--space-lg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.theme-switcher__btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border);
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.theme-switcher__btn:hover {
+    transform: scale(1.15);
+}
+
+.theme-switcher__btn.active {
+    border-color: var(--color-text);
+    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-text);
+}
+
+.theme-switcher__btn--light {
+    background: #FAFAFA;
+}
+
+.theme-switcher__btn--dark {
+    background: #111111;
+}
+
+/* --- Dark Theme --- */
+body.dark {
+    --color-bg: #111111;
+    --color-surface: #1A1A1A;
+    --color-text: #F0F0F0;
+    --color-text-secondary: #A0A0A0;
+    --color-text-tertiary: #707070;
+    --color-accent: #F0F0F0;
+    --color-border: #333333;
+    --color-border-light: #252525;
+    --color-hover: #222222;
+    --color-tag-bg: #222222;
+}
+
+body.dark .menu {
+    background: var(--color-bg);
+}
+
+body.dark .nav__icon .bar {
+    stroke: var(--color-text);
+}
+
+body.dark .theme-switcher__btn {
+    border-color: #444444;
+}
+
+body.dark .theme-switcher__btn.active {
+    border-color: #F0F0F0;
+    box-shadow: 0 0 0 2px #111111, 0 0 0 4px #F0F0F0;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
     .about__grid {
@@ -1249,6 +1340,10 @@ body:not(.hero-active) .progress {
 
     .project-detail__gallery-grid--three {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .extra__grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -1293,6 +1388,10 @@ body:not(.hero-active) .progress {
     .projects__grid {
         grid-template-columns: 1fr;
         gap: var(--space-xl);
+    }
+
+    .extra__grid {
+        grid-template-columns: 1fr;
     }
 
     .menu__text {
@@ -1381,128 +1480,6 @@ body:not(.hero-active) .progress {
     .theme-switcher {
         right: var(--space-sm);
     }
-}
-
-/* --- Theme Switcher --- */
-/* --- Theme Switcher --- */
-.theme-switcher {
-    position: fixed;
-    top: calc(var(--nav-height) + var(--space-sm));
-    right: var(--space-lg);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.theme-switcher__btn {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 2px solid var(--color-border);
-    cursor: pointer;
-    padding: 0;
-    transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-}
-
-.theme-switcher__btn:hover {
-    transform: scale(1.15);
-}
-
-.theme-switcher__btn.active {
-    border-color: var(--color-text);
-    box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-text);
-}
-
-.theme-switcher__btn--light {
-    background: #FAFAFA;
-}
-
-.theme-switcher__btn--dark {
-    background: #111111;
-}
-
-.theme-switcher__btn--orange {
-    background: #FF6B00;
-}
-
-/* --- Dark Theme --- */
-body.dark {
-    --color-bg: #111111;
-    --color-surface: #1A1A1A;
-    --color-text: #F0F0F0;
-    --color-text-secondary: #A0A0A0;
-    --color-text-tertiary: #707070;
-    --color-accent: #F0F0F0;
-    --color-border: #333333;
-    --color-border-light: #252525;
-    --color-hover: #222222;
-    --color-tag-bg: #222222;
-}
-
-body.dark .menu {
-    background: var(--color-bg);
-}
-
-body.dark .nav__icon .bar {
-    stroke: var(--color-text);
-}
-
-body.dark .about__image,
-body.dark .experience__image,
-body.dark .project__image,
-body.dark .project-detail__img,
-body.dark .project-detail__gallery-item img {
-    filter: none;
-}
-
-body.dark .theme-switcher__btn {
-    border-color: #444444;
-}
-
-body.dark .theme-switcher__btn.active {
-    border-color: #F0F0F0;
-    box-shadow: 0 0 0 2px #111111, 0 0 0 4px #F0F0F0;
-}
-
-/* --- Orange Theme --- */
-body.orange {
-    --color-bg: #FF6B00;
-    --color-surface: #FF7A1A;
-    --color-text: #1A1A1A;
-    --color-text-secondary: #3D2200;
-    --color-text-tertiary: #5A3300;
-    --color-accent: #1A1A1A;
-    --color-border: rgba(26,26,26,0.2);
-    --color-border-light: rgba(26,26,26,0.1);
-    --color-hover: #FF7A1A;
-    --color-tag-bg: rgba(26,26,26,0.1);
-}
-
-body.orange .menu {
-    background: var(--color-bg);
-}
-
-body.orange .nav__icon .bar {
-    stroke: var(--color-text);
-}
-
-body.orange .about__image,
-body.orange .experience__image,
-body.orange .project__image,
-body.orange .project-detail__img,
-body.orange .project-detail__gallery-item img {
-    filter: none;
-}
-
-body.orange .theme-switcher__btn {
-    border-color: rgba(26,26,26,0.3);
-}
-
-body.orange .theme-switcher__btn.active {
-    border-color: #1A1A1A;
-    box-shadow: 0 0 0 2px #FF6B00, 0 0 0 4px #1A1A1A;
 }
 
 /* --- Utility --- */
