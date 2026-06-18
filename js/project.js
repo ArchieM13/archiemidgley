@@ -134,8 +134,8 @@
     el('detailYear').textContent = project.year;
     el('detailRole').textContent = project.role;
     el('detailDuration').textContent = project.duration;
-    el('detailOverview').textContent = project.overview;
-    el('detailProcess').textContent = project.process;
+    el('detailOverview').innerHTML = project.overview.split('\n\n').map(function(p){ return '<p class="project-detail__text">' + p + '</p>'; }).join('');
+    el('detailProcess').innerHTML = project.process.split('\n\n').map(function(p){ return '<p class="project-detail__text">' + p + '</p>'; }).join('');
 
     el('detailHeroImg').src = project.heroImage;
     el('detailHeroImg').alt = project.title;
