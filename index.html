@@ -14,7 +14,6 @@
     <nav class="nav" id="nav">
         <div class="nav__logo" id="menuToggle" aria-label="Toggle menu">
             <svg class="nav__icon" id="navIcon" viewBox="0 0 40 40" width="40" height="40">
-                <!-- Three lines that morph into an "A" -->
                 <line class="bar bar--left"  x1="8"  y1="28" x2="32" y2="28" stroke-width="2" stroke-linecap="round"/>
                 <line class="bar bar--right" x1="8"  y1="20" x2="32" y2="20" stroke-width="2" stroke-linecap="round"/>
                 <line class="bar bar--cross" x1="8"  y1="12" x2="32" y2="12" stroke-width="2" stroke-linecap="round"/>
@@ -41,8 +40,12 @@
                     <span class="menu__number">03</span>
                     <span class="menu__text">Projects</span>
                 </a>
-                <a href="#contact" class="menu__link" data-index="4">
+                <a href="#extras" class="menu__link" data-index="4">
                     <span class="menu__number">04</span>
+                    <span class="menu__text">Extras</span>
+                </a>
+                <a href="#contact" class="menu__link" data-index="5">
+                    <span class="menu__number">05</span>
                     <span class="menu__text">Contact</span>
                 </a>
             </div>
@@ -80,17 +83,15 @@
                     <div class="about__portrait">
                         <div class="about__image-wrapper">
                             <img src="images/portrait.jpg" alt="Archie Midgley" class="about__image" onerror="this.parentElement.classList.add('placeholder')">
-                            <div class="about__image-placeholder">
-                                <span>Your Photo</span>
-                            </div>
+                            <div class="about__image-placeholder"><span>Your Photo</span></div>
                         </div>
                     </div>
                     <div class="about__content">
                         <h2 class="about__headline">Design Engineer<br>creating at the intersection of<br>form &amp; function.</h2>
                         <div class="about__bio">
-                            <p>I'm Archie Midgley - a motivated engineer, pursuing a Masters degree in Design Engineering at <span style="color: #555; font-weight: bold;">Imperial College London</span>; whilst serving as COO at a footwear startup company - Shape Shoes.</p>
+                            <p>I'm Archie Midgley — a motivated engineer, pursuing a Masters degree in Design Engineering at <span style="color: var(--color-text); font-weight: 500;">Imperial College London</span>, whilst serving as COO at a footwear startup — Shape Shoes.</p>
                             <p>Currently in my final year of study, I am driven to create products where form, function, and manufacturing logic work as one cohesive system.</p>
-                            <p>My work spans product design, industrial design, and medical engineering - always with a focus on simplicity and purpose.</p>
+                            <p>My work spans product design, industrial design, and medical engineering — always with a focus on simplicity and purpose.</p>
                         </div>
                         <div class="about__details">
                             <div class="about__detail">
@@ -124,7 +125,7 @@
                     <a href="experience.html?id=1" class="experience__item experience__item--link">
                         <div class="experience__image-col">
                             <div class="experience__image-wrapper">
-                                <img src="images/experience-01.jpg" alt="Experience 1" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <img src="images/experience-01.jpg" alt="Shape Shoes" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="experience__image-placeholder"><span>Image</span></div>
                             </div>
                         </div>
@@ -134,7 +135,7 @@
                                 <span class="experience__role">COO &amp; Design Engineer</span>
                             </div>
                             <h3 class="experience__company">Shape Shoes</h3>
-                            <p class="experience__description">A London-based, 3D-printed footwear startup, designing shoes with major worldwide collaborations to tell artists' stories through physical design. With work spanning 3D-printed prototyping, iterative design for clients and large-scale manufacturing operations.</p>
+                            <p class="experience__description">A London-based, 3D-printed footwear startup, designing shoes with major worldwide collaborations to tell artists' stories through physical design. Work spanning 3D-printed prototyping, iterative design for clients, and large-scale manufacturing operations.</p>
                             <div class="experience__tags">
                                 <span class="tag">CAD</span>
                                 <span class="tag">DFMA</span>
@@ -147,7 +148,7 @@
                     <a href="experience.html?id=2" class="experience__item experience__item--link">
                         <div class="experience__image-col">
                             <div class="experience__image-wrapper">
-                                <img src="images/experience-02.jpg" alt="Experience 2" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <img src="images/experience-02.jpg" alt="Orthoson" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="experience__image-placeholder"><span>Image</span></div>
                             </div>
                         </div>
@@ -157,7 +158,7 @@
                                 <span class="experience__role">Design Engineer</span>
                             </div>
                             <h3 class="experience__company">Orthoson</h3>
-                            <p class="experience__description">Oxford-backed medical company, developing a bio-structural gel to restore intervertebral disc degredation to treat back pain. Tasked with designing the Injection System tray and the User Interface of the Pressure Monitoring System.</p>
+                            <p class="experience__description">Oxford-backed medical company developing a bio-structural gel to restore intervertebral disc degeneration and treat back pain. Tasked with designing the injection system tray and the user interface of the Pressure Monitoring System.</p>
                             <div class="experience__tags">
                                 <span class="tag">SolidWorks</span>
                                 <span class="tag">DFMA</span>
@@ -169,7 +170,7 @@
                     <article class="experience__item">
                         <div class="experience__image-col">
                             <div class="experience__image-wrapper">
-                                <img src="images/experience-03.jpg" alt="Experience 3" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <img src="images/experience-03.jpg" alt="Onlock Learning" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="experience__image-placeholder"><span>Image</span></div>
                             </div>
                         </div>
@@ -179,7 +180,7 @@
                                 <span class="experience__role">Web Designer &amp; Business Strategist</span>
                             </div>
                             <h3 class="experience__company">Onlock Learning</h3>
-                            <p class="experience__description">STEM educational platform, leverging ai education tools. After aiding initial company development through media posts and business direction, the CEO and I co-designed an addictive, web-based mathematics game to test mental maths skills and promote website engagement. </p>
+                            <p class="experience__description">STEM educational platform leveraging AI education tools. After aiding initial company development through media posts and business direction, I co-designed an addictive, web-based mathematics game to test mental maths skills and promote website engagement.</p>
                             <div class="experience__tags">
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">HTML</span>
@@ -192,7 +193,7 @@
                     <article class="experience__item">
                         <div class="experience__image-col">
                             <div class="experience__image-wrapper">
-                                <img src="images/experience-04.jpg" alt="Experience 4" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <img src="images/experience-04.jpg" alt="BBC Newsnight" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="experience__image-placeholder"><span>Image</span></div>
                             </div>
                         </div>
@@ -202,11 +203,11 @@
                                 <span class="experience__role">Graphic Design Intern</span>
                             </div>
                             <h3 class="experience__company">BBC Newsnight</h3>
-                            <p class="experience__description">Designing graphic screens for Newnight studio design; looking at layout and composition, and pushing my designs further to moving imagery. These designs were then aired live on BBC Newsnight.</p>
+                            <p class="experience__description">Designing graphic screens for Newsnight studio; exploring layout, composition, and motion — pushing designs through to moving imagery aired live on BBC Newsnight.</p>
                             <div class="experience__tags">
                                 <span class="tag">Graphic Design</span>
                                 <span class="tag">Adobe Photoshop</span>
-                                <span class="tag">Adobe AfterEffects</span>
+                                <span class="tag">Adobe After Effects</span>
                             </div>
                         </div>
                     </article>
@@ -214,7 +215,7 @@
                     <article class="experience__item">
                         <div class="experience__image-col">
                             <div class="experience__image-wrapper">
-                                <img src="images/experience-05.jpg" alt="Experience 5" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
+                                <img src="images/experience-05.jpg" alt="Brinkworth Design" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="experience__image-placeholder"><span>Image</span></div>
                             </div>
                         </div>
@@ -224,7 +225,7 @@
                                 <span class="experience__role">Design Intern</span>
                             </div>
                             <h3 class="experience__company">Brinkworth Design</h3>
-                            <p class="experience__description">Interior design company, with work spanning Harrods interiors and Supreme shop designs. As well as being tasked with creating initial design ideas for a new retail client in New York, I also took part in the annual workshop event to design and manufacture a unique lighting system.</p>
+                            <p class="experience__description">Interior design studio with work spanning Harrods and Supreme. Tasked with creating initial design concepts for a new retail client in New York, and participated in the annual workshop event to design and manufacture a bespoke lighting system.</p>
                             <div class="experience__tags">
                                 <span class="tag">Prototyping</span>
                                 <span class="tag">Lighting Design</span>
@@ -247,7 +248,7 @@
                 </div>
                 <div class="projects__grid">
 
-                    <a href="project.html?id=1" class="project__card" data-project="1">
+                    <a href="project.html?id=1" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-01.jpg" alt="Project 1" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -259,7 +260,7 @@
                         </div>
                     </a>
 
-                    <a href="project.html?id=2" class="project__card" data-project="2">
+                    <a href="project.html?id=2" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-02.jpg" alt="Project 2" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -271,7 +272,7 @@
                         </div>
                     </a>
 
-                    <a href="project.html?id=3" class="project__card" data-project="3">
+                    <a href="project.html?id=3" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-03.jpg" alt="Project 3" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -283,7 +284,7 @@
                         </div>
                     </a>
 
-                    <a href="project.html?id=4" class="project__card" data-project="4">
+                    <a href="project.html?id=4" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-04.jpg" alt="Project 4" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -295,7 +296,7 @@
                         </div>
                     </a>
 
-                    <a href="project.html?id=5" class="project__card" data-project="5">
+                    <a href="project.html?id=5" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-05.jpg" alt="Project 5" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -307,7 +308,7 @@
                         </div>
                     </a>
 
-                    <a href="project.html?id=6" class="project__card" data-project="6">
+                    <a href="project.html?id=6" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-06.jpg" alt="Project 6" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -319,7 +320,7 @@
                         </div>
                     </a>
 
-                    <a href="project.html?id=7" class="project__card" data-project="7">
+                    <a href="project.html?id=7" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-07.jpg" alt="Project 7" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -331,7 +332,7 @@
                         </div>
                     </a>
 
-                    <a href="project.html?id=8" class="project__card" data-project="8">
+                    <a href="project.html?id=8" class="project__card">
                         <div class="project__image-wrapper">
                             <img src="images/project-08.jpg" alt="Project 8" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="project__image-placeholder"><span>Project Image</span></div>
@@ -348,18 +349,68 @@
             </div>
         </section>
 
-        <!-- CONTACT -->
-        <section class="section section--contact" id="contact" data-section="4">
+        <!-- EXTRAS -->
+        <section class="section section--extras" id="extras" data-section="4">
             <div class="section__container">
                 <div class="section__header">
                     <span class="section__number">04</span>
+                    <h1 class="section__title">Extras</h1>
+                </div>
+                <div class="extra__grid">
+
+                    <div class="extra__item">
+                        <span class="extra__icon">🏃</span>
+                        <div class="extra__title">Extracurricular One</div>
+                        <p class="extra__desc">Brief description — what you do, how long you've been doing it, and why it matters to you.</p>
+                    </div>
+
+                    <div class="extra__item">
+                        <span class="extra__icon">🎸</span>
+                        <div class="extra__title">Extracurricular Two</div>
+                        <p class="extra__desc">Brief description — what you do, how long you've been doing it, and why it matters to you.</p>
+                    </div>
+
+                    <div class="extra__item">
+                        <span class="extra__icon">✈️</span>
+                        <div class="extra__title">Extracurricular Three</div>
+                        <p class="extra__desc">Brief description — what you do, how long you've been doing it, and why it matters to you.</p>
+                    </div>
+
+                    <div class="extra__item">
+                        <span class="extra__icon">📷</span>
+                        <div class="extra__title">Extracurricular Four</div>
+                        <p class="extra__desc">Brief description — what you do, how long you've been doing it, and why it matters to you.</p>
+                    </div>
+
+                    <div class="extra__item">
+                        <span class="extra__icon">🏄</span>
+                        <div class="extra__title">Extracurricular Five</div>
+                        <p class="extra__desc">Brief description — what you do, how long you've been doing it, and why it matters to you.</p>
+                    </div>
+
+                    <div class="extra__item">
+                        <span class="extra__icon">🔧</span>
+                        <div class="extra__title">Extracurricular Six</div>
+                        <p class="extra__desc">Brief description — what you do, how long you've been doing it, and why it matters to you.</p>
+                    </div>
+
+                </div>
+                <div class="section__footer-spacer"></div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="section section--contact" id="contact" data-section="5">
+            <div class="section__container">
+                <div class="section__header">
+                    <span class="section__number">05</span>
                     <h1 class="section__title">Contact</h1>
                 </div>
                 <div class="contact__centered">
                     <h2 class="contact__headline">Let's work<br>together.</h2>
-                    <p class="contact__text">I’m always open to new opportunities - whether that’s an internship, collaboration, or just a conversation. Feel free to get in touch and say hello!</p>
+                    <p class="contact__text">I'm always open to new opportunities — whether that's an internship, collaboration, or just a conversation. Feel free to get in touch and say hello!</p>
                     <div class="contact__links">
-                        <a href="midgleyarchie@gmail.com" class="contact__link">
+                        <a href="mailto:midgleyarchie@gmail.com" class="contact__link">
                             <span class="contact__link-label">Email</span>
                             <span class="contact__link-value">midgleyarchie@gmail.com</span>
                         </a>
@@ -383,7 +434,6 @@
     <div class="theme-switcher" id="themeSwitcher">
         <button class="theme-switcher__btn theme-switcher__btn--light active" data-theme="light" aria-label="Light theme"></button>
         <button class="theme-switcher__btn theme-switcher__btn--dark" data-theme="dark" aria-label="Dark theme"></button>
-        <button class="theme-switcher__btn theme-switcher__btn--orange" data-theme="orange" aria-label="Orange theme"></button>
     </div>
 
     <!-- Page Progress -->
@@ -396,7 +446,8 @@
             <button class="progress__dot" data-section="1" aria-label="Go to About"></button>
             <button class="progress__dot" data-section="2" aria-label="Go to Experience"></button>
             <button class="progress__dot" data-section="3" aria-label="Go to Projects"></button>
-            <button class="progress__dot" data-section="4" aria-label="Go to Contact"></button>
+            <button class="progress__dot" data-section="4" aria-label="Go to Extras"></button>
+            <button class="progress__dot" data-section="5" aria-label="Go to Contact"></button>
         </div>
     </div>
 
