@@ -10,9 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="body--project">
-    <!-- Navigation -->
+    <!-- Navigation: back goes to index.html#projects -->
     <nav class="nav" id="nav">
-        <a href="index.html" class="nav__back" aria-label="Back to portfolio">
+        <a href="index.html#projects" class="nav__back" aria-label="Back to Projects">
             <svg width="40" height="40" viewBox="0 0 40 40">
                 <path d="M24 12L16 20L24 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
             </svg>
@@ -60,9 +60,7 @@
                     <div class="project-detail__col-label">
                         <h2 class="project-detail__heading">Overview</h2>
                     </div>
-                    <div class="project-detail__col-content">
-                        <p class="project-detail__text" id="detailOverview">Provide a detailed overview of this project.</p>
-                    </div>
+                    <div class="project-detail__col-content" id="detailOverview"></div>
                 </div>
             </div>
         </section>
@@ -90,9 +88,7 @@
                     <div class="project-detail__col-label">
                         <h2 class="project-detail__heading">Process</h2>
                     </div>
-                    <div class="project-detail__col-content">
-                        <p class="project-detail__text" id="detailProcess">Describe your design and engineering process.</p>
-                    </div>
+                    <div class="project-detail__col-content" id="detailProcess"></div>
                 </div>
             </div>
         </section>
@@ -111,17 +107,21 @@
             </div>
         </section>
 
-        <!-- Image Gallery Row 2 -->
+        <!-- Image Gallery Row 2 — three images in a line -->
         <section class="project-detail__gallery">
             <div class="project-detail__container">
-                <div class="project-detail__gallery-grid project-detail__gallery-grid--two">
+                <div class="project-detail__gallery-grid project-detail__gallery-grid--three">
                     <div class="project-detail__gallery-item">
-                        <img src="" alt="Detail image 4" class="project-detail__img" id="detailImg4" onerror="this.parentElement.classList.add('placeholder')">
+                        <img src="" alt="Detail image 3" class="project-detail__img" id="detailImg3" onerror="this.parentElement.classList.add('placeholder')">
                         <div class="project__image-placeholder"><span>Image 3</span></div>
                     </div>
                     <div class="project-detail__gallery-item">
-                        <img src="" alt="Detail image 5" class="project-detail__img" id="detailImg5" onerror="this.parentElement.classList.add('placeholder')">
+                        <img src="" alt="Detail image 4" class="project-detail__img" id="detailImg4" onerror="this.parentElement.classList.add('placeholder')">
                         <div class="project__image-placeholder"><span>Image 4</span></div>
+                    </div>
+                    <div class="project-detail__gallery-item">
+                        <img src="" alt="Detail image 5" class="project-detail__img" id="detailImg5" onerror="this.parentElement.classList.add('placeholder')">
+                        <div class="project__image-placeholder"><span>Image 5</span></div>
                     </div>
                 </div>
             </div>
