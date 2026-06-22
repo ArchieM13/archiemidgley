@@ -1167,6 +1167,10 @@ body:not(.hero-active) .progress {
     background: var(--color-tag-bg);
 }
 
+.project-detail__gallery-grid--three .project-detail__gallery-item > img {
+    aspect-ratio: 1 / 1;
+}
+
 .project-detail__caption {
     display: block;
     font-family: var(--font-primary);
