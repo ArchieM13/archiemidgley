@@ -25,8 +25,8 @@
                 'images/experience-01-detail-06.jpg'
             ],
             captions: ['3D-Printed Prototyping', 'CNC-Milled Injection Moulds', 'Central Cee With Custom Slides', 'Marketing Shoot', 'Kick Game Interview'],
-            imagePositions: ['center 60%', 'center 60%', 'center 30%', 'center 35%', 'center 75%'],
-            imageScales: [null, null, 1.02, null, null]
+            imagePositions: ['center 40%', 'center 40%', 'center 70%', 'center 65%', 'center 25%'],
+            imageScales: [null, null, null, null, null]
         },
         {
             id: 2,
