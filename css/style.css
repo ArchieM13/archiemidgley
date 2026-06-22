@@ -511,6 +511,7 @@ body:not(.hero-active) .progress {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
     gap: var(--space-xl);
+    align-items: start;
     padding-bottom: var(--space-2xl);
     border-bottom: 1px solid var(--color-border-light);
     text-decoration: none;
@@ -660,6 +661,7 @@ body:not(.hero-active) .progress {
     display: grid;
     grid-template-columns: 0.8fr 1.2fr;
     gap: var(--space-xl);
+    align-items: start;
     padding-bottom: var(--space-2xl);
     border-bottom: 1px solid var(--color-border-light);
     opacity: 0;
@@ -703,7 +705,7 @@ body:not(.hero-active) .progress {
 .experience__content-col {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .experience__meta {
@@ -731,7 +733,7 @@ body:not(.hero-active) .progress {
 }
 
 .experience__description {
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
 }
 
 .experience__tags {
@@ -762,6 +764,7 @@ body:not(.hero-active) .progress {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-lg);
+    align-items: start;
 }
 
 .project__card {
@@ -790,7 +793,7 @@ body:not(.hero-active) .progress {
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--color-tag-bg);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
     position: relative;
 }
 
@@ -838,6 +841,7 @@ body:not(.hero-active) .progress {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: var(--space-md);
+    align-items: start;
 }
 
 .extra__item {
@@ -859,7 +863,7 @@ body:not(.hero-active) .progress {
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--color-tag-bg);
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
     position: relative;
 }
 
@@ -879,7 +883,7 @@ body:not(.hero-active) .progress {
     font-size: 1rem;
     font-weight: 500;
     color: var(--color-text);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
     letter-spacing: -0.01em;
 }
 
