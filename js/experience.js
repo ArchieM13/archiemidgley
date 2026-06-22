@@ -26,7 +26,7 @@
             ],
             captions: ['3D-Printed Prototyping', 'CNC-Milled Injection Moulds', 'Central Cee With Custom Slides', 'Marketing Shoot', 'Kick Game Interview'],
             imagePositions: ['center 35%', 'center 40%', 'center 75%', 'center 80%', 'center 25%'],
-            imageScales: [null, null, null, null, null]
+            imageScales: [null, null, null, 1.05, null]
         },
         {
             id: 2,
@@ -79,8 +79,11 @@
             if (exp.imagePositions && exp.imagePositions[i - 1]) {
                 img.style.objectPosition = exp.imagePositions[i - 1];
             }
+            // Base zoom (crops further into the image) applied as a CSS variable so
+            // the :hover scale animation still works on top of it.
             if (exp.imageScales && exp.imageScales[i - 1]) {
-                img.style.transform = 'scale(' + exp.imageScales[i - 1] + ')';
+                img.style.setProperty('--base-scale', exp.imageScales[i - 1]);
+                img.classList.add('has-base-scale');
             }
         }
     }
