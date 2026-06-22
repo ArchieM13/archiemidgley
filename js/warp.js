@@ -2,8 +2,8 @@
    TEXT WARP EFFECT
    Canvas-based mesh distortion on hero title.
    Cursor warps the actual shapes of the letters.
-   FIX: waits for Bebas Neue font to load before
-   rendering, so it's correct on first visit.
+   FIX: explicitly loads Bebas Neue before rendering,
+   so it's correct on first visit (no refresh needed).
    ============================================ */
 
 (function () {
@@ -202,16 +202,40 @@
         requestAnimationFrame(animate);
     }
 
-    // --- FONT FIX: wait for Bebas Neue before first render ---
-    // document.fonts.ready resolves once all @font-face rules have loaded,
-    // so the canvas always draws with the correct typeface on first visit.
+    // --- FONT FIX ---
+    // document.fonts.ready only waits for fonts that have already STARTED
+    // loading. Bebas Neue isn't applied to any visible DOM element (only the
+    // canvas uses it), so on a cold first visit the browser hasn't begun
+    // fetching it and `ready` resolves against the fallback font — which is
+    // why the title looked wrong until a refresh.
+    //
+    // Explicitly requesting the font with document.fonts.load() forces the
+    // fetch and resolves only once the real face is available. We then
+    // re-render whenever it finishes, with a guard so the first paint is
+    // never left on the fallback.
     function start() {
         window.addEventListener('resize', resize);
         resize();
         animate();
+
+        if (document.fonts && document.fonts.load) {
+            var px = Math.round(getFontSize());
+            // Kick off an explicit load of Bebas Neue at the size we draw at.
+            document.fonts.load('400 ' + px + "px 'Bebas Neue'", TITLE).then(function () {
+                // Re-render once the real typeface is guaranteed available.
+                renderSource();
+            }).catch(function () {
+                renderSource();
+            });
+
+            // Belt-and-braces: also re-render when all font loading settles.
+            document.fonts.ready.then(renderSource);
+        }
     }
 
     if (document.fonts && document.fonts.ready) {
+        // Wait for the font system to be ready, then start (start() itself
+        // forces the Bebas Neue load and re-renders when it lands).
         document.fonts.ready.then(start);
     } else {
         // Fallback for older browsers
