@@ -18,11 +18,12 @@
             tags: ['Additive Manufacturing', 'CAD', 'DFMA',  'Marketing', 'Entrepreneurship'],
             heroImage: 'images/experience-01.jpg',
             images: [
-                'images/experience-01-detail-1.jpg',
-                'images/experience-01-detail-2.jpg',
+                'images/experience-01-detail-1.jpg.png',
+                'images/experience-01-detail-2.jpg.png',
                 'images/experience-01-detail-3.jpg',
-                'images/experience-01-detail-4.jpg',
-                'images/experience-01-detail-5.jpg'
+                'images/experience-01-detail-4.jpg.png',
+                'images/experience-01-detail-5.jpg.png'
+                'images/experience-01-detail-6.jpg'
             ]
         },
         {
