@@ -1082,14 +1082,18 @@ body:not(.hero-active) .progress {
     position: relative;
 }
 
-.project-detail__img {
+/* Detail-page images (hero + gallery) must fill their fixed-ratio box.
+   The global `img { height: auto }` rule would otherwise let them grow
+   to natural height, so these are pinned explicitly. */
+.project-detail__image-full > .project-detail__img,
+.project-detail__gallery-item > img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
 }
 
 /* Two-column content sections */
@@ -1121,10 +1125,6 @@ body:not(.hero-active) .progress {
     font-size: 1.05rem;
     line-height: 1.8;
     max-width: 100%;
-}
-
-.project-detail__col-content p + p {
-    margin-top: 1rem;
 }
 
 .project-detail__tags {
@@ -1165,9 +1165,6 @@ body:not(.hero-active) .progress {
 }
 
 .project-detail__gallery-item img {
-    width: 100%;
-    height: 100% !important;
-    object-fit: cover;
     transition: transform var(--transition-slow);
 }
 
