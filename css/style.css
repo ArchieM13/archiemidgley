@@ -1158,7 +1158,7 @@ body:not(.hero-active) .progress {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
 }
 
