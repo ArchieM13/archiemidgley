@@ -67,14 +67,13 @@
     el('expHeroImg').alt = exp.company;
 
     // Images 1, 2, 4, 5 (no image 3 / full-width slot)
-    var imgSlots = [1, 2, 4, 5];
-    imgSlots.forEach(function (slot, i) {
-        var img = el('expImg' + slot);
-        if (img && exp.images[i]) {
-            img.src = exp.images[i];
-            img.alt = exp.company + ' detail ' + (i + 1);
+    for (var i = 1; i <= 5; i++) {
+        var img = el('expImg' + i);
+        if (img && exp.images[i - 1]) {
+            img.src = exp.images[i - 1];
+            img.alt = exp.company + ' detail ' + i;
         }
-    });
+    }
 
     // Tags
     var tagsContainer = el('expTags');
