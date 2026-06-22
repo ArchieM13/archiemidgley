@@ -24,7 +24,8 @@
                 'images/experience-01-detail-05.jpg',
                 'images/experience-01-detail-06.jpg'
             ],
-            captions: ['', '', '', '', '']
+            captions: ['', '', '', '', ''],
+            imagePositions: ['center center', 'center bottom', 'center top', 'center top', 'center bottom']
         },
         {
             id: 2,
@@ -74,6 +75,9 @@
         if (img && exp.images[i - 1]) {
             img.src = exp.images[i - 1];
             img.alt = exp.company + ' detail ' + i;
+            if (exp.imagePositions && exp.imagePositions[i - 1]) {
+                img.style.objectPosition = exp.imagePositions[i - 1];
+            }
         }
     }
 

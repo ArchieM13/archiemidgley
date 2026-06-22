@@ -1120,6 +1120,10 @@ body:not(.hero-active) .progress {
     max-width: 100%;
 }
 
+.project-detail__text + .project-detail__text {
+    margin-top: 1.2em;
+}
+
 .project-detail__tags {
     display: flex;
     flex-wrap: wrap;
@@ -1151,8 +1155,8 @@ body:not(.hero-active) .progress {
 }
 
 .project-detail__gallery-item {
-    overflow: hidden;
-    background: var(--color-tag-bg);
+    display: flex;
+    flex-direction: column;
 }
 .project-detail__gallery-item > img {
     display: block;
@@ -1160,14 +1164,16 @@ body:not(.hero-active) .progress {
     height: auto;
     aspect-ratio: 3 / 2;
     object-fit: cover;
+    background: var(--color-tag-bg);
 }
 
 .project-detail__caption {
+    display: block;
     font-family: var(--font-primary);
     font-size: 0.75rem;
-    font-weight: 400;
-    color: var(--color-text-tertiary);
-    padding: var(--space-xs) 0;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    padding: 8px 0 0;
     letter-spacing: 0.01em;
     line-height: 1.4;
 }
