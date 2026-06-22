@@ -25,7 +25,8 @@
                 'images/experience-01-detail-06.jpg'
             ],
             captions: ['3D-printed prototyping', 'CNC-milled injection moulds', 'Central Cee with custom slides', 'marketing shoot', 'Kick Game interview'],
-            imagePositions: ['center center', 'center bottom', 'center top', 'center top', 'center bottom']
+            imagePositions: ['center center', 'center bottom', 'center top', 'center top', 'center bottom'],
+            imageScales: [null, null, 1.03, null, null]
         },
         {
             id: 2,
@@ -77,6 +78,9 @@
             img.alt = exp.company + ' detail ' + i;
             if (exp.imagePositions && exp.imagePositions[i - 1]) {
                 img.style.objectPosition = exp.imagePositions[i - 1];
+            }
+            if (exp.imageScales && exp.imageScales[i - 1]) {
+                img.style.transform = 'scale(' + exp.imageScales[i - 1] + ')';
             }
         }
     }
