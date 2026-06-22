@@ -1158,8 +1158,18 @@ body:not(.hero-active) .progress {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 3 / 4;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
+}
+
+.project-detail__caption {
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--color-text-tertiary);
+    padding: var(--space-xs) 0;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
 }
 
 .project-detail__gallery-item img {

@@ -23,7 +23,8 @@
                 'images/experience-01-detail-04.jpg',
                 'images/experience-01-detail-05.jpg',
                 'images/experience-01-detail-06.jpg'
-            ]
+            ],
+            captions: ['', '', '', '', '']
         },
         {
             id: 2,
@@ -42,7 +43,8 @@
                 'images/experience-02-detail-3.jpg',
                 'images/experience-02-detail-4.jpg',
                 'images/experience-02-detail-5.jpg'
-            ]
+            ],
+            captions: ['', '', '', '', '']
         }
     ];
 
@@ -72,6 +74,14 @@
         if (img && exp.images[i - 1]) {
             img.src = exp.images[i - 1];
             img.alt = exp.company + ' detail ' + i;
+        }
+    }
+
+    // Captions
+    if (exp.captions) {
+        for (var c = 0; c < exp.captions.length; c++) {
+            var cap = el('expCaption' + (c + 1));
+            if (cap) cap.textContent = exp.captions[c] || '';
         }
     }
 

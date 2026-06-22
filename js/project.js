@@ -18,7 +18,8 @@
             tags: ['SolidWorks', 'Keyshot', '3D Printing', 'Prototyping', 'User Testing'],
             heroImage: 'images/project-01.jpg',
             images: ['images/project-01-detail-1.jpg', 'images/project-01-detail-2.jpg', 'images/project-01-detail-3.jpg', 'images/project-01-detail-4.jpg', 'images/project-01-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         },
         {
             id: 2,
@@ -32,7 +33,8 @@
             tags: ['CAD', 'CNC Machining', 'Sheet Metal', 'GD&T'],
             heroImage: 'images/project-02.jpg',
             images: ['images/project-02-detail-1.jpg', 'images/project-02-detail-2.jpg', 'images/project-02-detail-3.jpg', 'images/project-02-detail-4.jpg', 'images/project-02-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         },
         {
             id: 3,
@@ -46,7 +48,8 @@
             tags: ['FEA', 'MATLAB', 'Testing', 'Documentation'],
             heroImage: 'images/project-03.jpg',
             images: ['images/project-03-detail-1.jpg', 'images/project-03-detail-2.jpg', 'images/project-03-detail-3.jpg', 'images/project-03-detail-4.jpg', 'images/project-03-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         },
         {
             id: 4,
@@ -60,7 +63,8 @@
             tags: ['Sketching', 'Rhino', 'Rendering', 'Concept Development'],
             heroImage: 'images/project-04.jpg',
             images: ['images/project-04-detail-1.jpg', 'images/project-04-detail-2.jpg', 'images/project-04-detail-3.jpg', 'images/project-04-detail-4.jpg', 'images/project-04-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         },
         {
             id: 5,
@@ -74,7 +78,8 @@
             tags: ['Woodworking', 'Joinery', 'CNC', 'Finishing'],
             heroImage: 'images/project-05.jpg',
             images: ['images/project-05-detail-1.jpg', 'images/project-05-detail-2.jpg', 'images/project-05-detail-3.jpg', 'images/project-05-detail-4.jpg', 'images/project-05-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         },
         {
             id: 6,
@@ -88,7 +93,8 @@
             tags: ['Arduino', 'Electronics', '3D Printing', 'Laser Cutting'],
             heroImage: 'images/project-06.jpg',
             images: ['images/project-06-detail-1.jpg', 'images/project-06-detail-2.jpg', 'images/project-06-detail-3.jpg', 'images/project-06-detail-4.jpg', 'images/project-06-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         },
         {
             id: 7,
@@ -102,7 +108,8 @@
             tags: ['Dieline', 'Illustrator', 'Material Selection', 'Sustainability'],
             heroImage: 'images/project-07.jpg',
             images: ['images/project-07-detail-1.jpg', 'images/project-07-detail-2.jpg', 'images/project-07-detail-3.jpg', 'images/project-07-detail-4.jpg', 'images/project-07-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         },
         {
             id: 8,
@@ -116,7 +123,8 @@
             tags: ['LCA', 'Bio-materials', 'Circular Design', 'Research'],
             heroImage: 'images/project-08.jpg',
             images: ['images/project-08-detail-1.jpg', 'images/project-08-detail-2.jpg', 'images/project-08-detail-3.jpg', 'images/project-08-detail-4.jpg', 'images/project-08-detail-5.jpg'],
-            portfolioLink: ''
+            portfolioLink: '',
+            captions: ['', '', '', '', '']
         }
     ];
 
@@ -149,6 +157,14 @@
             img.alt = project.title + ' detail ' + (i + 1);
         }
     });
+
+    // Captions
+    if (project.captions) {
+        for (var c = 0; c < 5; c++) {
+            var cap = el('detailCaption' + (c + 1));
+            if (cap) cap.textContent = project.captions[c] || '';
+        }
+    }
 
     // Tags
     var tagsContainer = el('detailTags');
