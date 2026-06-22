@@ -565,7 +565,8 @@ body:not(.hero-active) .progress {
 
 .about__image-placeholder,
 .experience__image-placeholder,
-.project__image-placeholder {
+.project__image-placeholder,
+.extra__image-placeholder {
     position: absolute;
     inset: 0;
     display: none;
@@ -580,7 +581,8 @@ body:not(.hero-active) .progress {
 
 .placeholder .about__image-placeholder,
 .placeholder .experience__image-placeholder,
-.placeholder .project__image-placeholder {
+.placeholder .project__image-placeholder,
+.placeholder .extra__image-placeholder {
     display: flex;
 }
 
@@ -834,13 +836,11 @@ body:not(.hero-active) .progress {
 /* --- Extracurricular Section --- */
 .extra__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--space-md);
 }
 
 .extra__item {
-    padding: var(--space-lg);
-    border: 1px solid var(--color-border-light);
     opacity: 0;
     transform: translateY(20px);
 }
@@ -853,13 +853,25 @@ body:not(.hero-active) .progress {
 .section.active .extra__item:nth-child(2) { animation-delay: 0.3s; }
 .section.active .extra__item:nth-child(3) { animation-delay: 0.4s; }
 .section.active .extra__item:nth-child(4) { animation-delay: 0.5s; }
-.section.active .extra__item:nth-child(5) { animation-delay: 0.6s; }
-.section.active .extra__item:nth-child(6) { animation-delay: 0.7s; }
 
-.extra__icon {
-    font-size: 1.5rem;
-    margin-bottom: var(--space-sm);
-    display: block;
+.extra__image-wrapper {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--color-tag-bg);
+    margin-bottom: var(--space-md);
+    position: relative;
+}
+
+.extra__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.extra__item:hover .extra__image {
+    transform: scale(1.05);
 }
 
 .extra__title {
@@ -1188,6 +1200,16 @@ body:not(.hero-active) .progress {
 
 .project-detail__gallery-item:hover img {
     transform: scale(1.03);
+}
+
+/* Images given an extra base zoom (cropping further in) keep their hover
+   animation by multiplying the base scale on hover. */
+.project-detail__img.has-base-scale {
+    transform: scale(var(--base-scale, 1));
+}
+
+.project-detail__gallery-item:hover .project-detail__img.has-base-scale {
+    transform: scale(calc(var(--base-scale, 1) * 1.03));
 }
 
 /* Portfolio Link */
