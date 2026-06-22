@@ -591,7 +591,7 @@ body:not(.hero-active) .progress {
 }
 
 .about__headline {
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
     opacity: 0;
     transform: translateY(20px);
 }
@@ -601,11 +601,11 @@ body:not(.hero-active) .progress {
 }
 
 .about__bio {
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-lg);
 }
 
 .about__bio p {
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
     opacity: 0;
     transform: translateY(15px);
 }
@@ -709,7 +709,7 @@ body:not(.hero-active) .progress {
 .experience__meta {
     display: flex;
     gap: var(--space-md);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
 }
 
 .experience__date,
@@ -727,11 +727,11 @@ body:not(.hero-active) .progress {
 }
 
 .experience__company {
-    margin-bottom: var(--space-sm);
+    margin-bottom: var(--space-xs);
 }
 
 .experience__description {
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
 }
 
 .experience__tags {
@@ -790,7 +790,7 @@ body:not(.hero-active) .progress {
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--color-tag-bg);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
     position: relative;
 }
 
@@ -816,11 +816,11 @@ body:not(.hero-active) .progress {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     display: block;
-    margin-bottom: var(--space-xs);
+    margin-bottom: 2px;
 }
 
 .project__title {
-    margin-bottom: var(--space-xs);
+    margin-bottom: 4px;
     transition: color var(--transition-fast);
 }
 
@@ -859,7 +859,7 @@ body:not(.hero-active) .progress {
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--color-tag-bg);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
     position: relative;
 }
 
