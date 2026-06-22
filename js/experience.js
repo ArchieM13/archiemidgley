@@ -16,12 +16,12 @@
             overview: 'A London-based, 3D-printed footwear startup, designing shoes with major worldwide collaborations to tell artist stories through physical design. Bringing together expertise in prototyping, manufacture, and computational design to take a concept from blank canvas to complete product; highlighting the advantage of additive manufacturing for prototyping. The process leverages TPU 3D printing to produce these rapid design iterations within days. After design finalisation, we organised a seamless transition to mass manufacture, with injection moulding being the best option for both comfort and profit margins.',
             responsibilities: 'Leading initial client communications, fostering a strong relationship between the company and clients by coordinating meetings to discuss design elements and manufacturing processes. This began with our first collaboration with a famous London street artist, Slawn, whose previous projects include the Brit Awards, F1 liveries and official Nike collaboration shoes. Organisation of design reworks and marketing strategies was organised by myself. \n\nAll design prototyping was done via 3D printing, with the print farm managed by myself, optimising print parameters and material usage for small-batch production. This meant that we could make design iterations - prompted by the artist - and deliver the updated version to him within 2 days. A small run of celebrity-exclusive slides were also manufactured with personal details on the sole. \n\nI managed marketing to extend the outreach of the product - print, promotions & digital. I directed and edited various promotional videos, and featured in various interviews for high-street footwear stores. Following this, we made an appearance in Esquire magazine for the slides.',
             tags: ['Additive Manufacturing', 'CAD', 'DFMA',  'Marketing', 'Entrepreneurship'],
-            heroImage: 'images/experience-01-detail-1.jpg.png',
+            heroImage: 'images/experience-01-detail-1.jpg',
             images: [
-                'images/experience-01-detail-2.jpg.png',
+                'images/experience-01-detail-2.jpg',
                 'images/experience-01-detail-3.jpg',
-                'images/experience-01-detail-4.jpg.png',
-                'images/experience-01-detail-5.jpg.png',
+                'images/experience-01-detail-4.jpg',
+                'images/experience-01-detail-5.jpg',
                 'images/experience-01-detail-6.jpg'
             ]
         },
