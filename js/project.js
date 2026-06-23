@@ -13,7 +13,7 @@
             year: '2025',
             role: 'Lead Designer',
             duration: '6 Months',
-            overview: 'Provide a detailed overview of this project. Describe the brief, the client or context, and what you set out to achieve.',
+            overview: 'A motion-activated lighting system, connecting via UART to highlight areas of emergency and escape routes. Designing to enhance the liveability of temporary shelters for those facing prolonged displacement, specifically with limited access to basic amenities.',
             process: 'Describe your design and engineering process. What research did you conduct? What methods did you use? How did you iterate?',
             tags: ['SolidWorks', 'Keyshot', '3D Printing', 'Prototyping', 'User Testing'],
             heroImage: 'images/project-01.jpg',
