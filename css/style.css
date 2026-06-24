@@ -1129,7 +1129,7 @@ body:not(.hero-active) .progress {
 
 /* Two-column content sections */
 .project-detail__section {
-    padding: var(--space-lg) var(--space-lg);
+    padding: var(--space-xl) var(--space-lg);
 }
 
 .project-detail__container {
@@ -1170,7 +1170,7 @@ body:not(.hero-active) .progress {
 
 /* Gallery */
 .project-detail__gallery {
-    padding: var(--space-lg) var(--space-lg);
+    padding: var(--space-xl) var(--space-lg);
 }
 
 .project-detail__gallery-grid {
