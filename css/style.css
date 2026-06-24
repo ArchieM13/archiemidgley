@@ -760,40 +760,58 @@ body:not(.hero-active) .progress {
 }
 
 /* --- Projects Section --- */
-.projects__grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
-    align-items: start;
+.projects__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
 }
 
 .project__card {
-    display: block;
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: var(--space-xl);
+    align-items: start;
+    padding-bottom: var(--space-2xl);
+    border-bottom: 1px solid var(--color-border-light);
+    text-decoration: none;
+    color: inherit;
     cursor: pointer;
     opacity: 0;
     transform: translateY(30px);
-    transition: transform var(--transition-fast);
+    transition: opacity var(--transition-fast);
+}
+
+.project__card:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.project__card:hover {
+    opacity: 0.75;
+}
+
+.project__image-col {
+    width: 100%;
 }
 
 .section.active .project__card {
     animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.section.active .project__card:nth-child(1) { animation-delay: 0.15s; }
-.section.active .project__card:nth-child(2) { animation-delay: 0.2s; }
-.section.active .project__card:nth-child(3) { animation-delay: 0.3s; }
-.section.active .project__card:nth-child(4) { animation-delay: 0.35s; }
-.section.active .project__card:nth-child(5) { animation-delay: 0.45s; }
-.section.active .project__card:nth-child(6) { animation-delay: 0.5s; }
-.section.active .project__card:nth-child(7) { animation-delay: 0.6s; }
-.section.active .project__card:nth-child(8) { animation-delay: 0.65s; }
+.section.active .projects__list .project__card:nth-child(1) { animation-delay: 0.2s; }
+.section.active .projects__list .project__card:nth-child(2) { animation-delay: 0.35s; }
+.section.active .projects__list .project__card:nth-child(3) { animation-delay: 0.5s; }
+.section.active .projects__list .project__card:nth-child(4) { animation-delay: 0.65s; }
+.section.active .projects__list .project__card:nth-child(5) { animation-delay: 0.8s; }
+.section.active .projects__list .project__card:nth-child(6) { animation-delay: 0.95s; }
+.section.active .projects__list .project__card:nth-child(7) { animation-delay: 1.1s; }
+.section.active .projects__list .project__card:nth-child(8) { animation-delay: 1.25s; }
 
 .project__image-wrapper {
     width: 100%;
     aspect-ratio: 4 / 3;
     overflow: hidden;
     background: var(--color-tag-bg);
-    margin-bottom: var(--space-xs);
     position: relative;
 }
 
@@ -809,21 +827,23 @@ body:not(.hero-active) .progress {
 }
 
 .project__info {
-    padding: 0 var(--space-xs);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .project__category {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--color-text-tertiary);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     display: block;
     margin-bottom: 2px;
 }
 
 .project__title {
-    margin-bottom: 4px;
+    margin-bottom: var(--space-xs);
     transition: color var(--transition-fast);
 }
 
@@ -832,8 +852,10 @@ body:not(.hero-active) .progress {
 }
 
 .project__summary {
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-width: none;
 }
 
 /* --- Extracurricular Section --- */
@@ -1031,7 +1053,7 @@ body:not(.hero-active) .progress {
 }
 
 .project-detail__hero {
-    padding: var(--space-2xl) var(--space-lg) var(--space-xl);
+    padding: var(--space-xl) var(--space-lg) var(--space-md);
 }
 
 .project-detail__hero-inner {
@@ -1086,7 +1108,7 @@ body:not(.hero-active) .progress {
 
 /* Hero Image */
 .project-detail__hero-image {
-    padding: 0 var(--space-lg) var(--space-2xl);
+    padding: 0 var(--space-lg) var(--space-md);
 }
 
 .project-detail__image-full {
@@ -1107,7 +1129,7 @@ body:not(.hero-active) .progress {
 
 /* Two-column content sections */
 .project-detail__section {
-    padding: var(--space-2xl) var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
 }
 
 .project-detail__container {
@@ -1148,7 +1170,7 @@ body:not(.hero-active) .progress {
 
 /* Gallery */
 .project-detail__gallery {
-    padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+    padding: var(--space-md) var(--space-lg);
 }
 
 .project-detail__gallery-grid {
@@ -1377,7 +1399,8 @@ body.dark .theme-switcher__btn.active {
     }
 
     .experience__item,
-    .experience__item--link {
+    .experience__item--link,
+    .project__card {
         grid-template-columns: 1fr 1.5fr;
         gap: var(--space-lg);
     }
@@ -1434,9 +1457,13 @@ body.dark .theme-switcher__btn.active {
         max-width: 400px;
     }
 
-    .projects__grid {
+    .project__card {
         grid-template-columns: 1fr;
-        gap: var(--space-xl);
+        gap: var(--space-md);
+    }
+
+    .project__image-wrapper {
+        max-width: 400px;
     }
 
     .extra__grid {
