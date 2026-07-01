@@ -145,15 +145,23 @@
     el('detailOverview').innerHTML = project.overview.split('\n\n').map(function(p){ return '<p class="project-detail__text">' + p + '</p>'; }).join('');
     el('detailProcess').innerHTML = project.process.split('\n\n').map(function(p){ return '<p class="project-detail__text">' + p + '</p>'; }).join('');
 
-    el('detailHeroImg').src = project.heroImage;
-    el('detailHeroImg').alt = project.title;
+    var heroImg = el('detailHeroImg');
+    heroImg.onerror = function () { this.parentElement.classList.add('placeholder'); };
+    heroImg.parentElement.classList.remove('placeholder');
+    heroImg.src = project.heroImage;
+    heroImg.alt = project.title;
 
     // Gallery images 1–5 map directly to detailImg1–detailImg5
     for (var i = 1; i <= 5; i++) {
         var img = el('detailImg' + i);
-        if (img && project.images[i - 1]) {
+        if (!img) continue;
+        if (project.images[i - 1]) {
+            img.onerror = function () { this.parentElement.classList.add('placeholder'); };
+            img.parentElement.classList.remove('placeholder');
             img.src = project.images[i - 1];
             img.alt = project.title + ' detail ' + i;
+        } else {
+            img.parentElement.classList.add('placeholder');
         }
     }
 
