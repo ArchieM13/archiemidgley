@@ -148,15 +148,14 @@
     el('detailHeroImg').src = project.heroImage;
     el('detailHeroImg').alt = project.title;
 
-    // Images 1, 2, 4, 5 (no image 3 / full-width slot)
-    var imgSlots = [1, 2, 4, 5];
-    imgSlots.forEach(function (slot, i) {
-        var img = el('detailImg' + slot);
-        if (img && project.images[i]) {
-            img.src = project.images[i];
-            img.alt = project.title + ' detail ' + (i + 1);
+    // Gallery images 1–5 map directly to detailImg1–detailImg5
+    for (var i = 1; i <= 5; i++) {
+        var img = el('detailImg' + i);
+        if (img && project.images[i - 1]) {
+            img.src = project.images[i - 1];
+            img.alt = project.title + ' detail ' + i;
         }
-    });
+    }
 
     // Captions
     if (project.captions) {
