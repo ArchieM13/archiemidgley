@@ -78,6 +78,7 @@
             tags: ['C++', 'Electronics', 'Hands-on', 'Experience Design'],
             heroImage: 'images/project-06-hero.jpg',
             images: ['images/project-06-detail-1.jpg', 'images/project-06-detail-2.jpg', 'images/project-06-detail-3.jpg', 'images/project-06-detail-4.jpg', 'images/project-06-detail-5.jpg'],
+            imagePositions: ['center top', 'center top', '70% center', '', ''],
             portfolioLink: '',
             captions: ['', '', '', '', '']
         },
@@ -130,6 +131,9 @@
             img.parentElement.classList.remove('placeholder');
             img.src = project.images[i - 1];
             img.alt = project.title + ' detail ' + i;
+            if (project.imagePositions && project.imagePositions[i - 1]) {
+                img.style.objectPosition = project.imagePositions[i - 1];
+            }
         } else {
             img.parentElement.classList.add('placeholder');
         }
