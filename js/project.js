@@ -37,21 +37,6 @@
             captions: ['', '', '', '', '']
         },
         {
-            id: 3,
-            title: 'AIESEC Hackathon',
-            category: 'Robotics Competition',
-            year: '2024',
-            role: 'Design Engineer',
-            duration: '8 Months',
-            overview: 'A winning project for a robotics hackathon, hosted by AIESEC. Briefed to design and manufacture a robotic mascot for the company to present at conferences across the world - focusing on the brand’s message of worldwide connections.',
-            process: 'We designed a self-balancing robot, constructed in the form of a globe, with a magnetic figurine that appears to walk upon its surface as it moves. The 3d printed shell holds an ESP32 which controls two DC motors, enabling multi-directional movement. The motors extend outward and drive the rotation of the outer shell. As the sphere moves, this inner housing will remain stabilised by additional weights. The manufacturing of the robot is currently underway, due to be finished by November.',
-            tags: ['Robotics', 'Electronics', 'Fusion 360', 'Presentation'],
-            heroImage: 'images/project-03-hero.jpg',
-            images: ['images/project-03-detail-1.jpg', 'images/project-03-detail-2.jpg', 'images/project-03-detail-3.jpg', 'images/project-03-detail-4.jpg', 'images/project-03-detail-5.jpg'],
-            portfolioLink: '',
-            captions: ['', '', '', '', '']
-        },
-        {
             id: 4,
             title: 'Ponder',
             category: 'Audio Experience Design',
@@ -93,21 +78,6 @@
             tags: ['C++', 'Electronics', 'Hands-on', 'Experience Design'],
             heroImage: 'images/project-06-hero.jpg',
             images: ['images/project-06-detail-1.jpg', 'images/project-06-detail-2.jpg', 'images/project-06-detail-3.jpg', 'images/project-06-detail-4.jpg', 'images/project-06-detail-5.jpg'],
-            portfolioLink: '',
-            captions: ['', '', '', '', '']
-        },
-        {
-            id: 7,
-            title: 'Thermofluids Design',
-            category: 'Thermodynamics',
-            year: '2024',
-            role: 'Mechanical Engineer',
-            duration: '3 Months',
-            overview: 'Designing an EV car for aerodynamic improvement and battery cooling efficiency. Both tested via Ansys simulations.',
-            process: 'Tasked with redesigning a pickup vehicle for better fuel efficiency through aerodynamic improvements and an optimised battery cooling design. \n\nCFD results were compared to wind tunnel testing measurements; 3D printing and bolting my redesigned truck into the tunnel to get a more accurate gauge of improvements to drag reduction. \n\nThe cooling system was designed to implement efficient heat transfer, whilst ensuring pressure drop across the pipeline is as low as possible and surface coverage is at a maximum. After optimisation and design changes, final readings of 178Pa pressure drop, 39oC average temperature and 43.9oC maximum temperature were recorded for the serpentine pipeline design. These readings were taken from a highly accurate CFD analysis of the battery module and cooling plate to simulate a real-life scenario of battery cooling.',
-            tags: ['Ansys', 'Scientific Reporting', 'Optimisation', 'Automotive Design'],
-            heroImage: 'images/project-07-hero.jpg',
-            images: ['images/project-07-detail-1.jpg', 'images/project-07-detail-2.jpg', 'images/project-07-detail-3.jpg', 'images/project-07-detail-4.jpg', 'images/project-07-detail-5.jpg'],
             portfolioLink: '',
             captions: ['', '', '', '', '']
         },
