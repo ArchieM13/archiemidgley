@@ -95,6 +95,8 @@
             images: ['images/project-06-detail-1.jpg', 'images/project-06-detail-2.jpg', 'images/project-06-detail-3.jpg', 'images/project-06-detail-4.jpg', 'images/project-06-detail-5.jpg'],
             portfolioLink: '',
             captions: ['', '', '', '', '']
+            imagePositions: ['center 90%', 'center 90%', 'center 50%', 'center 50%', 'center 50%'],
+            imageScales: [null, null, null, null, null]
         },
         {
             id: 7,
@@ -127,6 +129,23 @@
             captions: ['', '', '', '', '']
         }
     ];
+
+    for (var i = 1; i <= 5; i++) {
+        var img = el('expImg' + i);
+        if (img && exp.images[i - 1]) {
+            img.src = exp.images[i - 1];
+            img.alt = exp.company + ' detail ' + i;
+            if (exp.imagePositions && exp.imagePositions[i - 1]) {
+                img.style.objectPosition = exp.imagePositions[i - 1];
+            }
+            // Base zoom (crops further into the image) applied as a CSS variable so
+            // the :hover scale animation still works on top of it.
+            if (exp.imageScales && exp.imageScales[i - 1]) {
+                img.style.setProperty('--base-scale', exp.imageScales[i - 1]);
+                img.classList.add('has-base-scale');
+            }
+        }
+    }
 
     var params = new URLSearchParams(window.location.search);
     var projectId = parseInt(params.get('id'), 10) || 1;
