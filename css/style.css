@@ -1183,6 +1183,21 @@ body:not(.hero-active) .progress {
     display: flex;
     flex-direction: column;
 }
+/* Unwrapped gallery images (e.g. experience pages) keep their box sizing */
+.project-detail__gallery-item > img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    background: var(--color-tag-bg);
+}
+
+.project-detail__gallery-grid--three .project-detail__gallery-item > img {
+    aspect-ratio: 1 / 1;
+}
+
+/* Wrapped gallery images (project pages) use a clipping frame for base zoom */
 .project-detail__img-frame {
     position: relative;
     width: 100%;
