@@ -63,8 +63,8 @@
             tags: ['Ansys', 'Scientific Reporting', 'Medical Design', 'Optimisation'],
             heroImage: 'images/project-05-hero.jpg',
             images: ['images/project-05-detail-1.jpg', 'images/project-05-detail-2.jpg', 'images/project-05-detail-3.jpg', 'images/project-05-detail-4.jpg', 'images/project-05-detail-5.jpg'],
-            imageScales: [1.4, 1.4, 1.3, 1, 1],
-            imagePositions: ['', '', '85% center', '33% center', '33% center'],
+            imageScales: [1.55, 1.4, 1.3, 1, 1],
+            imagePositions: ['', '', '75% 40%', '33% center', '33% center'],
             portfolioLink: '',
             captions: ['', '', '', '', '']
         },

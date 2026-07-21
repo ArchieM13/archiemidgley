@@ -601,6 +601,11 @@ body:not(.hero-active) .progress {
     animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
+/* About content fades in together (no internal stagger) for a cleaner reveal */
+.section--about.section.active .section__title {
+    animation-delay: 0.2s;
+}
+
 .about__bio {
     margin-bottom: var(--space-lg);
 }
@@ -611,14 +616,8 @@ body:not(.hero-active) .progress {
     transform: translateY(15px);
 }
 
-.section.active .about__bio p:nth-child(1) {
-    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-}
-.section.active .about__bio p:nth-child(2) {
-    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
-}
-.section.active .about__bio p:nth-child(3) {
-    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+.section.active .about__bio p {
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
 .about__details {
