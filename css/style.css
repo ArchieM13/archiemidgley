@@ -1184,16 +1184,21 @@ body:not(.hero-active) .progress {
     display: flex;
     flex-direction: column;
 }
-.project-detail__gallery-item > img {
-    display: block;
+.project-detail__img-frame {
+    position: relative;
     width: 100%;
-    height: auto;
     aspect-ratio: 3 / 2;
-    object-fit: cover;
+    overflow: hidden;
     background: var(--color-tag-bg);
 }
+.project-detail__img-frame > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-.project-detail__gallery-grid--three .project-detail__gallery-item > img {
+.project-detail__gallery-grid--three .project-detail__img-frame {
     aspect-ratio: 1 / 1;
 }
 
