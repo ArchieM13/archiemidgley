@@ -19,7 +19,7 @@
             heroImage: 'images/project-01-hero.jpg',
             images: ['images/project-01-detail-1.jpg', 'images/project-01-detail-2.jpg', 'images/project-01-detail-3.jpg', 'images/project-01-detail-4.jpg', 'images/project-01-detail-5.jpg'],
             portfolioLink: '',
-            captions: ['', '', '', '', '']
+            captions: ['Initial Sketching', 'Gear System Technical Drawing', 'Final Prototype', 'Secondary Power Generation', 'Easy Attachment and Assembly']
         },
         {
             id: 2,
@@ -34,7 +34,7 @@
             heroImage: 'images/project-02-hero.jpg',
             images: ['images/project-02-detail-1.jpg', 'images/project-02-detail-2.jpg', 'images/project-02-detail-3.jpg', 'images/project-02-detail-4.jpg', 'images/project-02-detail-5.jpg'],
             portfolioLink: '',
-            captions: ['', '', '', '', '']
+            captions: ['', 'Layered Fabrication', '', '', 'App for Biometric Tracking Overview']
         },
         {
             id: 4,
@@ -49,7 +49,7 @@
             heroImage: 'images/project-04-hero.jpg',
             images: ['images/project-04-detail-1.jpg', 'images/project-04-detail-2.jpg', 'images/project-04-detail-3.jpg', 'images/project-04-detail-4.jpg', 'images/project-04-detail-5.jpg'],
             portfolioLink: '',
-            captions: ['', '', '', '', '']
+            captions: ['Hidden Electronics', 'Water Level Sensor', 'Integrated Passive Speakers', 'Final Build', 'Screen View, In-use']
         },
         {
             id: 5,
@@ -66,7 +66,7 @@
             imageScales: [1.55, 1.4, 1.3, 1, 1],
             imagePositions: ['', '', '75% 40%', '33% center', '33% center'],
             portfolioLink: '',
-            captions: ['', '', '', '', '']
+            captions: ['Bite Force Load Points', 'Mesh Size Calibration', 'Implant Stress Simulation', 'Final CAD', 'Total Deformation Simulation']
         },
         {
             id: 6,
@@ -82,7 +82,7 @@
             images: ['images/project-06-detail-1.jpg', 'images/project-06-detail-2.jpg', 'images/project-06-detail-3.jpg', 'images/project-06-detail-4.jpg', 'images/project-06-detail-5.jpg'],
             imagePositions: ['center top', 'center top', '90% center', '', ''],
             portfolioLink: '',
-            captions: ['', '', '', '', '']
+            captions: ['Initial CAD Ideation', 'Hall Effect Sensor Array', 'Bela Board Use', 'Dual Servo Movement', 'Integrated On/Off Switch']
         },
         {
             id: 8,
@@ -97,7 +97,7 @@
             heroImage: 'images/project-08-hero.jpg',
             images: ['images/project-08-detail-1.jpg', 'images/project-08-detail-2.jpg', 'images/project-08-detail-3.jpg', 'images/project-08-detail-4.jpg', 'images/project-08-detail-5.jpg'],
             portfolioLink: '',
-            captions: ['', '', '', '', '']
+            captions: ['Initial CAD', 'Prototyping for User Testing', 'Child-lock Cap', 'Integrated Educational App', 'Needle Concealment System']
         }
     ];
 
