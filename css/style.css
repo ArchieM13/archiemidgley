@@ -814,11 +814,6 @@ body:not(.hero-active) .progress {
     transform: scale(1.05);
 }
 
-/* Zoom out (show the full image, un-cropped) for specific cards */
-.project__image--contain {
-    object-fit: contain;
-}
-
 .project__info {
     display: flex;
     flex-direction: column;

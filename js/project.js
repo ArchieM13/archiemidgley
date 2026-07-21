@@ -63,6 +63,8 @@
             tags: ['Ansys', 'Scientific Reporting', 'Medical Design', 'Optimisation'],
             heroImage: 'images/project-05-hero.jpg',
             images: ['images/project-05-detail-1.jpg', 'images/project-05-detail-2.jpg', 'images/project-05-detail-3.jpg', 'images/project-05-detail-4.jpg', 'images/project-05-detail-5.jpg'],
+            imageScales: [1.4, 1.4, 1.3, 1, 1],
+            imagePositions: ['', '', '85% center', '15% center', '15% center'],
             portfolioLink: '',
             captions: ['', '', '', '', '']
         },
@@ -133,6 +135,11 @@
             img.alt = project.title + ' detail ' + i;
             if (project.imagePositions && project.imagePositions[i - 1]) {
                 img.style.objectPosition = project.imagePositions[i - 1];
+            }
+            var scale = project.imageScales && project.imageScales[i - 1];
+            if (scale && scale !== 1) {
+                img.classList.add('has-base-scale');
+                img.style.setProperty('--base-scale', scale);
             }
         } else {
             img.parentElement.classList.add('placeholder');
