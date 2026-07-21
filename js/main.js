@@ -276,12 +276,32 @@
     var themeSwitcher = document.getElementById('themeSwitcher');
     var themeButtons = themeSwitcher ? themeSwitcher.querySelectorAll('.theme-switcher__btn') : [];
 
+    // Swap card images to their dark-mode variant (data-dark-src) when the
+    // dark theme is active, falling back to the original if a dark variant
+    // hasn't been added yet so nothing ever renders as a broken image.
+    function applyThemeImages(theme) {
+        var imgs = document.querySelectorAll('img[data-dark-src]');
+        imgs.forEach(function (img) {
+            if (!img.getAttribute('data-light-src')) {
+                img.setAttribute('data-light-src', img.getAttribute('src'));
+            }
+            var lightSrc = img.getAttribute('data-light-src');
+            var target = theme === 'dark' ? img.getAttribute('data-dark-src') : lightSrc;
+            if (!target || img.getAttribute('src') === target) return;
+            var probe = new Image();
+            probe.onload = function () { img.src = target; };
+            probe.onerror = function () { img.src = lightSrc; };
+            probe.src = target;
+        });
+    }
+
     function setTheme(theme) {
         document.body.classList.remove('dark');
         if (theme === 'dark') document.body.classList.add('dark');
         themeButtons.forEach(function (btn) {
             btn.classList.toggle('active', btn.getAttribute('data-theme') === theme);
         });
+        applyThemeImages(theme);
         localStorage.setItem('theme', theme);
     }
 
