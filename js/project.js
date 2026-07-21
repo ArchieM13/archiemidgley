@@ -64,7 +64,7 @@
             heroImage: 'images/project-05-hero.jpg',
             images: ['images/project-05-detail-1.jpg', 'images/project-05-detail-2.jpg', 'images/project-05-detail-3.jpg', 'images/project-05-detail-4.jpg', 'images/project-05-detail-5.jpg'],
             imageScales: [1.55, 1.4, 1.3, 1, 1],
-            imagePositions: ['', '', '75% 40%', '33% center', '33% center'],
+            imagePositions: ['', '', '60% 25%', '33% center', '33% center'],
             portfolioLink: '',
             captions: ['Bite Force Load Points', 'Mesh Size Calibration', 'Implant Stress Simulation', 'Final CAD', 'Total Deformation Simulation']
         },
