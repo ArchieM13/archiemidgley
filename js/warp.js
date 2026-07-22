@@ -48,9 +48,9 @@
 
     function getFontSize() {
         var vw = width / dpr;
-        var size = vw * 0.15;
-        var min = 80;
-        var max = 208;
+        var size = vw * 0.165;
+        var min = 90;
+        var max = 230;
         return Math.min(Math.max(size, min), max) * dpr;
     }
 
@@ -139,6 +139,103 @@
         isHovering = false;
     });
 
+    // --- Click impact: shockwave through the letters + ink splash ---
+    // A click sends a ripple through the same distortion mesh (momentarily
+    // "destroying" the name) and paints an organic ink splash on top. Both
+    // share this canvas so they feel native to the hero, not bolted on.
+    var ripples = [];   // expanding shockwave rings driving the mesh
+    var splats = [];    // ink blobs painted over the letters
+    var lastTime = performance.now();
+
+    var RIPPLE_SPEED = 1100;    // css px / second the ring expands
+    var RIPPLE_LIFE = 1.0;      // seconds a ripple lives
+    var RIPPLE_BAND = 55;       // css px thickness of the shockwave ring
+    var RIPPLE_STRENGTH = 62;   // css px peak displacement
+    var SPLAT_LIFE = 1.1;       // seconds an ink splash lives
+
+    function makeWobble() {
+        // Radius multipliers around the circle → an irregular, ink-like edge.
+        var pts = [];
+        for (var i = 0; i < 11; i++) pts.push(0.72 + Math.random() * 0.56);
+        return pts;
+    }
+
+    function spawnImpact(x, y) {
+        var colors = getColors();
+        ripples.push({ x: x, y: y, age: 0 });
+
+        var blobs = [];
+        // Central splat.
+        blobs.push({ ox: x, oy: y, ang: 0, dist: 0,
+            base: (24 + Math.random() * 12) * dpr, delay: 0, wob: makeWobble() });
+        // Droplets flung outward.
+        var count = 5 + Math.floor(Math.random() * 4);
+        for (var i = 0; i < count; i++) {
+            var a = Math.random() * Math.PI * 2;
+            var d = (28 + Math.random() * 95) * dpr;
+            blobs.push({ ox: x, oy: y, ang: a, dist: d,
+                base: (4 + Math.random() * 11) * dpr,
+                delay: Math.random() * 0.05, wob: makeWobble() });
+        }
+        splats.push({ blobs: blobs, age: 0, color: colors.text });
+    }
+
+    function onClick(e) {
+        var rect = heroArea.getBoundingClientRect();
+        spawnImpact((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
+    }
+    heroArea.addEventListener('click', onClick);
+
+    function easeOutCubic(t) {
+        t = Math.max(0, Math.min(1, t));
+        return 1 - Math.pow(1 - t, 3);
+    }
+
+    function drawBlob(cx, cy, r, wob, alpha, color) {
+        var n = wob.length;
+        var pts = [];
+        for (var i = 0; i < n; i++) {
+            var ang = (i / n) * Math.PI * 2;
+            var rr = r * wob[i];
+            pts.push([cx + Math.cos(ang) * rr, cy + Math.sin(ang) * rr]);
+        }
+        ctx.beginPath();
+        var sx = (pts[n - 1][0] + pts[0][0]) / 2;
+        var sy = (pts[n - 1][1] + pts[0][1]) / 2;
+        ctx.moveTo(sx, sy);
+        for (var j = 0; j < n; j++) {
+            var next = (j + 1) % n;
+            ctx.quadraticCurveTo(pts[j][0], pts[j][1],
+                (pts[j][0] + pts[next][0]) / 2, (pts[j][1] + pts[next][1]) / 2);
+        }
+        ctx.closePath();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+
+    function drawSplats(dt) {
+        for (var s = splats.length - 1; s >= 0; s--) {
+            var sp = splats[s];
+            sp.age += dt;
+            var t = sp.age / SPLAT_LIFE;
+            if (t >= 1) { splats.splice(s, 1); continue; }
+            var fade = t < 0.45 ? 1 : Math.max(0, 1 - (t - 0.45) / 0.55);
+            for (var b = 0; b < sp.blobs.length; b++) {
+                var bl = sp.blobs[b];
+                var lp = sp.age - bl.delay;
+                if (lp <= 0) continue;
+                var grow = easeOutCubic(lp / 0.16);
+                var travel = easeOutCubic(lp / 0.4);
+                var px = bl.ox + Math.cos(bl.ang) * bl.dist * travel;
+                var py = bl.oy + Math.sin(bl.ang) * bl.dist * travel;
+                var r = bl.base * grow;
+                if (r > 0.5) drawBlob(px, py, r, bl.wob, fade * 0.92, sp.color);
+            }
+        }
+    }
+
     // --- Mesh distortion ---
     function drawDistorted() {
         var cellW = width / COLS;
@@ -167,6 +264,28 @@
                     offsetY = -Math.sin(angle) * strength * factor;
                 }
 
+                // Shockwave rings: cells near an expanding ring get shoved,
+                // tearing the letters apart as each ripple sweeps through.
+                for (var ri = 0; ri < ripples.length; ri++) {
+                    var rp = ripples[ri];
+                    var ringR = rp.age * RIPPLE_SPEED * dpr;
+                    var rdx = cx - rp.x;
+                    var rdy = cy - rp.y;
+                    var rdist = Math.sqrt(rdx * rdx + rdy * rdy);
+                    if (rdist <= 0) continue;
+                    var band = RIPPLE_BAND * dpr;
+                    var diff = rdist - ringR;
+                    if (Math.abs(diff) >= band) continue;
+                    var life = 1 - rp.age / RIPPLE_LIFE;
+                    if (life <= 0) continue;
+                    var sigma = band / 2.2;
+                    var g = Math.exp(-(diff * diff) / (2 * sigma * sigma));
+                    var amp = RIPPLE_STRENGTH * dpr * life * g;
+                    var ra = Math.atan2(rdy, rdx);
+                    offsetX += -Math.cos(ra) * amp;
+                    offsetY += -Math.sin(ra) * amp;
+                }
+
                 var srcX = Math.max(0, Math.min(width - cellW, destX + offsetX));
                 var srcY = Math.max(0, Math.min(height - cellH, destY + offsetY));
 
@@ -180,6 +299,10 @@
     }
 
     function animate() {
+        var now = performance.now();
+        var dt = Math.min(0.05, (now - lastTime) / 1000);
+        lastTime = now;
+
         if (isHovering) {
             smoothX += (mouseX - smoothX) * LERP;
             smoothY += (mouseY - smoothY) * LERP;
@@ -188,9 +311,15 @@
             warpAmount += (0 - warpAmount) * WARP_LERP;
         }
 
+        // Advance and retire shockwaves.
+        for (var i = ripples.length - 1; i >= 0; i--) {
+            ripples[i].age += dt;
+            if (ripples[i].age >= RIPPLE_LIFE) ripples.splice(i, 1);
+        }
+
         ctx.clearRect(0, 0, width, height);
 
-        if (warpAmount < 0.005) {
+        if (warpAmount < 0.005 && ripples.length === 0) {
             ctx.drawImage(srcCanvas, 0, 0);
             if (!isHovering && warpAmount < 0.001) {
                 warpAmount = 0;
@@ -198,6 +327,8 @@
         } else {
             drawDistorted();
         }
+
+        drawSplats(dt);
 
         requestAnimationFrame(animate);
     }
@@ -216,6 +347,7 @@
     function start() {
         window.addEventListener('resize', resize);
         resize();
+        lastTime = performance.now();
         animate();
 
         if (document.fonts && document.fonts.load) {
