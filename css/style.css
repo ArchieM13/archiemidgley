@@ -929,7 +929,7 @@ body:not(.hero-active) .progress {
 }
 
 .section.active .contact__text {
-    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
 .contact__links {
@@ -937,6 +937,12 @@ body:not(.hero-active) .progress {
     flex-direction: column;
     gap: 0;
     text-align: left;
+    opacity: 0;
+    transform: translateY(15px);
+}
+
+.section.active .contact__links {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
 .contact__link {
