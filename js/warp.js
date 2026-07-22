@@ -96,6 +96,9 @@
         drawSpacedText(srcCtx, TITLE, 0, 0, fontSize);
 
         srcCtx.restore();
+
+        // Keep any damage the user has already inflicted.
+        applyDamage();
     }
 
     function resize() {
@@ -103,6 +106,9 @@
         height = canvas.offsetHeight * dpr;
         canvas.width = width;
         canvas.height = height;
+        // The title reflows at a new size, so past damage no longer maps — reset.
+        damageRects.length = 0;
+        fragments.length = 0;
         renderSource();
     }
 
@@ -139,101 +145,138 @@
         isHovering = false;
     });
 
-    // --- Click impact: shockwave through the letters + ink splash ---
-    // A click sends a ripple through the same distortion mesh (momentarily
-    // "destroying" the name) and paints an organic ink splash on top. Both
-    // share this canvas so they feel native to the hero, not bolted on.
-    var ripples = [];   // expanding shockwave rings driving the mesh
-    var splats = [];    // ink blobs painted over the letters
+    // --- Click destruction: break chunks off the word ---
+    // Clicking on or near the letters shatters that region: the inked cells
+    // there detach as debris that tumbles off across the screen, and the word
+    // is permanently gouged where they broke away. A small shockwave ripple
+    // gives the hit some punch. Damage is stored so it survives theme changes.
+    var ripples = [];        // small shockwave rings driving the mesh
+    var fragments = [];      // detached debris tumbling across the screen
+    var damageRects = [];    // cleared regions, re-applied after every render
     var lastTime = performance.now();
 
-    var RIPPLE_SPEED = 1100;    // css px / second the ring expands
-    var RIPPLE_LIFE = 1.0;      // seconds a ripple lives
-    var RIPPLE_BAND = 55;       // css px thickness of the shockwave ring
-    var RIPPLE_STRENGTH = 62;   // css px peak displacement
-    var SPLAT_LIFE = 1.1;       // seconds an ink splash lives
+    var RIPPLE_SPEED = 650;      // css px / second the ring expands
+    var RIPPLE_LIFE = 0.55;      // seconds a ripple lives
+    var RIPPLE_BAND = 38;        // css px thickness of the shockwave ring
+    var RIPPLE_STRENGTH = 26;    // css px peak displacement
 
-    function makeWobble() {
-        // Radius multipliers around the circle → an irregular, ink-like edge.
-        var pts = [];
-        for (var i = 0; i < 11; i++) pts.push(0.72 + Math.random() * 0.56);
-        return pts;
+    var DAMAGE_RADIUS = 52;      // css px radius of a single hit
+    var CHUNK = 15;              // css px size of each debris chunk
+    var GRAVITY = 46;            // css px / s^2 pulling debris down
+    var MAX_FRAGMENTS = 500;     // hard cap so many clicks stay smooth
+
+    // Re-clear every damaged region on the source canvas. Called after each
+    // renderSource() so re-rendering (e.g. on a theme switch) doesn't heal it.
+    function applyDamage() {
+        for (var i = 0; i < damageRects.length; i++) {
+            var r = damageRects[i];
+            srcCtx.clearRect(r.x, r.y, r.w, r.h);
+        }
     }
 
-    function spawnImpact(x, y) {
-        var colors = getColors();
-        ripples.push({ x: x, y: y, age: 0 });
+    function spawnDestruction(x, y) {
+        var R = DAMAGE_RADIUS * dpr;
+        var cell = CHUNK * dpr;
 
-        var blobs = [];
-        // Central splat.
-        blobs.push({ ox: x, oy: y, ang: 0, dist: 0,
-            base: (24 + Math.random() * 12) * dpr, delay: 0, wob: makeWobble() });
-        // Droplets flung outward.
-        var count = 5 + Math.floor(Math.random() * 4);
-        for (var i = 0; i < count; i++) {
-            var a = Math.random() * Math.PI * 2;
-            var d = (28 + Math.random() * 95) * dpr;
-            blobs.push({ ox: x, oy: y, ang: a, dist: d,
-                base: (4 + Math.random() * 11) * dpr,
-                delay: Math.random() * 0.05, wob: makeWobble() });
+        var bx = Math.max(0, Math.floor(x - R));
+        var by = Math.max(0, Math.floor(y - R));
+        var bx2 = Math.min(width, Math.ceil(x + R));
+        var by2 = Math.min(height, Math.ceil(y + R));
+        if (bx2 <= bx || by2 <= by) return;
+
+        var img;
+        try {
+            img = srcCtx.getImageData(bx, by, bx2 - bx, by2 - by);
+        } catch (err) {
+            return; // getImageData can throw in rare tainted-canvas cases
         }
-        splats.push({ blobs: blobs, age: 0, color: colors.text });
+        var data = img.data, iw = bx2 - bx;
+        var spawned = 0;
+
+        for (var cy0 = by; cy0 < by2; cy0 += cell) {
+            for (var cx0 = bx; cx0 < bx2; cx0 += cell) {
+                var cw = Math.min(cell, bx2 - cx0);
+                var ch = Math.min(cell, by2 - cy0);
+                var ccx = cx0 + cw / 2, ccy = cy0 + ch / 2;
+                var ddx = ccx - x, ddy = ccy - y;
+                if (ddx * ddx + ddy * ddy > R * R) continue;
+
+                // Only break chunks that actually contain ink.
+                var ink = false;
+                for (var yy = cy0; yy < cy0 + ch && !ink; yy += 2) {
+                    for (var xx = cx0; xx < cx0 + cw; xx += 2) {
+                        if (data[((yy - by) * iw + (xx - bx)) * 4 + 3] > 40) {
+                            ink = true;
+                            break;
+                        }
+                    }
+                }
+                if (!ink) continue;
+
+                // Snapshot the chunk's pixels into its own little canvas.
+                var fc = document.createElement('canvas');
+                fc.width = cw;
+                fc.height = ch;
+                fc.getContext('2d').drawImage(srcCanvas, cx0, cy0, cw, ch, 0, 0, cw, ch);
+
+                var ang = Math.atan2(ddy, ddx) + (Math.random() - 0.5) * 0.9;
+                var speed = (34 + Math.random() * 66) * dpr;
+                fragments.push({
+                    canvas: fc, w: cw, h: ch,
+                    x: ccx, y: ccy,
+                    vx: Math.cos(ang) * speed,
+                    vy: Math.sin(ang) * speed - 28 * dpr,   // slight upward kick
+                    angle: 0, va: (Math.random() - 0.5) * 4.5,
+                    age: 0
+                });
+
+                // Gouge the chunk out of the word — permanently.
+                damageRects.push({ x: cx0, y: cy0, w: cw, h: ch });
+                srcCtx.clearRect(cx0, cy0, cw, ch);
+                spawned++;
+            }
+        }
+
+        if (spawned > 0) ripples.push({ x: x, y: y, age: 0 });
+        if (fragments.length > MAX_FRAGMENTS) {
+            fragments.splice(0, fragments.length - MAX_FRAGMENTS);
+        }
     }
 
     function onClick(e) {
         var rect = heroArea.getBoundingClientRect();
-        spawnImpact((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
+        spawnDestruction((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
     }
     heroArea.addEventListener('click', onClick);
 
-    function easeOutCubic(t) {
-        t = Math.max(0, Math.min(1, t));
-        return 1 - Math.pow(1 - t, 3);
-    }
+    function updateFragments(dt) {
+        var margin = 80 * dpr;
+        for (var i = fragments.length - 1; i >= 0; i--) {
+            var f = fragments[i];
+            f.vy += GRAVITY * dpr * dt;
+            f.vx *= (1 - 0.12 * dt);
+            f.vy *= (1 - 0.12 * dt);
+            f.x += f.vx * dt;
+            f.y += f.vy * dt;
+            f.angle += f.va * dt;
+            f.age += dt;
 
-    function drawBlob(cx, cy, r, wob, alpha, color) {
-        var n = wob.length;
-        var pts = [];
-        for (var i = 0; i < n; i++) {
-            var ang = (i / n) * Math.PI * 2;
-            var rr = r * wob[i];
-            pts.push([cx + Math.cos(ang) * rr, cy + Math.sin(ang) * rr]);
-        }
-        ctx.beginPath();
-        var sx = (pts[n - 1][0] + pts[0][0]) / 2;
-        var sy = (pts[n - 1][1] + pts[0][1]) / 2;
-        ctx.moveTo(sx, sy);
-        for (var j = 0; j < n; j++) {
-            var next = (j + 1) % n;
-            ctx.quadraticCurveTo(pts[j][0], pts[j][1],
-                (pts[j][0] + pts[next][0]) / 2, (pts[j][1] + pts[next][1]) / 2);
-        }
-        ctx.closePath();
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = color;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-    }
-
-    function drawSplats(dt) {
-        for (var s = splats.length - 1; s >= 0; s--) {
-            var sp = splats[s];
-            sp.age += dt;
-            var t = sp.age / SPLAT_LIFE;
-            if (t >= 1) { splats.splice(s, 1); continue; }
-            var fade = t < 0.45 ? 1 : Math.max(0, 1 - (t - 0.45) / 0.55);
-            for (var b = 0; b < sp.blobs.length; b++) {
-                var bl = sp.blobs[b];
-                var lp = sp.age - bl.delay;
-                if (lp <= 0) continue;
-                var grow = easeOutCubic(lp / 0.16);
-                var travel = easeOutCubic(lp / 0.4);
-                var px = bl.ox + Math.cos(bl.ang) * bl.dist * travel;
-                var py = bl.oy + Math.sin(bl.ang) * bl.dist * travel;
-                var r = bl.base * grow;
-                if (r > 0.5) drawBlob(px, py, r, bl.wob, fade * 0.92, sp.color);
+            if (f.age > 14 ||
+                f.x < -margin || f.x > width + margin ||
+                f.y > height + margin || f.y < -margin) {
+                fragments.splice(i, 1);
+                continue;
             }
+
+            var alpha = f.age > 12 ? Math.max(0, 1 - (f.age - 12) / 2) : 1;
+            ctx.save();
+            ctx.translate(f.x, f.y);
+            ctx.rotate(f.angle);
+            ctx.globalAlpha = alpha;
+            ctx.drawImage(f.canvas, -f.w / 2, -f.h / 2);
+            ctx.restore();
         }
+        ctx.globalAlpha = 1;
     }
 
     // --- Mesh distortion ---
@@ -328,7 +371,7 @@
             drawDistorted();
         }
 
-        drawSplats(dt);
+        updateFragments(dt);
 
         requestAnimationFrame(animate);
     }
