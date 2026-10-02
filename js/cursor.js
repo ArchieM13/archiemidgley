@@ -13,6 +13,9 @@
     // Create cursor element
     var cursor = document.createElement('div');
     cursor.className = 'cursor';
+    var label = document.createElement('span');
+    label.className = 'cursor__label';
+    cursor.appendChild(label);
     document.body.appendChild(cursor);
 
     var mouseX = -100, mouseY = -100;
@@ -40,15 +43,25 @@
     document.addEventListener('mouseenter', onMouseEnter);
 
     // Track hover state via mouseover/mouseout on document
+    // Elements with data-cursor="..." turn the cursor into a filled label.
     document.addEventListener('mouseover', function (e) {
         if (e.target.closest(HOVER_SELECTORS)) {
             cursor.classList.add('cursor--hover');
+        }
+        var labelled = e.target.closest('[data-cursor]');
+        if (labelled) {
+            label.textContent = labelled.getAttribute('data-cursor');
+            cursor.classList.add('cursor--label');
         }
     });
 
     document.addEventListener('mouseout', function (e) {
         if (e.target.closest(HOVER_SELECTORS)) {
             cursor.classList.remove('cursor--hover');
+        }
+        var labelled = e.target.closest('[data-cursor]');
+        if (labelled && !(e.relatedTarget && labelled.contains(e.relatedTarget))) {
+            cursor.classList.remove('cursor--label');
         }
     });
 

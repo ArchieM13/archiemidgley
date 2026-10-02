@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archie Midgley - Design Engineer</title>
-    <link rel="stylesheet" href="css/style.css?v=4">
+    <link rel="stylesheet" href="css/style.css?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -82,7 +82,7 @@
                 <div class="about__grid">
                     <div class="about__portrait">
                         <div class="about__image-wrapper">
-                            <img src="images/portrait.jpg?v=2" alt="Archie Midgley" class="about__image" onerror="this.parentElement.classList.add('placeholder')">
+                            <img src="images/portrait.jpg?v=3" alt="Archie Midgley" class="about__image" onerror="this.parentElement.classList.add('placeholder')">
                             <div class="about__image-placeholder"><span>Your Photo</span></div>
                         </div>
                     </div>
@@ -120,143 +120,106 @@
                     <span class="section__number">02</span>
                     <h1 class="section__title">Experience</h1>
                 </div>
-                <div class="experience__list">
-
-                    <a href="experience.html?id=1" class="experience__item experience__item--link">
-                        <div class="experience__image-col">
-                            <div class="experience__image-wrapper">
-                                <img src="images/experience-01.jpg" alt="Shape Shoes" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
-                                <div class="experience__image-placeholder"><span>Image</span></div>
-                            </div>
-                        </div>
-                        <div class="experience__content-col">
-                            <div class="experience__meta">
-                                <span class="experience__date">Sep 2023 - Present</span>
-                                <span class="experience__role">COO &amp; Design Engineer</span>
-                            </div>
-                            <h3 class="experience__company">Shape Shoes</h3>
-                            <p class="experience__description">A London-based, 3D-printed footwear startup, designing shoes with major worldwide collaborations to tell artists' stories through physical design. Work spanning 3D-printed prototyping, iterative design for clients, and large-scale manufacturing operations.</p>
-                            <div class="experience__tags">
-                                <span class="tag">CAD</span>
-                                <span class="tag">DFMA</span>
-                                <span class="tag">Additive Manufacturing</span>
-                                <span class="tag">Marketing</span>
+                <div class="xp" id="xpList">
+                    <a href="experience.html?id=1" class="xp__row xp__row--link" data-cursor="View">
+                        <span class="xp__num">01</span>
+                        <span class="xp__company">Shape Shoes</span>
+                        <span class="xp__role">COO &amp; Design Engineer</span>
+                        <span class="xp__date">Sep 2023 - Present</span>
+                        <span class="xp__arrow" aria-hidden="true">&#8599;</span>
+                        <div class="xp__detail">
+                            <div class="xp__detail-inner">
+                                <img src="images/experience-01.jpg" alt="Shape Shoes" class="xp__thumb" loading="lazy">
+                                <p class="xp__desc">A London-based, 3D-printed footwear startup, designing shoes with major worldwide collaborations to tell artists' stories through physical design. Work spanning 3D-printed prototyping, iterative design for clients, and large-scale manufacturing operations.</p>
+                                <div class="xp__tags"><span class="tag">CAD</span><span class="tag">DFMA</span><span class="tag">Additive Manufacturing</span><span class="tag">Marketing</span></div>
+                                <span class="xp__cta">Open experience &#8599;</span>
                             </div>
                         </div>
                     </a>
-
-                    <a href="experience.html?id=3" class="experience__item experience__item--link">
-                        <div class="experience__image-col">
-                            <div class="experience__image-wrapper">
-                                <img src="images/experience-06.jpg" alt="Institute of Science Tokyo" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
-                                <div class="experience__image-placeholder"><span>Image</span></div>
-                            </div>
-                        </div>
-                        <div class="experience__content-col">
-                            <div class="experience__meta">
-                                <span class="experience__date">Sep 2026 - Oct 2026</span>
-                                <span class="experience__role">Soft Robotics Research Intern</span>
-                            </div>
-                            <h3 class="experience__company">Institute of Science Tokyo</h3>
-                            <p class="experience__description">A month at the Yoshida Research Group, building a wearable device driven by thin McKibben artificial muscles to actuate the index and middle fingers - controlled from an Arduino to play a piano melody or respond live to keyboard input.</p>
-                            <div class="experience__tags">
-                                <span class="tag">Soft Robotics</span>
-                                <span class="tag">Pneumatics</span>
-                                <span class="tag">Pressure Calculations</span>
-                                <span class="tag">Arduino</span>
+                    <a href="experience.html?id=3" class="xp__row xp__row--link" data-cursor="View">
+                        <span class="xp__num">02</span>
+                        <span class="xp__company">Institute of Science Tokyo</span>
+                        <span class="xp__role">Soft Robotics Research Intern</span>
+                        <span class="xp__date">Sep 2026 - Oct 2026</span>
+                        <span class="xp__arrow" aria-hidden="true">&#8599;</span>
+                        <div class="xp__detail">
+                            <div class="xp__detail-inner">
+                                <img src="images/experience-06.jpg" alt="Institute of Science Tokyo" class="xp__thumb" loading="lazy">
+                                <p class="xp__desc">A month at the Yoshida Research Group, building a wearable device driven by thin McKibben artificial muscles to actuate the index and middle fingers - controlled from an Arduino to play a piano melody or respond live to keyboard input.</p>
+                                <div class="xp__tags"><span class="tag">Soft Robotics</span><span class="tag">Pneumatics</span><span class="tag">Pressure Calculations</span><span class="tag">Arduino</span></div>
+                                <span class="xp__cta">Open experience &#8599;</span>
                             </div>
                         </div>
                     </a>
-
-                    <a href="experience.html?id=2" class="experience__item experience__item--link">
-                        <div class="experience__image-col">
-                            <div class="experience__image-wrapper">
-                                <img src="images/experience-02.jpg" alt="Orthoson" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
-                                <div class="experience__image-placeholder"><span>Image</span></div>
-                            </div>
-                        </div>
-                        <div class="experience__content-col">
-                            <div class="experience__meta">
-                                <span class="experience__date">Mar 2026 - Sep 2026</span>
-                                <span class="experience__role">Design Engineer</span>
-                            </div>
-                            <h3 class="experience__company">Orthoson</h3>
-                            <p class="experience__description">Oxford-backed medical company developing a bio-structural gel to restore intervertebral disc degeneration and treat back pain. Tasked with designing the injection system tray and the user interface of the Pressure Monitoring System.</p>
-                            <div class="experience__tags">
-                                <span class="tag">SolidWorks</span>
-                                <span class="tag">DFMA</span>
-                                <span class="tag">JavaScript</span>
+                    <a href="experience.html?id=2" class="xp__row xp__row--link" data-cursor="View">
+                        <span class="xp__num">03</span>
+                        <span class="xp__company">Orthoson</span>
+                        <span class="xp__role">Design Engineer</span>
+                        <span class="xp__date">Mar 2026 - Sep 2026</span>
+                        <span class="xp__arrow" aria-hidden="true">&#8599;</span>
+                        <div class="xp__detail">
+                            <div class="xp__detail-inner">
+                                <img src="images/experience-02.jpg" alt="Orthoson" class="xp__thumb" loading="lazy">
+                                <p class="xp__desc">Oxford-backed medical company developing a bio-structural gel to restore intervertebral disc degeneration and treat back pain. Tasked with designing the injection system tray and the user interface of the Pressure Monitoring System.</p>
+                                <div class="xp__tags"><span class="tag">SolidWorks</span><span class="tag">DFMA</span><span class="tag">JavaScript</span></div>
+                                <span class="xp__cta">Open experience &#8599;</span>
                             </div>
                         </div>
                     </a>
+                    <div class="xp__row" tabindex="0">
+                        <span class="xp__num">04</span>
+                        <span class="xp__company">Onlock Learning</span>
+                        <span class="xp__role">Web Designer &amp; Business Strategist</span>
+                        <span class="xp__date">Jul 2023 - Jan 2024</span>
+                        <span class="xp__arrow" aria-hidden="true">+</span>
+                        <div class="xp__detail">
+                            <div class="xp__detail-inner">
+                                <img src="images/experience-03.jpg" alt="Onlock Learning" class="xp__thumb" loading="lazy">
+                                <p class="xp__desc">STEM educational platform leveraging AI education tools. After aiding initial company development through media posts and business direction, I co-designed an addictive, web-based mathematics game to test mental maths skills and promote website engagement.</p>
+                                <div class="xp__tags"><span class="tag">JavaScript</span><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Business Strategy</span></div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xp__row" tabindex="0">
+                        <span class="xp__num">05</span>
+                        <span class="xp__company">BBC Newsnight</span>
+                        <span class="xp__role">Graphic Design Intern</span>
+                        <span class="xp__date">Jul 2023 - Aug 2023</span>
+                        <span class="xp__arrow" aria-hidden="true">+</span>
+                        <div class="xp__detail">
+                            <div class="xp__detail-inner">
+                                <img src="images/experience-04.jpg" alt="BBC Newsnight" class="xp__thumb" loading="lazy">
+                                <p class="xp__desc">Designing graphic screens for Newsnight studio; exploring layout, composition, and motion - pushing designs through to moving imagery aired live on BBC Newsnight.</p>
+                                <div class="xp__tags"><span class="tag">Graphic Design</span><span class="tag">Adobe Photoshop</span><span class="tag">Adobe After Effects</span></div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="xp__row" tabindex="0">
+                        <span class="xp__num">06</span>
+                        <span class="xp__company">Brinkworth Design</span>
+                        <span class="xp__role">Design Intern</span>
+                        <span class="xp__date">Jun 2022 - Jul 2022</span>
+                        <span class="xp__arrow" aria-hidden="true">+</span>
+                        <div class="xp__detail">
+                            <div class="xp__detail-inner">
+                                <img src="images/experience-05.jpg" alt="Brinkworth Design" class="xp__thumb" loading="lazy">
+                                <p class="xp__desc">Interior design studio with work spanning Harrods and Supreme. Tasked with creating initial design concepts for a new retail client in New York, and participated in the annual workshop event to design and manufacture a bespoke lighting system.</p>
+                                <div class="xp__tags"><span class="tag">Prototyping</span><span class="tag">Lighting Design</span><span class="tag">Materials</span></div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <article class="experience__item">
-                        <div class="experience__image-col">
-                            <div class="experience__image-wrapper">
-                                <img src="images/experience-03.jpg" alt="Onlock Learning" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
-                                <div class="experience__image-placeholder"><span>Image</span></div>
-                            </div>
-                        </div>
-                        <div class="experience__content-col">
-                            <div class="experience__meta">
-                                <span class="experience__date">Jul 2023 - Jan 2024</span>
-                                <span class="experience__role">Web Designer &amp; Business Strategist</span>
-                            </div>
-                            <h3 class="experience__company">Onlock Learning</h3>
-                            <p class="experience__description">STEM educational platform leveraging AI education tools. After aiding initial company development through media posts and business direction, I co-designed an addictive, web-based mathematics game to test mental maths skills and promote website engagement.</p>
-                            <div class="experience__tags">
-                                <span class="tag">JavaScript</span>
-                                <span class="tag">HTML</span>
-                                <span class="tag">CSS</span>
-                                <span class="tag">Business Strategy</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="experience__item">
-                        <div class="experience__image-col">
-                            <div class="experience__image-wrapper">
-                                <img src="images/experience-04.jpg" alt="BBC Newsnight" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
-                                <div class="experience__image-placeholder"><span>Image</span></div>
-                            </div>
-                        </div>
-                        <div class="experience__content-col">
-                            <div class="experience__meta">
-                                <span class="experience__date">Jul 2023 - Aug 2023</span>
-                                <span class="experience__role">Graphic Design Intern</span>
-                            </div>
-                            <h3 class="experience__company">BBC Newsnight</h3>
-                            <p class="experience__description">Designing graphic screens for Newsnight studio; exploring layout, composition, and motion - pushing designs through to moving imagery aired live on BBC Newsnight.</p>
-                            <div class="experience__tags">
-                                <span class="tag">Graphic Design</span>
-                                <span class="tag">Adobe Photoshop</span>
-                                <span class="tag">Adobe After Effects</span>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="experience__item">
-                        <div class="experience__image-col">
-                            <div class="experience__image-wrapper">
-                                <img src="images/experience-05.jpg" alt="Brinkworth Design" class="experience__image" onerror="this.parentElement.classList.add('placeholder')">
-                                <div class="experience__image-placeholder"><span>Image</span></div>
-                            </div>
-                        </div>
-                        <div class="experience__content-col">
-                            <div class="experience__meta">
-                                <span class="experience__date">Jun 2022 - Jul 2022</span>
-                                <span class="experience__role">Design Intern</span>
-                            </div>
-                            <h3 class="experience__company">Brinkworth Design</h3>
-                            <p class="experience__description">Interior design studio with work spanning Harrods and Supreme. Tasked with creating initial design concepts for a new retail client in New York, and participated in the annual workshop event to design and manufacture a bespoke lighting system.</p>
-                            <div class="experience__tags">
-                                <span class="tag">Prototyping</span>
-                                <span class="tag">Lighting Design</span>
-                                <span class="tag">Materials</span>
-                            </div>
-                        </div>
-                    </article>
-
+                <!-- Floating preview that follows the cursor over the list (desktop) -->
+                <div class="xp-preview" id="xpPreview" aria-hidden="true">
+                    <div class="xp-preview__media" id="xpPreviewMedia"></div>
+                    <div class="xp-preview__body">
+                        <p class="xp-preview__desc" id="xpPreviewDesc"></p>
+                        <div class="xp-preview__tags" id="xpPreviewTags"></div>
+                    </div>
                 </div>
                 <div class="section__footer-spacer"></div>
             </div>
@@ -271,87 +234,93 @@
                 </div>
                 <div class="projects__grid">
 
-                    <a href="project.html?id=1" class="project__card">
-                        <div class="project__image-col">
+                    <a href="project.html?id=1" class="project__card" data-cursor="View">
+                        <div class="project__inner">
                             <div class="project__image-wrapper">
                                 <img src="images/project-01.jpg" data-dark-src="images/project-01-dark.jpg" alt="Project 1" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="project__image-placeholder"><span>Project Image</span></div>
                             </div>
-                        </div>
-                        <div class="project__info">
-                            <span class="project__category">Human-Centered Design</span>
-                            <h3 class="project__title">LumaPath</h3>
-                            <p class="project__summary">Refugee camp lighting system to improve evacuation safety.</p>
+                            <div class="project__glare" aria-hidden="true"></div>
+                            <div class="project__info">
+                                <span class="project__category"><span class="project__num">01</span>Human-Centered Design</span>
+                                <h3 class="project__title">LumaPath</h3>
+                                <div class="project__summary-wrap"><p class="project__summary">Refugee camp lighting system to improve evacuation safety.</p></div>
+                            </div>
                         </div>
                     </a>
 
-                    <a href="project.html?id=2" class="project__card">
-                        <div class="project__image-col">
+                    <a href="project.html?id=2" class="project__card" data-cursor="View">
+                        <div class="project__inner">
                             <div class="project__image-wrapper">
                                 <img src="images/project-02.jpg" data-dark-src="images/project-02-dark.jpg" alt="Project 2" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="project__image-placeholder"><span>Project Image</span></div>
                             </div>
-                        </div>
-                        <div class="project__info">
-                            <span class="project__category">Industrial Futures Design</span>
-                            <h3 class="project__title">Byte</h3>
-                            <p class="project__summary">Improving circadian health through salivary biomarker tracking.</p>
+                            <div class="project__glare" aria-hidden="true"></div>
+                            <div class="project__info">
+                                <span class="project__category"><span class="project__num">02</span>Industrial Futures Design</span>
+                                <h3 class="project__title">Byte</h3>
+                                <div class="project__summary-wrap"><p class="project__summary">Improving circadian health through salivary biomarker tracking.</p></div>
+                            </div>
                         </div>
                     </a>
 
-                    <a href="project.html?id=4" class="project__card">
-                        <div class="project__image-col">
+                    <a href="project.html?id=4" class="project__card" data-cursor="View">
+                        <div class="project__inner">
                             <div class="project__image-wrapper">
                                 <img src="images/project-04.jpg" data-dark-src="images/project-04-dark.jpg" alt="Project 4" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="project__image-placeholder"><span>Project Image</span></div>
                             </div>
-                        </div>
-                        <div class="project__info">
-                            <span class="project__category">Audio Experience Design</span>
-                            <h3 class="project__title">Ponder</h3>
-                            <p class="project__summary">Immersive audio installation to prompt sustainability within our oceans.</p>
+                            <div class="project__glare" aria-hidden="true"></div>
+                            <div class="project__info">
+                                <span class="project__category"><span class="project__num">03</span>Audio Experience Design</span>
+                                <h3 class="project__title">Ponder</h3>
+                                <div class="project__summary-wrap"><p class="project__summary">Immersive audio installation to prompt sustainability within our oceans.</p></div>
+                            </div>
                         </div>
                     </a>
 
-                    <a href="project.html?id=5" class="project__card">
-                        <div class="project__image-col">
+                    <a href="project.html?id=5" class="project__card" data-cursor="View">
+                        <div class="project__inner">
                             <div class="project__image-wrapper">
                                 <img src="images/project-05.jpg" data-dark-src="images/project-05-dark.jpg" alt="Project 5" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="project__image-placeholder"><span>Project Image</span></div>
                             </div>
-                        </div>
-                        <div class="project__info">
-                            <span class="project__category">Finite Element Analysis</span>
-                            <h3 class="project__title">Temporomandibular Implant</h3>
-                            <p class="project__summary">Optimising and testing an weight-optimised implant.</p>
+                            <div class="project__glare" aria-hidden="true"></div>
+                            <div class="project__info">
+                                <span class="project__category"><span class="project__num">04</span>Finite Element Analysis</span>
+                                <h3 class="project__title">Temporomandibular Implant</h3>
+                                <div class="project__summary-wrap"><p class="project__summary">Optimising and testing an weight-optimised implant.</p></div>
+                            </div>
                         </div>
                     </a>
 
-                    <a href="project.html?id=6" class="project__card">
-                        <div class="project__image-col">
+                    <a href="project.html?id=6" class="project__card" data-cursor="View">
+                        <div class="project__inner">
                             <div class="project__image-wrapper">
                                 <img src="images/project-06.jpg" data-dark-src="images/project-06-dark.jpg" alt="Project 6" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="project__image-placeholder"><span>Project Image</span></div>
                             </div>
-                        </div>
-                        <div class="project__info">
-                            <span class="project__category">Physical Electronics</span>
-                            <h3 class="project__title">HighLighter</h3>
-                            <p class="project__summary">Spotlight-tracked pen movement for illuminated reading or writing.</p>
+                            <div class="project__glare" aria-hidden="true"></div>
+                            <div class="project__info">
+                                <span class="project__category"><span class="project__num">05</span>Physical Electronics</span>
+                                <h3 class="project__title">HighLighter</h3>
+                                <div class="project__summary-wrap"><p class="project__summary">Spotlight-tracked pen movement for illuminated reading or writing.</p></div>
+                            </div>
                         </div>
                     </a>
 
-                    <a href="project.html?id=8" class="project__card">
-                        <div class="project__image-col">
+                    <a href="project.html?id=8" class="project__card" data-cursor="View">
+                        <div class="project__inner">
                             <div class="project__image-wrapper">
                                 <img src="images/project-08.jpg" data-dark-src="images/project-08-dark.jpg" alt="Project 8" class="project__image" onerror="this.parentElement.classList.add('placeholder')">
                                 <div class="project__image-placeholder"><span>Project Image</span></div>
                             </div>
-                        </div>
-                        <div class="project__info">
-                            <span class="project__category">Medical Design Engineering</span>
-                            <h3 class="project__title">Leap Pen</h3>
-                            <p class="project__summary">Making insulin injections a pain-free learning process for kids.</p>
+                            <div class="project__glare" aria-hidden="true"></div>
+                            <div class="project__info">
+                                <span class="project__category"><span class="project__num">06</span>Medical Design Engineering</span>
+                                <h3 class="project__title">Leap Pen</h3>
+                                <div class="project__summary-wrap"><p class="project__summary">Making insulin injections a pain-free learning process for kids.</p></div>
+                            </div>
                         </div>
                     </a>
 
@@ -462,9 +431,10 @@
         </div>
     </div>
 
-    <script src="js/cursor.js?v=3"></script>
+    <script src="js/cursor.js?v=4"></script>
     <script src="js/main.js?v=3"></script>
     <script src="js/logo-data.js?v=4"></script>
     <script src="js/warp.js?v=4"></script>
+    <script src="js/lists.js?v=1"></script>
 </body>
 </html>
