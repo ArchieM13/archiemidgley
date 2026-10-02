@@ -51,16 +51,22 @@
         {
             id: 3,
             company: 'Institute of Science Tokyo',
-            category: 'Robotics',
-            period: '2026',
-            role: 'Research Intern',
+            category: 'Soft Robotics',
+            period: 'Sep 2026 — Oct 2026',
+            role: 'Soft Robotics Research Intern',
             location: 'Tokyo',
             overview: 'A month at the Yoshida Research Group within the Institute of Science Tokyo. Tasked with building a wearable device driven by thin McKibben artificial muscles, I chose to tackle the actuation of the index and middle finger.',
             responsibilities: 'Pressurising the artificial muscles causes them to contract - behaving more like a tendon than a standard motor-driven joint. This contraction lifts the index and middle fingers; pressure release drops them. \n\nStarting with rolls of EM40 McKibben muscle, PLA and velcro, I designed the terminals, stoppers and valve mounts required to complete a full system from tank to finger. Extension length, input pressure and contraction angle were all calculated from McKibben datasheets before the design began. \n\nOn the control side, an Arduino talks to a dual 12-bit DAC over SPI, which commands two electro-pneumatic regulators to set the pressure in each muscle independently. This makes it possible to run preset sequences to play a piano melody, or to drive the muscles live from keyboard input.',
-            tags: ['Soft Robotics', 'Pneumatics', 'Arduino', 'CAD', 'Prototyping'],
-            heroImage: 'images/experience-06.jpg',
-            images: [],
-            captions: []
+            tags: ['Soft Robotics', 'Pneumatics', 'Pressure Calculations', 'Arduino', 'CAD', 'Prototyping'],
+            heroImage: 'images/experience-06-hero.jpg',
+            images: [
+                'images/experience-06-detail-1.jpg',
+                'images/experience-06-detail-2.jpg',
+                'images/experience-06-detail-3.jpg',
+                'images/experience-06-detail-4.jpg',
+                'images/experience-06-detail-5.jpg'
+            ],
+            captions: ['', '', '', '', '']
         }
     ];
 
