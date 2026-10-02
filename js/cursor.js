@@ -13,8 +13,10 @@
     // Create cursor element
     var cursor = document.createElement('div');
     cursor.className = 'cursor';
+    // Eye icon shown inside the cursor over elements marked data-cursor.
     var label = document.createElement('span');
     label.className = 'cursor__label';
+    label.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
     cursor.appendChild(label);
     document.body.appendChild(cursor);
 
@@ -50,7 +52,6 @@
         }
         var labelled = e.target.closest('[data-cursor]');
         if (labelled) {
-            label.textContent = labelled.getAttribute('data-cursor');
             cursor.classList.add('cursor--label');
         }
     });

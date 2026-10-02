@@ -2011,20 +2011,16 @@ body.dark .theme-switcher__btn.active {
     }
 }
 
-/* Cursor label ("View") over cards and rows */
+/* Cursor eye icon over cards and rows */
 .cursor--label {
-    width: 78px;
-    height: 78px;
+    width: 40px;
+    height: 40px;
     background: var(--color-text);
     border-color: var(--color-text);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--color-bg);
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
 }
 
 body.dark .cursor--label {
@@ -2033,6 +2029,7 @@ body.dark .cursor--label {
 }
 
 .cursor__label {
+    display: flex;
     opacity: 0;
     transition: opacity 0.2s ease;
 }
