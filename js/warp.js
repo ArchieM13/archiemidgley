@@ -1,9 +1,13 @@
 /* ============================================
-   TEXT WARP EFFECT
-   Canvas-based mesh distortion on hero title.
-   Cursor warps the actual shapes of the letters.
-   FIX: explicitly loads Bebas Neue before rendering,
-   so it's correct on first visit (no refresh needed).
+   LOGO WARP EFFECT
+   The hero logo is dissected into its two halves, each
+   with its own hover distortion:
+     - "archie"  (solid letters, images/logo-archie.png) is drawn as a
+       tinted mask and pulled through a canvas mesh warp around the cursor.
+     - "midgley" (dot matrix) is stored as individual dot positions
+       (js/logo-data.js). Each dot is drawn as a crisp vector circle and
+       springs away from the cursor on its own.
+   Both halves are tinted with the theme's text colour, so dark mode works.
    ============================================ */
 
 (function () {
@@ -17,16 +21,22 @@
     var dpr = window.devicePixelRatio || 1;
     var width, height;
 
-    var TITLE = 'A.Midgley';
-    var FONT_FAMILY = "'Bebas Neue', 'Space Grotesk', sans-serif";
-    var LETTER_SPACING = 0.04;
-    var STRETCH_Y = 2.0;
+    var LOGO_MASK_SRC = 'images/logo-archie.png';
+    var LOGO_WIDTH_VW = 0.86;    // logo width as a fraction of the viewport
+    var LOGO_MAX_WIDTH = 1500;   // css px
 
+    // Mesh warp ("archie")
     var COLS = 60;
     var ROWS = 30;
+    var RADIUS = 160;            // css px
+    var STRENGTH = 40;           // css px
 
-    var RADIUS = 160;
-    var STRENGTH = 40;
+    // Dot field ("midgley")
+    var DOT_RADIUS = 170;        // css px reach of the cursor
+    var DOT_PUSH = 34;           // css px max push at the cursor
+    var DOT_GROW = 0.45;         // extra scale for dots right under the cursor
+    var SPRING = 0.14;
+    var DAMPING = 0.78;
 
     var mouseX = -9999, mouseY = -9999;
     var smoothX = -9999, smoothY = -9999;
@@ -35,8 +45,14 @@
     var LERP = 0.12;
     var WARP_LERP = 0.08;
 
+    // Dissected logo, in cropped source-image pixels.
+    var logo = window.LOGO_DATA; // { w, h, splitX, r, dots: [x0, y0, x1, y1, ...] }
+    var mask = new Image();      // "archie", black on transparent
+
+    // Per-layout state, in device pixels.
     var srcCanvas = document.createElement('canvas');
     var srcCtx = srcCanvas.getContext('2d');
+    var dots = [];               // { rx, ry, r, x, y, vx, vy, s }
 
     function getColors() {
         var isDark = document.body.classList.contains('dark');
@@ -46,59 +62,47 @@
         return { text: '#1A1A1A', bg: '#FAFAFA' };
     }
 
-    function getFontSize() {
+    // --- Layout ---
+    function layout() {
+        if (!logo) return null;
         var vw = width / dpr;
-        var size = vw * 0.165;
-        var min = 90;
-        var max = 230;
-        return Math.min(Math.max(size, min), max) * dpr;
-    }
-
-    function drawSpacedText(context, text, cx, cy, fontSize) {
-        var spacingPx = LETTER_SPACING * fontSize;
-        var totalW = 0;
-        var charWidths = [];
-        for (var i = 0; i < text.length; i++) {
-            var w = context.measureText(text[i]).width;
-            charWidths.push(w);
-            totalW += w;
-            if (i < text.length - 1) totalW += spacingPx;
-        }
-
-        var x = cx - totalW / 2;
-        for (var j = 0; j < text.length; j++) {
-            context.fillText(text[j], x + charWidths[j] / 2, cy);
-            x += charWidths[j] + spacingPx;
-        }
+        var drawW = Math.min(vw * LOGO_WIDTH_VW, LOGO_MAX_WIDTH) * dpr;
+        var scale = drawW / logo.w;
+        var drawH = logo.h * scale;
+        return {
+            scale: scale,
+            x: (width - drawW) / 2,
+            y: (height - drawH) / 2
+        };
     }
 
     function renderSource() {
         srcCanvas.width = width;
         srcCanvas.height = height;
-
-        var fontSize = getFontSize();
-        var colors = getColors();
-
         srcCtx.clearRect(0, 0, width, height);
-        srcCtx.save();
 
-        srcCtx.translate(width / 2, height / 2);
-        srcCtx.scale(1, STRETCH_Y);
+        var L = layout();
+        if (!L) return;
 
-        srcCtx.font = '400 ' + fontSize + 'px ' + FONT_FAMILY;
-        srcCtx.textAlign = 'center';
-        srcCtx.textBaseline = 'middle';
+        // Draw the "archie" mask, then tint it with the theme colour.
+        srcCtx.imageSmoothingEnabled = true;
+        srcCtx.imageSmoothingQuality = 'high';
+        srcCtx.drawImage(mask, L.x, L.y, logo.splitX * L.scale, logo.h * L.scale);
+        srcCtx.globalCompositeOperation = 'source-in';
+        srcCtx.fillStyle = getColors().text;
+        srcCtx.fillRect(0, 0, width, height);
+        srcCtx.globalCompositeOperation = 'source-over';
+    }
 
-        srcCtx.fillStyle = colors.text;
-        srcCtx.strokeStyle = colors.text;
-        srcCtx.lineWidth = 3 * dpr;
-        srcCtx.lineJoin = 'round';
-        drawSpacedText(srcCtx, TITLE, 0, 0, fontSize);
-
-        srcCtx.restore();
-
-        // Keep any damage the user has already inflicted.
-        applyDamage();
+    function buildDots() {
+        var L = layout();
+        dots = [];
+        if (!L) return;
+        for (var i = 0; i < logo.dots.length; i += 2) {
+            var rx = L.x + logo.dots[i] * L.scale;
+            var ry = L.y + logo.dots[i + 1] * L.scale;
+            dots.push({ rx: rx, ry: ry, r: logo.r * L.scale, x: rx, y: ry, vx: 0, vy: 0, s: 1 });
+        }
     }
 
     function resize() {
@@ -106,10 +110,8 @@
         height = canvas.offsetHeight * dpr;
         canvas.width = width;
         canvas.height = height;
-        // The title reflows at a new size, so past damage no longer maps — reset.
-        damageRects.length = 0;
-        fragments.length = 0;
         renderSource();
+        buildDots();
     }
 
     // Watch for theme changes
@@ -145,141 +147,7 @@
         isHovering = false;
     });
 
-    // --- Click destruction: break chunks off the word ---
-    // Clicking on or near the letters shatters that region: the inked cells
-    // there detach as debris that tumbles off across the screen, and the word
-    // is permanently gouged where they broke away. A small shockwave ripple
-    // gives the hit some punch. Damage is stored so it survives theme changes.
-    var ripples = [];        // small shockwave rings driving the mesh
-    var fragments = [];      // detached debris tumbling across the screen
-    var damageRects = [];    // cleared regions, re-applied after every render
-    var lastTime = performance.now();
-
-    var RIPPLE_SPEED = 650;      // css px / second the ring expands
-    var RIPPLE_LIFE = 0.55;      // seconds a ripple lives
-    var RIPPLE_BAND = 38;        // css px thickness of the shockwave ring
-    var RIPPLE_STRENGTH = 26;    // css px peak displacement
-
-    var DAMAGE_RADIUS = 52;      // css px radius of a single hit
-    var CHUNK = 15;              // css px size of each debris chunk
-    var GRAVITY = 46;            // css px / s^2 pulling debris down
-    var MAX_FRAGMENTS = 500;     // hard cap so many clicks stay smooth
-
-    // Re-clear every damaged region on the source canvas. Called after each
-    // renderSource() so re-rendering (e.g. on a theme switch) doesn't heal it.
-    function applyDamage() {
-        for (var i = 0; i < damageRects.length; i++) {
-            var r = damageRects[i];
-            srcCtx.clearRect(r.x, r.y, r.w, r.h);
-        }
-    }
-
-    function spawnDestruction(x, y) {
-        var R = DAMAGE_RADIUS * dpr;
-        var cell = CHUNK * dpr;
-
-        var bx = Math.max(0, Math.floor(x - R));
-        var by = Math.max(0, Math.floor(y - R));
-        var bx2 = Math.min(width, Math.ceil(x + R));
-        var by2 = Math.min(height, Math.ceil(y + R));
-        if (bx2 <= bx || by2 <= by) return;
-
-        var img;
-        try {
-            img = srcCtx.getImageData(bx, by, bx2 - bx, by2 - by);
-        } catch (err) {
-            return; // getImageData can throw in rare tainted-canvas cases
-        }
-        var data = img.data, iw = bx2 - bx;
-        var spawned = 0;
-
-        for (var cy0 = by; cy0 < by2; cy0 += cell) {
-            for (var cx0 = bx; cx0 < bx2; cx0 += cell) {
-                var cw = Math.min(cell, bx2 - cx0);
-                var ch = Math.min(cell, by2 - cy0);
-                var ccx = cx0 + cw / 2, ccy = cy0 + ch / 2;
-                var ddx = ccx - x, ddy = ccy - y;
-                if (ddx * ddx + ddy * ddy > R * R) continue;
-
-                // Only break chunks that actually contain ink.
-                var ink = false;
-                for (var yy = cy0; yy < cy0 + ch && !ink; yy += 2) {
-                    for (var xx = cx0; xx < cx0 + cw; xx += 2) {
-                        if (data[((yy - by) * iw + (xx - bx)) * 4 + 3] > 40) {
-                            ink = true;
-                            break;
-                        }
-                    }
-                }
-                if (!ink) continue;
-
-                // Snapshot the chunk's pixels into its own little canvas.
-                var fc = document.createElement('canvas');
-                fc.width = cw;
-                fc.height = ch;
-                fc.getContext('2d').drawImage(srcCanvas, cx0, cy0, cw, ch, 0, 0, cw, ch);
-
-                var ang = Math.atan2(ddy, ddx) + (Math.random() - 0.5) * 0.9;
-                var speed = (34 + Math.random() * 66) * dpr;
-                fragments.push({
-                    canvas: fc, w: cw, h: ch,
-                    x: ccx, y: ccy,
-                    vx: Math.cos(ang) * speed,
-                    vy: Math.sin(ang) * speed - 28 * dpr,   // slight upward kick
-                    angle: 0, va: (Math.random() - 0.5) * 4.5,
-                    age: 0
-                });
-
-                // Gouge the chunk out of the word — permanently.
-                damageRects.push({ x: cx0, y: cy0, w: cw, h: ch });
-                srcCtx.clearRect(cx0, cy0, cw, ch);
-                spawned++;
-            }
-        }
-
-        if (spawned > 0) ripples.push({ x: x, y: y, age: 0 });
-        if (fragments.length > MAX_FRAGMENTS) {
-            fragments.splice(0, fragments.length - MAX_FRAGMENTS);
-        }
-    }
-
-    function onClick(e) {
-        var rect = heroArea.getBoundingClientRect();
-        spawnDestruction((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
-    }
-    heroArea.addEventListener('click', onClick);
-
-    function updateFragments(dt) {
-        var margin = 80 * dpr;
-        for (var i = fragments.length - 1; i >= 0; i--) {
-            var f = fragments[i];
-            f.vy += GRAVITY * dpr * dt;
-            f.vx *= (1 - 0.12 * dt);
-            f.vy *= (1 - 0.12 * dt);
-            f.x += f.vx * dt;
-            f.y += f.vy * dt;
-            f.angle += f.va * dt;
-            f.age += dt;
-
-            if (f.age > 14 ||
-                f.x < -margin || f.x > width + margin ||
-                f.y > height + margin || f.y < -margin) {
-                fragments.splice(i, 1);
-                continue;
-            }
-
-            var alpha = f.age > 12 ? Math.max(0, 1 - (f.age - 12) / 2) : 1;
-            ctx.save();
-            ctx.translate(f.x, f.y);
-            ctx.rotate(f.angle);
-            ctx.globalAlpha = alpha;
-            ctx.drawImage(f.canvas, -f.w / 2, -f.h / 2);
-            ctx.restore();
-        }
-        ctx.globalAlpha = 1;
-    }
-
-    // --- Mesh distortion ---
+    // --- Mesh distortion ("archie") ---
     function drawDistorted() {
         var cellW = width / COLS;
         var cellH = height / ROWS;
@@ -307,28 +175,6 @@
                     offsetY = -Math.sin(angle) * strength * factor;
                 }
 
-                // Shockwave rings: cells near an expanding ring get shoved,
-                // tearing the letters apart as each ripple sweeps through.
-                for (var ri = 0; ri < ripples.length; ri++) {
-                    var rp = ripples[ri];
-                    var ringR = rp.age * RIPPLE_SPEED * dpr;
-                    var rdx = cx - rp.x;
-                    var rdy = cy - rp.y;
-                    var rdist = Math.sqrt(rdx * rdx + rdy * rdy);
-                    if (rdist <= 0) continue;
-                    var band = RIPPLE_BAND * dpr;
-                    var diff = rdist - ringR;
-                    if (Math.abs(diff) >= band) continue;
-                    var life = 1 - rp.age / RIPPLE_LIFE;
-                    if (life <= 0) continue;
-                    var sigma = band / 2.2;
-                    var g = Math.exp(-(diff * diff) / (2 * sigma * sigma));
-                    var amp = RIPPLE_STRENGTH * dpr * life * g;
-                    var ra = Math.atan2(rdy, rdx);
-                    offsetX += -Math.cos(ra) * amp;
-                    offsetY += -Math.sin(ra) * amp;
-                }
-
                 var srcX = Math.max(0, Math.min(width - cellW, destX + offsetX));
                 var srcY = Math.max(0, Math.min(height - cellH, destY + offsetY));
 
@@ -341,10 +187,48 @@
         }
     }
 
+    // --- Dot field ("midgley") ---
+    // Each dot is pushed out from the cursor and swells slightly, like the
+    // mesh bulge, then springs back to its rest position.
+    function drawDots() {
+        var reach = DOT_RADIUS * dpr;
+        var push = DOT_PUSH * dpr * warpAmount;
+        ctx.fillStyle = getColors().text;
+        ctx.beginPath();
+        for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            var tx = d.rx, ty = d.ry, ts = 1;
+            var dx = d.rx - smoothX;
+            var dy = d.ry - smoothY;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < reach && dist > 0) {
+                var f = 1 - dist / reach;
+                f = f * f;
+                tx += (dx / dist) * push * f;
+                ty += (dy / dist) * push * f;
+                ts += DOT_GROW * warpAmount * f;
+            }
+
+            d.vx = (d.vx + (tx - d.x) * SPRING) * DAMPING;
+            d.vy = (d.vy + (ty - d.y) * SPRING) * DAMPING;
+            d.x += d.vx;
+            d.y += d.vy;
+            d.s += (ts - d.s) * 0.2;
+
+            var r = d.r * d.s;
+            ctx.moveTo(d.x + r, d.y);
+            ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+        }
+        ctx.fill();
+    }
+
     function animate() {
-        var now = performance.now();
-        var dt = Math.min(0.05, (now - lastTime) / 1000);
-        lastTime = now;
+        requestAnimationFrame(animate);
+
+        // The canvas can be 0x0 for a moment (e.g. a hidden tab at load);
+        // re-measure once it has a size instead of drawing nothing.
+        if (canvas.offsetWidth * dpr !== width || canvas.offsetHeight * dpr !== height) resize();
+        if (!width || !height) return;
 
         if (isHovering) {
             smoothX += (mouseX - smoothX) * LERP;
@@ -354,15 +238,9 @@
             warpAmount += (0 - warpAmount) * WARP_LERP;
         }
 
-        // Advance and retire shockwaves.
-        for (var i = ripples.length - 1; i >= 0; i--) {
-            ripples[i].age += dt;
-            if (ripples[i].age >= RIPPLE_LIFE) ripples.splice(i, 1);
-        }
-
         ctx.clearRect(0, 0, width, height);
 
-        if (warpAmount < 0.005 && ripples.length === 0) {
+        if (warpAmount < 0.005) {
             ctx.drawImage(srcCanvas, 0, 0);
             if (!isHovering && warpAmount < 0.001) {
                 warpAmount = 0;
@@ -371,50 +249,17 @@
             drawDistorted();
         }
 
-        updateFragments(dt);
-
-        requestAnimationFrame(animate);
+        drawDots();
     }
 
-    // --- FONT FIX ---
-    // document.fonts.ready only waits for fonts that have already STARTED
-    // loading. Bebas Neue isn't applied to any visible DOM element (only the
-    // canvas uses it), so on a cold first visit the browser hasn't begun
-    // fetching it and `ready` resolves against the fallback font — which is
-    // why the title looked wrong until a refresh.
-    //
-    // Explicitly requesting the font with document.fonts.load() forces the
-    // fetch and resolves only once the real face is available. We then
-    // re-render whenever it finishes, with a guard so the first paint is
-    // never left on the fallback.
     function start() {
         window.addEventListener('resize', resize);
         resize();
-        lastTime = performance.now();
         animate();
-
-        if (document.fonts && document.fonts.load) {
-            var px = Math.round(getFontSize());
-            // Kick off an explicit load of Bebas Neue at the size we draw at.
-            document.fonts.load('400 ' + px + "px 'Bebas Neue'", TITLE).then(function () {
-                // Re-render once the real typeface is guaranteed available.
-                renderSource();
-            }).catch(function () {
-                renderSource();
-            });
-
-            // Belt-and-braces: also re-render when all font loading settles.
-            document.fonts.ready.then(renderSource);
-        }
     }
 
-    if (document.fonts && document.fonts.ready) {
-        // Wait for the font system to be ready, then start (start() itself
-        // forces the Bebas Neue load and re-renders when it lands).
-        document.fonts.ready.then(start);
-    } else {
-        // Fallback for older browsers
-        window.addEventListener('load', start);
-    }
+    if (!logo) return;
+    mask.onload = start;
+    mask.src = LOGO_MASK_SRC;
 
 })();
