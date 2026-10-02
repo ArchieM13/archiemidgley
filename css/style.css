@@ -509,10 +509,10 @@ body:not(.hero-active) .progress {
 /* --- Clickable Experience Items --- */
 .experience__item--link {
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: var(--space-xl);
+    grid-template-columns: 300px 1fr;
+    gap: var(--space-lg);
     align-items: start;
-    padding-bottom: var(--space-2xl);
+    padding-bottom: var(--space-lg);
     border-bottom: 1px solid var(--color-border-light);
     text-decoration: none;
     color: inherit;
@@ -533,7 +533,7 @@ body:not(.hero-active) .progress {
     display: grid;
     grid-template-columns: 1fr 1.4fr;
     gap: var(--space-2xl);
-    align-items: start;
+    align-items: stretch;
 }
 
 .about__portrait {
@@ -589,6 +589,8 @@ body:not(.hero-active) .progress {
 
 .about__content {
     padding-top: var(--space-sm);
+    display: flex;
+    flex-direction: column;
 }
 
 .about__headline {
@@ -623,8 +625,9 @@ body:not(.hero-active) .progress {
 .about__details {
     display: flex;
     flex-direction: column;
-    gap: var(--space-sm);
-    padding-top: var(--space-lg);
+    gap: 0;
+    margin-top: auto;           /* sit on the bottom edge of the portrait */
+    padding-top: var(--space-sm);
     border-top: 1px solid var(--color-border);
 }
 
@@ -632,7 +635,11 @@ body:not(.hero-active) .progress {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--space-xs) 0;
+    padding: 0.4rem 0;
+}
+
+.about__detail:last-child {
+    padding-bottom: 0;
 }
 
 .about__label {
@@ -653,15 +660,15 @@ body:not(.hero-active) .progress {
 .experience__list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2xl);
+    gap: var(--space-lg);
 }
 
 .experience__item {
     display: grid;
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: var(--space-xl);
+    grid-template-columns: 300px 1fr;
+    gap: var(--space-lg);
     align-items: start;
-    padding-bottom: var(--space-2xl);
+    padding-bottom: var(--space-lg);
     border-bottom: 1px solid var(--color-border-light);
     opacity: 0;
     transform: translateY(30px);
@@ -723,7 +730,7 @@ body:not(.hero-active) .progress {
 }
 
 .experience__role::before {
-    content: '—';
+    content: '-';
     margin-right: var(--space-xs);
 }
 
@@ -1413,8 +1420,8 @@ body.dark .theme-switcher__btn.active {
 
     .experience__item,
     .experience__item--link {
-        grid-template-columns: 1fr 1.5fr;
-        gap: var(--space-lg);
+        grid-template-columns: 240px 1fr;
+        gap: var(--space-md);
     }
 
     .project-detail__two-col {
@@ -1466,7 +1473,7 @@ body.dark .theme-switcher__btn.active {
     }
 
     .experience__image-wrapper {
-        max-width: 400px;
+        aspect-ratio: 16 / 9;
     }
 
     .projects__grid {

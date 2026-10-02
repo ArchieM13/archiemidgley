@@ -10,7 +10,7 @@
             id: 1,
             company: 'Shape Shoes',
             category: 'Footwear',
-            period: '2023 — Present',
+            period: '2023 - Present',
             role: 'COO & Design Engineer',
             location: 'London',
             overview: 'A London-based, 3D-printed footwear startup, designing shoes with major worldwide collaborations to tell artist stories through physical design. Bringing together expertise in prototyping, manufacture, and computational design to take a concept from blank canvas to complete product; highlighting the advantage of additive manufacturing for prototyping. The process leverages TPU 3D printing to produce these rapid design iterations within days. After design finalisation, we organised a seamless transition to mass manufacture, with injection moulding being the best option for both comfort and profit margins.',
@@ -20,7 +20,7 @@
             images: [
                 'images/experience-01-detail-02.jpg',
                 'images/experience-01-detail-03.jpg',
-                'images/experience-01-detail-04.jpg',
+                'images/experience-01-detail-04.jpg?v=2',
                 'images/experience-01-detail-05.jpg?v=2',
                 'images/experience-01-detail-06.jpg'
             ],
@@ -32,7 +32,7 @@
             id: 3,
             company: 'Institute of Science Tokyo',
             category: 'Soft Robotics',
-            period: 'Sep 2026 — Oct 2026',
+            period: 'Sep 2026 - Oct 2026',
             role: 'Soft Robotics Research Intern',
             location: 'Tokyo',
             overview: 'A month at the Yoshida Research Group within the Institute of Science Tokyo. Tasked with building a wearable device driven by thin McKibben artificial muscles, I chose to tackle the actuation of the index and middle finger.',
@@ -46,13 +46,13 @@
                 'images/experience-06-detail-4.jpg',
                 'images/experience-06-detail-5.jpg'
             ],
-            captions: ['', '', '', '', '']
+            captions: ['Rear View of System', 'Air Control Circuit Board', 'Side View of System', 'Artificial Muscle Stopper Arm Strap', 'Remote Finger Control']
         },
         {
             id: 2,
             company: 'Orthoson',
             category: 'MedTech',
-            period: 'Mar 2026 — Sep 2026',
+            period: 'Mar 2026 - Sep 2026',
             role: 'Medical & Mechanical Engineer',
             location: 'Oxford',
             overview: 'An Oxford University MedTech spinout, manufacturing a bio-structural gel to restore disc mechano-biology to treat the causes of degeneration (causing lower-back pain). This involves a low-viscosity injectable which follows the fissures of degeneration and gels as it enters the Nucleus Pulposus - mimicking the body’s own tissue. The procedure is micro-invasive and is completed in <30minutes, via the use of a handheld injection system which features a pressure sensor to monitor the surgery.',
@@ -66,7 +66,7 @@
                 'images/experience-02-detail-4.jpg',
                 'images/experience-02-detail-5.jpg'
             ],
-            captions: ['', '', '', '', '']
+            captions: ['IS3 Technical Drawing', 'Instron Use', 'Final IS3 Product', 'Custom PCBs', 'Mass-production Alignment Jigs']
         }
     ];
 
@@ -74,7 +74,7 @@
     var expId = parseInt(params.get('id'), 10) || 1;
     var exp = experiences.find(function (e) { return e.id === expId; }) || experiences[0];
 
-    document.title = exp.company + ' — Archie Midgley';
+    document.title = exp.company + ' - Archie Midgley';
 
     var el = function (id) { return document.getElementById(id); };
 

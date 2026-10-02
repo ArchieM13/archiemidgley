@@ -105,7 +105,7 @@
     var projectId = parseInt(params.get('id'), 10) || 1;
     var project = projects.find(function (p) { return p.id === projectId; }) || projects[0];
 
-    document.title = project.title + ' — Archie Midgley';
+    document.title = project.title + ' - Archie Midgley';
 
     var el = function (id) { return document.getElementById(id); };
 
