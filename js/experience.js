@@ -38,7 +38,7 @@
             overview: 'An Oxford University MedTech spinout, manufacturing a bio-structural gel to restore disc mechano-biology to treat the causes of degeneration (causing lower-back pain). This involves a low-viscosity injectable which follows the fissures of degeneration and gels as it enters the Nucleus Pulposus - mimicking the body’s own tissue. The procedure is micro-invasive and is completed in <30minutes, via the use of a handheld injection system which features a pressure sensor to monitor the surgery.',
             responsibilities: 'Tasked with a full redesign of the pressure monitoring and user interface of the injection system. Prototyping handles and grips for the device for optimal surgeon comfort and maneuroverbility, which would enclose the pressure monitor and display electronics. Button placement and early-stage electronics prototyping involved the use of a Formlabs 3BL resin printer and basic circuitry - ESP32 and an LCD. The user interface was coded entirely in C++, displaying pressure readings as a graph, with key readings and a full alert system for pressure fluctuation scenarios and trends. I solved a data handling problem via the integration of encrypted QR scanning at the end of the procedure; coded in HTML. \n\nAfter receiving positive feedback on the design and the user interaction process at multiple meetings, I was assigned by Rich Simmons (CEO) to manufacture 3 full demo devices which could be taken by himself and Nick Birch to their next physician board meeting in the US. These devices would be used to demonstrate the future of the injection system design and UI, to gain vital feedback from people who will know best on what makes a medical device well designed or diﬃcult to use. \n\nThe design process took many steps to reach a cohesive product build. With the requirement to keep the enclosure size as small as possible, whilst holding the pressure monitor, display module, internal electronics board, a push button and a charging/power system. Although the initial use of a development board was quick and easy to show for feedback, I wanted to ensure manufacturability for the device – utilising a custom PCB instead. This design process was entirely self-taught. \n\nAdditional engineering based projects included the design of Go/No-go quality control jigs for the injection system parts, which were CNC milled. Also, the design of a control box, to be used by the physician in live animal procedure tests.',
             tags: ['DFMA', 'Prototyping', 'Solidworks', 'Medical Regulations', 'PCB Design'],
-            heroImage: 'images/experience-02.jpg',
+            heroImage: 'images/experience-02-hero.jpg',
             images: [
                 'images/experience-02-detail-1.jpg',
                 'images/experience-02-detail-2.jpg',
@@ -47,6 +47,20 @@
                 'images/experience-02-detail-5.jpg'
             ],
             captions: ['', '', '', '', '']
+        },
+        {
+            id: 3,
+            company: 'Institute of Science Tokyo',
+            category: 'Robotics',
+            period: '2026',
+            role: 'Research Intern',
+            location: 'Tokyo',
+            overview: 'A month at the Yoshida Research Group within the Institute of Science Tokyo. Tasked with building a wearable device driven by thin McKibben artificial muscles, I chose to tackle the actuation of the index and middle finger.',
+            responsibilities: 'Pressurising the artificial muscles causes them to contract - behaving more like a tendon than a standard motor-driven joint. This contraction lifts the index and middle fingers; pressure release drops them. \n\nStarting with rolls of EM40 McKibben muscle, PLA and velcro, I designed the terminals, stoppers and valve mounts required to complete a full system from tank to finger. Extension length, input pressure and contraction angle were all calculated from McKibben datasheets before the design began. \n\nOn the control side, an Arduino talks to a dual 12-bit DAC over SPI, which commands two electro-pneumatic regulators to set the pressure in each muscle independently. This makes it possible to run preset sequences to play a piano melody, or to drive the muscles live from keyboard input.',
+            tags: ['Soft Robotics', 'Pneumatics', 'Arduino', 'CAD', 'Prototyping'],
+            heroImage: 'images/experience-06.jpg',
+            images: [],
+            captions: []
         }
     ];
 
@@ -70,9 +84,13 @@
     el('expHeroImg').src = exp.heroImage;
     el('expHeroImg').alt = exp.company;
 
-    // Images 1, 2, 4, 5 (no image 3 / full-width slot)
+    // Gallery images 1-5. Slots without an image are hidden, along with any
+    // gallery row left empty.
     for (var i = 1; i <= 5; i++) {
         var img = el('expImg' + i);
+        if (img && !exp.images[i - 1]) {
+            img.parentElement.style.display = 'none';
+        }
         if (img && exp.images[i - 1]) {
             img.src = exp.images[i - 1];
             img.alt = exp.company + ' detail ' + i;
@@ -87,6 +105,12 @@
             }
         }
     }
+
+    document.querySelectorAll('.project-detail__gallery').forEach(function (gallery) {
+        var items = gallery.querySelectorAll('.project-detail__gallery-item');
+        var shown = Array.prototype.some.call(items, function (item) { return item.style.display !== 'none'; });
+        if (!shown) gallery.style.display = 'none';
+    });
 
     // Captions
     if (exp.captions) {
