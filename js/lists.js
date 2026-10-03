@@ -1,7 +1,7 @@
 /* ============================================
    EXPERIENCE + PROJECTS INTERACTIONS
    - Experience: a small photo glides along the hovered row, following the
-     cursor. Touch screens (and entries without a page) expand rows instead.
+     cursor. Entries without their own page expand to show a description.
    - Projects: cards tilt towards the cursor with a glare highlight and
      the image drifting against the tilt.
    ============================================ */
@@ -86,14 +86,11 @@
                 row.classList.remove('is-floating');
             });
 
-            // Touch / narrow screens: the first tap opens a row, a second tap
-            // on an open link row follows it. On desktop, entries without
-            // their own page open their description on click.
+            // Entries with their own page go straight to it. Entries without
+            // one open their description in place instead.
             row.addEventListener('click', function (e) {
-                var isLink = row.tagName === 'A';
-                if (usePreview() && isLink) return;
+                if (row.tagName === 'A') return;
                 var isOpen = row.classList.contains('is-open');
-                if (isOpen && isLink) return;
                 e.preventDefault();
                 rows.forEach(function (r) { if (r !== row) r.classList.remove('is-open'); });
                 row.classList.toggle('is-open', !isOpen);
