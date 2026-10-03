@@ -2,8 +2,9 @@
    LOGO WARP EFFECT
    The hero logo is dissected into its two halves, each
    with its own hover distortion:
-     - "archie"  (solid letters, images/logo-archie.png) is drawn as a
-       tinted mask and pulled through a canvas mesh warp around the cursor.
+     - "archie"  (solid letters) is a traced vector outline (archiePath in
+       js/logo-data.js), so it stays crisp at any size, pulled through a
+       canvas mesh warp around the cursor.
      - "midgley" (dot matrix) is stored as individual dot positions
        (js/logo-data.js). Each dot is drawn as a crisp vector circle and
        springs away from the cursor on its own.
@@ -21,7 +22,6 @@
     var dpr = window.devicePixelRatio || 1;
     var width, height;
 
-    var LOGO_MASK_SRC = 'images/logo-archie.png';
     var LOGO_WIDTH_VW = 0.86;    // logo width as a fraction of the viewport
     var LOGO_MAX_WIDTH = 1500;   // css px
 
@@ -47,7 +47,7 @@
 
     // Dissected logo, in cropped source-image pixels.
     var logo = window.LOGO_DATA; // { w, h, splitX, r, dots: [x0, y0, x1, y1, ...] }
-    var mask = new Image();      // "archie", black on transparent
+    var archie = logo && new Path2D(logo.archiePath);
 
     // Per-layout state, in device pixels.
     var srcCanvas = document.createElement('canvas');
@@ -84,14 +84,13 @@
         var L = layout();
         if (!L) return;
 
-        // Draw the "archie" mask, then tint it with the theme colour.
-        srcCtx.imageSmoothingEnabled = true;
-        srcCtx.imageSmoothingQuality = 'high';
-        srcCtx.drawImage(mask, L.x, L.y, logo.splitX * L.scale, logo.h * L.scale);
-        srcCtx.globalCompositeOperation = 'source-in';
+        // Fill the traced "archie" outline at device resolution.
+        srcCtx.save();
+        srcCtx.translate(L.x, L.y);
+        srcCtx.scale(L.scale, L.scale);
         srcCtx.fillStyle = getColors().text;
-        srcCtx.fillRect(0, 0, width, height);
-        srcCtx.globalCompositeOperation = 'source-over';
+        srcCtx.fill(archie, 'evenodd');
+        srcCtx.restore();
     }
 
     function buildDots() {
@@ -259,7 +258,6 @@
     }
 
     if (!logo) return;
-    mask.onload = start;
-    mask.src = LOGO_MASK_SRC;
+    start();
 
 })();
