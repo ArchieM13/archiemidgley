@@ -42,6 +42,9 @@
 
 html {
     font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -105,6 +108,7 @@ body {
     line-height: 1.6;
     overflow: hidden;
     height: 100vh;
+    height: 100dvh;
     width: 100vw;
 }
 
@@ -335,6 +339,7 @@ p {
 /* --- Main Content --- */
 .main {
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
     position: relative;
 }
@@ -346,7 +351,9 @@ p {
     left: 0;
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     overflow-y: auto;
+    overscroll-behavior: contain;
     padding: calc(var(--nav-height) + var(--space-md)) var(--space-lg) var(--space-lg);
     opacity: 0;
     visibility: hidden;
@@ -425,6 +432,7 @@ p {
 .hero {
     width: 100%;
     height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2022,4 +2030,52 @@ body.dark .cursor--label {
 
 .cursor--label .cursor__label {
     opacity: 1;
+}
+
+/* ============================================
+   PHONES (iPhone and similar)
+   ============================================ */
+@media (max-width: 768px) {
+    /* The opening screen fills the visible screen exactly; the generic
+       section padding above would otherwise make it scroll. */
+    .section.section--hero {
+        padding: 0;
+    }
+
+    /* Solid bar so content scrolls cleanly underneath the menu button */
+    .nav {
+        background: var(--color-bg);
+    }
+
+    /* The section dots sat on top of text at this width */
+    .progress {
+        display: none;
+    }
+
+    /* Theme toggle moves into the top bar, replacing the section label
+       (the big page title already says where you are). */
+    .nav__indicator {
+        display: none;
+    }
+
+    .theme-switcher,
+    body.hero-active .theme-switcher {
+        top: calc(var(--nav-height) / 2);
+        right: var(--space-md);
+        transform: translateY(-50%);
+        flex-direction: row;
+        gap: 12px;
+    }
+
+    .theme-switcher__btn {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theme-switcher,
+    body.hero-active .theme-switcher {
+        right: var(--space-sm);
+    }
 }
