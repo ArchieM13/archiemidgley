@@ -1,7 +1,7 @@
 /* ============================================
    EXPERIENCE + PROJECTS INTERACTIONS
-   - Experience: a preview card follows the cursor over the index list,
-     swinging with the cursor's speed. Touch screens expand rows instead.
+   - Experience: a small photo glides along the hovered row, following the
+     cursor. Touch screens (and entries without a page) expand rows instead.
    - Projects: cards tilt towards the cursor with a glare highlight and
      the image drifting against the tilt.
    ============================================ */
@@ -15,84 +15,85 @@
 
     // --- Experience index ---
     var list = document.getElementById('xpList');
-    var preview = document.getElementById('xpPreview');
 
-    if (list && preview) {
+    if (list) {
         var rows = Array.prototype.slice.call(list.querySelectorAll('.xp__row'));
-        var media = document.getElementById('xpPreviewMedia');
-        var desc = document.getElementById('xpPreviewDesc');
-        var tags = document.getElementById('xpPreviewTags');
+        var FLOAT_W = 150, GAP = 24;
 
-        // Sections are transformed, which would trap a fixed element; the
-        // preview has to live on <body> to track the viewport.
-        document.body.appendChild(preview);
-
-        var imgs = rows.map(function (row) {
-            var src = row.querySelector('.xp__thumb');
+        rows.forEach(function (row) {
+            // Each row gets a small photo that glides through the empty gap
+            // between the company name and the role column.
+            var float = document.createElement('div');
+            float.className = 'xp__float';
+            float.setAttribute('aria-hidden', 'true');
             var img = document.createElement('img');
-            img.src = src.getAttribute('src');
+            img.src = row.querySelector('.xp__thumb').getAttribute('src');
             img.alt = '';
-            media.appendChild(img);
-            return img;
-        });
+            float.appendChild(img);
+            row.appendChild(float);
 
-        var targetX = 0, targetY = 0, x = 0, y = 0, lastX = 0, tilt = 0;
-        var active = -1, visible = false, running = false;
+            var company = row.querySelector('.xp__company');
+            var role = row.querySelector('.xp__role');
+            var date = row.querySelector('.xp__date');
+            var x = 0, target = 0, tilt = 0, min = 0, max = 0, hovering = false, running = false;
 
-        function show(index) {
-            var row = rows[index];
-            if (index !== active) {
-                if (active >= 0) imgs[active].classList.remove('is-active');
-                imgs[index].classList.add('is-active');
-                desc.textContent = row.querySelector('.xp__desc').textContent;
-                tags.innerHTML = row.querySelector('.xp__tags').innerHTML;
-                active = index;
+            function measure() {
+                var r = row.getBoundingClientRect();
+                var right = role.offsetParent ? role : date;
+                var c = company.getBoundingClientRect();
+                min = c.right - r.left + GAP;
+                // Centre on the title line, not the row (which grows when open).
+                float.style.top = (c.top + c.height / 2 - r.top).toFixed(1) + 'px';
+                max = right.getBoundingClientRect().left - r.left - FLOAT_W - GAP;
+                if (max < min) max = min;
             }
-            if (!visible) {
-                // Appear at the cursor rather than flying in from the last spot.
-                x = targetX; y = targetY; lastX = x;
-                visible = true;
-                preview.classList.add('is-visible');
+
+            function tick() {
+                var prev = x;
+                x += (target - x) * 0.16;
+                tilt += (Math.max(-8, Math.min(8, (x - prev) * 0.5)) - tilt) * 0.15;
+                float.style.setProperty('--fx', x.toFixed(1) + 'px');
+                float.style.setProperty('--fr', tilt.toFixed(2) + 'deg');
+                if (hovering || Math.abs(target - x) > 0.5 || Math.abs(tilt) > 0.05) {
+                    requestAnimationFrame(tick);
+                } else {
+                    running = false;
+                }
             }
-            if (!running) { running = true; requestAnimationFrame(tick); }
-        }
 
-        function hide() {
-            visible = false;
-            preview.classList.remove('is-visible');
-        }
-
-        function tick() {
-            x += (targetX - x) * 0.14;
-            y += (targetY - y) * 0.14;
-            var vx = x - lastX;
-            lastX = x;
-            tilt += (Math.max(-14, Math.min(14, vx * 0.6)) - tilt) * 0.12;
-
-            var w = preview.offsetWidth, h = preview.offsetHeight;
-            // Sit to the right of the cursor; flip left near the right edge.
-            var px = x + 32 + w > window.innerWidth - 16 ? x - w - 32 : x + 32;
-            var py = Math.max(16, Math.min(window.innerHeight - h - 16, y - h / 2));
-            preview.style.transform = 'translate3d(' + px + 'px,' + py + 'px,0) rotate(' + tilt.toFixed(2) + 'deg)';
-
-            if (visible || Math.abs(tilt) > 0.05) {
-                requestAnimationFrame(tick);
-            } else {
-                running = false;
+            function follow(clientX) {
+                var r = row.getBoundingClientRect();
+                target = Math.max(min, Math.min(max, clientX - r.left - FLOAT_W / 2));
+                if (!running) { running = true; requestAnimationFrame(tick); }
             }
-        }
 
-        rows.forEach(function (row, i) {
-            row.addEventListener('mouseenter', function () {
-                if (usePreview()) show(i);
+            row.addEventListener('mouseenter', function (e) {
+                if (!usePreview()) return;
+                measure();
+                hovering = true;
+                // Start where the cursor is rather than sliding in from the left.
+                follow(e.clientX);
+                x = target;
+                row.classList.add('is-floating');
+            });
+
+            row.addEventListener('mousemove', function (e) {
+                if (hovering) follow(e.clientX);
+            });
+
+            row.addEventListener('mouseleave', function () {
+                hovering = false;
+                row.classList.remove('is-floating');
             });
 
             // Touch / narrow screens: the first tap opens a row, a second tap
-            // on an open link row follows it.
+            // on an open link row follows it. On desktop, entries without
+            // their own page open their description on click.
             row.addEventListener('click', function (e) {
-                if (usePreview()) return;
+                var isLink = row.tagName === 'A';
+                if (usePreview() && isLink) return;
                 var isOpen = row.classList.contains('is-open');
-                if (isOpen && row.tagName === 'A') return;
+                if (isOpen && isLink) return;
                 e.preventDefault();
                 rows.forEach(function (r) { if (r !== row) r.classList.remove('is-open'); });
                 row.classList.toggle('is-open', !isOpen);
@@ -105,18 +106,6 @@
                 }
             });
         });
-
-        list.addEventListener('mousemove', function (e) {
-            targetX = e.clientX;
-            targetY = e.clientY;
-        });
-        list.addEventListener('mouseleave', hide);
-
-        // Section changes and scrolling move rows out from under the cursor.
-        document.addEventListener('wheel', function () {
-            if (visible && !list.matches(':hover')) hide();
-        }, { passive: true });
-        window.addEventListener('blur', hide);
     }
 
     // --- Project tilt cards ---
