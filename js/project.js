@@ -34,7 +34,8 @@
             heroImage: 'images/project-02-hero.jpg',
             images: ['images/project-02-detail-1.jpg', 'images/project-02-detail-2.jpg', 'images/project-02-detail-3.jpg', 'images/project-02-detail-4.jpg', 'images/project-02-detail-5.jpg'],
             portfolioLink: '',
-            captions: ['Final Product Render', 'Layered Fabrication', 'Intraoral Scanning Procedure', 'Thermal Comfort Simulation', 'App for Biometric Tracking Overview']
+            captions: ['Final Product Render', 'Layered Fabrication', 'Intraoral Scanning Procedure', 'Thermal Comfort Simulation', 'App for Biometric Tracking Overview'],
+            imagePositions: ['center top', '', '', '', '']
         },
         {
             id: 4,

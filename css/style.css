@@ -2092,3 +2092,60 @@ body.dark .cursor--label {
         right: var(--space-sm);
     }
 }
+
+/* ============================================
+   ABOUT: photo ends exactly at the line above Location
+   The details sit in their own grid row, so the photo (row 1) stretches to
+   the height of the headline + bio and is cropped from the top.
+   ============================================ */
+@media (min-width: 769px) {
+    .about__grid {
+        row-gap: 0;
+    }
+
+    .about__portrait {
+        grid-column: 1;
+        grid-row: 1;
+        height: 100%;
+    }
+
+    .about__content {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .about__details {
+        grid-column: 2;
+        grid-row: 2;
+        margin-top: 0;
+    }
+
+    .about__image-wrapper {
+        aspect-ratio: auto;
+        height: 100%;
+        min-height: 320px;
+    }
+
+    /* Out of flow, so the photo never sets the row height - the text does */
+    .about__image {
+        position: absolute;
+        inset: 0;
+        object-position: center 75%;
+    }
+}
+
+/* LumaPath tile: show the whole render (shifted right with white space on
+   the left) instead of cropping it; the tile matches the render's plain
+   background, so the edges are invisible. */
+.project__card--fit .project__image-wrapper {
+    background: #FEFEFE;
+}
+
+body.dark .project__card--fit .project__image-wrapper {
+    background: #000000;
+}
+
+.project__card--fit .project__inner .project__image {
+    object-fit: contain;
+    object-position: right center;
+}
