@@ -9,6 +9,7 @@
        (js/logo-data.js). Each dot is drawn as a crisp vector circle and
        springs away from the cursor on its own.
    Both halves are tinted with the theme's text colour, so dark mode works.
+   On the first visit of a session the logo assembles itself (intro).
    ============================================ */
 
 (function () {
@@ -37,6 +38,12 @@
     var DOT_GROW = 0.45;         // extra scale for dots right under the cursor
     var SPRING = 0.14;
     var DAMPING = 0.78;
+
+    // Intro (once per visit): "midgley" dots fly in from scattered spots and
+    // snap into place left to right while "archie" rises from a mask.
+    var INTRO_DOT_MS = 1100;
+    var INTRO_ARCHIE_DELAY = 150, INTRO_ARCHIE_MS = 900;
+    var intro = null;            // { start, end, angle[], spread[], delay[] }
 
     var mouseX = -9999, mouseY = -9999;
     var smoothX = -9999, smoothY = -9999;
@@ -186,6 +193,65 @@
         }
     }
 
+    function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function clamp01(t) { return t < 0 ? 0 : t > 1 ? 1 : t; }
+
+    function setupIntro() {
+        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduced || !document.body.classList.contains('hero-active')) return;
+        try {
+            if (sessionStorage.getItem('logoIntroPlayed')) return;
+            sessionStorage.setItem('logoIntroPlayed', '1');
+        } catch (e) { /* storage blocked: just play it */ }
+
+        var n = logo.dots.length / 2, angle = [], spread = [], delay = [], last = 0;
+        for (var i = 0; i < n; i++) {
+            angle.push(Math.random() * Math.PI * 2);
+            spread.push(0.4 + Math.random() * 0.8);
+            // Left-to-right sweep across "midgley", with a little jitter
+            var d = (logo.dots[i * 2] - logo.splitX) / (logo.w - logo.splitX) * 600 + Math.random() * 250;
+            delay.push(d);
+            if (d > last) last = d;
+        }
+        var start = performance.now() + 150;
+        intro = { start: start, end: start + last + INTRO_DOT_MS, angle: angle, spread: spread, delay: delay };
+    }
+
+    // Dots during the intro: tween from their scattered start to rest. Start
+    // points are derived from the current size, so a resize mid-intro is fine.
+    function drawIntroDots(t) {
+        ctx.fillStyle = getColors().text;
+        ctx.beginPath();
+        for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            var q = easeOut(clamp01((t - intro.delay[i]) / INTRO_DOT_MS));
+            var sx = width / 2 + Math.cos(intro.angle[i]) * intro.spread[i] * width;
+            var sy = height / 2 + Math.sin(intro.angle[i]) * intro.spread[i] * width * 0.6;
+            d.x = sx + (d.rx - sx) * q;
+            d.y = sy + (d.ry - sy) * q;
+            d.vx = d.vy = 0;
+            d.s = 0.4 + 0.6 * q;
+            var r = d.r * d.s;
+            ctx.moveTo(d.x + r, d.y);
+            ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+        }
+        ctx.fill();
+    }
+
+    // "archie" slides up into place through a clip the height of the logo.
+    function drawIntroArchie(t) {
+        var L = layout();
+        var p = easeOut(clamp01((t - INTRO_ARCHIE_DELAY) / INTRO_ARCHIE_MS));
+        var h = logo.h * L.scale;
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, L.y - 4 * dpr, width, h + 8 * dpr);
+        ctx.clip();
+        ctx.drawImage(srcCanvas, 0, (1 - p) * h * 1.05);
+        ctx.restore();
+    }
+
     // --- Dot field ("midgley") ---
     // Each dot is pushed out from the cursor and swells slightly, like the
     // mesh bulge, then springs back to its rest position.
@@ -239,6 +305,16 @@
 
         ctx.clearRect(0, 0, width, height);
 
+        if (intro) {
+            var t = performance.now() - intro.start;
+            if (t < intro.end - intro.start) {
+                drawIntroArchie(t);
+                drawIntroDots(t);
+                return;
+            }
+            intro = null;
+        }
+
         if (warpAmount < 0.005) {
             ctx.drawImage(srcCanvas, 0, 0);
             if (!isHovering && warpAmount < 0.001) {
@@ -254,6 +330,7 @@
     function start() {
         window.addEventListener('resize', resize);
         resize();
+        setupIntro();
         animate();
     }
 
